@@ -10,7 +10,7 @@ TITULAR = '''<ul>
 <li>CIF/NIF: {CIF}</li>
 <li>Domicilio: {LEGAL_ADDRESS}</li>
 <li>Email: {EMAIL}</li>
-<li>Teléfono y WhatsApp: {PHONE}</li>
+<li>WhatsApp: {PHONE}</li>
 </ul>'''
 
 LEGAL = {
@@ -32,13 +32,13 @@ LEGAL = {
 },
 'privacidad': {
     'title': 'Política de privacidad',
-    'desc': 'Cómo trata Vaivén los datos de quien reserva un traslado por WhatsApp o teléfono. Web sin cookies.',
+    'desc': 'Cómo trata Vaivén los datos de quien reserva un traslado por WhatsApp. Web sin cookies.',
     'body': '''<h2>Responsable</h2>
 ''' + TITULAR + '''
 <h2>Esta web no te rastrea</h2>
 <p>No usamos cookies, analítica ni publicidad. Las fuentes y las imágenes se sirven desde este mismo dominio, sin llamadas a terceros. El alojamiento (GitHub Pages, de GitHub Inc.) puede registrar la dirección IP de las visitas por seguridad.</p>
 <h2>Qué datos tratamos al reservar</h2>
-<p>Cuando nos escribes por WhatsApp o nos llamas: tu nombre, teléfono, origen y destino, fecha y hora, número de vuelo, número de pasajeros y, si pides sillas, la edad de los niños. Si pides factura, los datos de facturación.</p>
+<p>Cuando nos escribes por WhatsApp: tu nombre, número de teléfono, origen y destino, fecha y hora, número de vuelo y número de pasajeros. Si pides factura, los datos de facturación.</p>
 <h2>Para qué y con qué base</h2>
 <ul>
 <li>Prestar el traslado que reservas (ejecución del contrato, art. 6.1.b RGPD).</li>
@@ -59,7 +59,7 @@ LEGAL = {
     'desc': 'Cómo presentar una queja o reclamación a Vaivén: hojas oficiales de la Junta de Andalucía.',
     'body': '''<p>Si algo no ha ido bien, escríbenos primero por WhatsApp o a {EMAIL}: casi todo se arregla con un mensaje.</p>
 <h2>Hojas oficiales de quejas y reclamaciones</h2>
-<p>Tenemos a tu disposición las hojas oficiales de quejas y reclamaciones de la Junta de Andalucía. Pídeselas al conductor durante el servicio o pídenoslas en {PHONE} y te las hacemos llegar.</p>
+<p>Tenemos a tu disposición las hojas oficiales de quejas y reclamaciones de la Junta de Andalucía. Pídeselas al conductor durante el servicio o pídenoslas por WhatsApp ({PHONE}) y te las hacemos llegar.</p>
 <p>También puedes presentar tu reclamación por vía electrónica en Consumo Responde, el servicio de consumo de la Junta de Andalucía (consumoresponde.es), o acudir a la Junta Arbitral del Transporte de Andalucía.</p>
 ''' + TITULAR,
 },

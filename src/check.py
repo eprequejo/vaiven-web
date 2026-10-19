@@ -149,6 +149,8 @@ def run(root, domain=None, allow_holes=False):
                 err(f'{tag}: JSON-LD no parsea ({e})')
                 continue
             for node in data.get('@graph', [data]):
+                if 'telephone' in node:
+                    err(f'{tag}: telephone en JSON-LD (solo WhatsApp: Google mostraría «Llamar»)')
                 if node.get('@type') == 'FAQPage':
                     qs = [q['name'] for q in node['mainEntity']]
                     if qs != p.summaries:
@@ -178,7 +180,10 @@ def run(root, domain=None, allow_holes=False):
                 if u.netloc in ('', origin.split('//')[-1]):
                     err(f'{tag}: enlace interno absoluto {href}')
                 continue
-            if u.scheme in ('tel', 'mailto'):
+            if u.scheme == 'tel':
+                err(f'{tag}: enlace de llamada {href} (solo atendemos por WhatsApp)')
+                continue
+            if u.scheme == 'mailto':
                 continue
             if u.scheme:
                 err(f'{tag}: esquema no permitido {href}')

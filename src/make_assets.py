@@ -1,35 +1,51 @@
 # -*- coding: utf-8 -*-
-"""Genera UNA VEZ los iconos y las imágenes para redes en src/static/ (se versionan; build.py solo los copia).
+"""Genera UNA VEZ el favicon.ico, el icono de iPhone y las imágenes para redes en src/static/ (se versionan).
 
 python3 src/make_assets.py <carpeta con Outfit.ttf y Manrope.ttf>
 TTF variables de github.com/google/fonts (ofl/outfit, ofl/manrope). Requiere Pillow.
+La geometría sale de src/brand/*.svg (la misma que pinta build.py): si cambia el logo, se vuelve a ejecutar.
 """
-import os, sys
+import os, re, sys
+from xml.etree import ElementTree as ET
 from PIL import Image, ImageDraw, ImageFont
 
 SRC = os.path.dirname(os.path.abspath(__file__))
 STATIC = os.path.join(SRC, 'static')
-NAVY, YELLOW, CREAM, MUTED = '#0E2B40', '#F0A202', '#FBF8F2', '#C8D3DB'
+BRAND = os.path.join(SRC, 'brand')
+NAVY, YELLOW, CREAM = '#0E2B40', '#F0A202', '#FBF8F2'
 
-# El mismo bocadillo que el logo SVG de build.py (viewBox 30×30), con tema oscuro para pestañas oscuras.
-FAVICON_SVG = '''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30"><style>path{fill:#0E2B40}@media (prefers-color-scheme:dark){path{fill:#FBF8F2}}</style><path d="M15 3C8.4 3 3 7.7 3 13.6c0 3.3 1.7 6.2 4.4 8.1L6 27l6.1-2.3c.9.2 1.9.3 2.9.3 6.6 0 12-4.7 12-10.6S21.6 3 15 3z"/><circle cx="15" cy="13.6" r="3" fill="#F0A202"/></svg>
-'''
 
-def bubble(draw, x, y, s, fill, dot=YELLOW):
-    """Bocadillo del logo a escala s (1 = 30 px) con esquina superior izquierda en x, y."""
-    P = lambda px, py: (x + px * s, y + py * s)
-    draw.ellipse([P(3, 3), P(27, 24.2)], fill=fill)
-    draw.polygon([P(7.4, 19.5), P(6, 27), P(13, 23.5)], fill=fill)
-    draw.ellipse([P(12, 10.6), P(18, 16.6)], fill=dot)
+def read_svg(name):
+    """viewBox, rect de fondo (o None) y trazos [(x1, y1, x2, y2, color, grosor)] de un SVG de src/brand/."""
+    root = ET.parse(os.path.join(BRAND, name)).getroot()
+    box = float(root.get('viewBox').split()[2])
+    rect, strokes = None, []
+    for el in root.iter():
+        tag = el.tag.split('}')[-1]
+        if tag == 'rect':
+            rect = (el.get('fill'), float(el.get('rx', 0)))
+        elif tag == 'path':
+            x1, y1, x2, y2 = map(float, re.findall(r'-?\d+(?:\.\d+)?', el.get('d')))
+            strokes.append((x1, y1, x2, y2, el.get('stroke'), float(el.get('stroke-width'))))
+    return box, rect, strokes
 
-def icon(size, bg):
+def draw_strokes(d, strokes, x, y, s):
+    """Trazos con extremos redondeados (stroke-linecap:round) a escala s, origen x, y."""
+    for x1, y1, x2, y2, color, w in strokes:
+        a, b, r = (x + x1 * s, y + y1 * s), (x + x2 * s, y + y2 * s), w * s / 2
+        d.line([a, b], fill=color, width=round(w * s))
+        for cx, cy in (a, b):
+            d.ellipse([cx - r, cy - r, cx + r, cy + r], fill=color)
+
+def icon(size, rounded=True):
+    """El favicon a 'size' px. rounded=False: cuadrado opaco (iOS redondea él solo; evita esquinas negras)."""
+    box, rect, strokes = read_svg('favicon.svg')
     big = size * 4
-    im = Image.new('RGBA', (big, big), bg or (0, 0, 0, 0))
+    im = Image.new('RGBA', (big, big), (0, 0, 0, 0))
     d = ImageDraw.Draw(im)
-    if bg:
-        bubble(d, big * 0.17, big * 0.15, big * 0.66 / 30, CREAM)
-    else:
-        bubble(d, 0, 0, big / 30, NAVY)
+    if rect:
+        d.rounded_rectangle([0, 0, big - 1, big - 1], radius=rect[1] * big / box if rounded else 0, fill=rect[0])
+    draw_strokes(d, strokes, 0, 0, big / box)
     return im.resize((size, size), Image.LANCZOS)
 
 def font(path, size, wght):
@@ -41,8 +57,10 @@ def og(ttf, out, lines):
     W, H = 1200, 630
     im = Image.new('RGB', (W, H), NAVY)
     d = ImageDraw.Draw(im)
-    bubble(d, 80, 72, 3.2, CREAM)
-    d.text((196, 86), 'Vaivén', font=font(os.path.join(ttf, 'Outfit.ttf'), 64, 800), fill=CREAM)
+    # Sobre fondo marino, los trazos del favicon (crema + amarillo); el del logo sería marino sobre marino.
+    box, _, strokes = read_svg('favicon.svg')
+    draw_strokes(d, strokes, 72, 70, 96 / box)
+    d.text((190, 86), 'Vaivén', font=font(os.path.join(ttf, 'Outfit.ttf'), 64, 800), fill=CREAM)
     big = font(os.path.join(ttf, 'Outfit.ttf'), 92, 800)
     y = 210
     for line in lines[0]:
@@ -56,10 +74,8 @@ def main():
         sys.exit(__doc__)
     ttf = sys.argv[1]
     os.makedirs(STATIC, exist_ok=True)
-    with open(os.path.join(STATIC, 'favicon.svg'), 'w') as f:
-        f.write(FAVICON_SVG)
-    icon(32, None).save(os.path.join(STATIC, 'favicon.ico'), sizes=[(32, 32)])
-    icon(180, NAVY).convert('RGB').save(os.path.join(STATIC, 'apple-touch-icon.png'), optimize=True)
+    icon(32).save(os.path.join(STATIC, 'favicon.ico'), sizes=[(32, 32)])
+    icon(180, rounded=False).convert('RGB').save(os.path.join(STATIC, 'apple-touch-icon.png'), optimize=True)
     og(ttf, 'og.jpg', (['Un mensaje.', 'Una persona.', 'Un precio.'], 'Transfer privado · Málaga y Costa del Sol'))
     og(ttf, 'og-en.jpg', (['One message.', 'One person.', 'One price.'], 'Private transfers · Málaga & Costa del Sol'))
     for f in sorted(os.listdir(STATIC)):

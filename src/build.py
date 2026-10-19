@@ -34,7 +34,6 @@ def esc(s):
     return html.escape(s, quote=True)
 
 SITE = 'https://' + val('DOMAIN')
-TEL = '+' + val('PHONE')
 
 def phone_display():
     p = val('PHONE')
@@ -62,7 +61,9 @@ def wa_icon(size):
             '<path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8c-1-.5-1.8-1.3-2.3-2.3l.8-1-1-2z" fill="currentColor"/></svg>')
 
 CHECK = '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l4 4L19 6" fill="none" stroke="#F0A202" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
-LOGO = '<svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path d="M15 3C8.4 3 3 7.7 3 13.6c0 3.3 1.7 6.2 4.4 8.1L6 27l6.1-2.3c.9.2 1.9.3 2.9.3 6.6 0 12-4.7 12-10.6S21.6 3 15 3z" fill="#0E2B40"/><circle cx="15" cy="13.6" r="3" fill="#F0A202"/></svg>'
+BRAND = os.path.join(SRC, 'brand')  # logo.svg y favicon.svg: única fuente del logo (make_assets.py lee los mismos)
+LOGO = open(os.path.join(BRAND, 'logo.svg'), encoding='utf-8').read().strip().replace(
+    'xmlns="http://www.w3.org/2000/svg"', 'width="30" height="30" aria-hidden="true"', 1)
 DOT = '<svg width="8" height="8" viewBox="0 0 8 8" aria-hidden="true"><circle cx="4" cy="4" r="4" fill="#F0A202"/></svg>'
 
 
@@ -199,7 +200,7 @@ def ld_home(lang):
     url = SITE + t['path']
     biz = {
         '@type': 'LocalBusiness', '@id': SITE + '/#business', 'name': 'Vaivén',
-        'description': t['ld_desc'], 'url': SITE + '/', 'telephone': TEL, 'email': val('EMAIL'),
+        'description': t['ld_desc'], 'url': SITE + '/', 'email': val('EMAIL'),
         'image': SITE + '/og.jpg', 'logo': SITE + '/apple-touch-icon.png', 'priceRange': '€€',
         'currenciesAccepted': 'EUR', 'paymentAccepted': t['payment'], 'knowsLanguage': ['es', 'en'],
         'address': {'@type': 'PostalAddress', 'addressLocality': 'Mijas', 'addressRegion': 'Málaga', 'addressCountry': 'ES'},
@@ -207,6 +208,9 @@ def ld_home(lang):
         'openingHoursSpecification': {'@type': 'OpeningHoursSpecification',
             'dayOfWeek': ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
             'opens': '00:00', 'closes': '23:59'},
+        # Solo WhatsApp: sin 'telephone', para que Google no ofrezca un botón de llamar.
+        'contactPoint': {'@type': 'ContactPoint', 'contactType': 'reservations', 'url': f'https://wa.me/{val("PHONE")}',
+                         'availableLanguage': ['es', 'en']},
         'makesOffer': [{'@type': 'Offer', 'itemOffered': {'@type': 'Service', 'name': o}} for o in t['offers']],
     }
     if C.GEO:
@@ -242,7 +246,6 @@ def home(lang):
 <p class="promise">{t['promise']}</p>
 <div class="hero-cta">
 <a class="btn btn-wa" href="{wa(t['wa_hero'])}">{wa_icon(20)}{t['cta_hero']}</a>
-<a class="btn btn-ghost" href="tel:{TEL}">{t['cta_call']}</a>
 </div>
 <p class="sub">{t['sub']}</p>
 <div class="hero-checks">{checks}</div>
@@ -328,8 +331,8 @@ def home(lang):
 <section class="section">
 <div class="wrap">
 <div class="cta-box">
-<div><h2>{t['cta_h2']}</h2><p>{t['cta_p']} <a href="tel:{TEL}">{phone_display()}</a>.</p></div>
-<a class="btn btn-navy" href="{wa(t['wa_generic'])}">{t['cta_nav']}</a>
+<div><h2>{t['cta_h2']}</h2><p>{t['cta_p']}</p></div>
+<a class="btn btn-navy" href="{wa(t['wa_generic'])}">{wa_icon(20)}{t['cta_final']}</a>
 </div>
 </div>
 </section>
@@ -342,7 +345,7 @@ def home(lang):
 def legal_page(slug):
     p = LEGAL[slug]
     body = p['body'].format(**{k: hv(k) for k in ('RAZON_SOCIAL', 'CIF', 'LEGAL_ADDRESS', 'EMAIL', 'VTC_NO', 'DOMAIN')},
-                            PHONE=phone_display(), TEL=TEL, CONTENT_DATE=C.CONTENT_DATE)
+                            PHONE=phone_display(), CONTENT_DATE=C.CONTENT_DATE)
     out = head('es', f'{p["title"]} · Vaivén', p['desc'], f'/{slug}/', robots=NOINDEX)
     return out + '<body>\n' + header('es') + f'<main class="wrap doc">\n<h1>{p["title"]}</h1>\n{body}\n</main>\n' + footer('es')
 
@@ -352,7 +355,7 @@ def page_404():
 <h1>Esta página no existe</h1>
 <p>Puede que el enlace esté mal escrito o que la página se haya movido.</p>
 <p><a href="/">Ir al inicio</a> · <a href="/en/" lang="en" hreflang="en">Go to the English version</a></p>
-<a class="btn btn-wa" href="{wa(T['es']['wa_generic'])}">{wa_icon(20)}Escribir a Juan</a>
+<a class="btn btn-wa" href="{wa(T['es']['wa_generic'])}">{wa_icon(20)}{T['es']['cta_nav']}</a>
 </main>
 ''' + footer('es')
 
@@ -402,6 +405,7 @@ def build(out):
     shutil.copytree(os.path.join(SRC, 'assets'), os.path.join(out, 'assets'), dirs_exist_ok=True)
     for f in os.listdir(os.path.join(SRC, 'static')):
         shutil.copy(os.path.join(SRC, 'static', f), os.path.join(out, f))
+    shutil.copy(os.path.join(BRAND, 'favicon.svg'), os.path.join(out, 'favicon.svg'))
     build_photos(out)
 
 def main():

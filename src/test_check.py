@@ -104,6 +104,14 @@ class Gate(unittest.TestCase):
         self.edit('index.html', '</main>', os.urandom(20000).hex() + '</main>')
         self.assertFails('bytes gzip')
 
+    def test_no_phone_calls(self):
+        self.edit('index.html', '</main>', '<a href="tel:+34600000000">Llámanos</a></main>')
+        self.assertFails('enlace de llamada')
+
+    def test_no_telephone_in_jsonld(self):
+        self.edit('index.html', '"@type":"LocalBusiness",', '"@type":"LocalBusiness","telephone":"+34600000000",')
+        self.assertFails('telephone en JSON-LD')
+
     def test_lang(self):
         self.edit('en/index.html', '<html lang="en">', '<html lang="es">')
         self.assertFails('lang="es", esperado "en"')
