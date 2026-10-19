@@ -26,7 +26,7 @@ T = {
     'sub': 'Sin app, sin formulario, sin bot, sin pagar por adelantado. Escribes, te contesta una persona real con el precio cerrado y te dice quién te recoge.',
     'promise': 'Pagas cuando te dejamos en tu destino.',
     'cta_hero': 'Reservar por WhatsApp',
-    'checks': ['Aeropuerto, puerto, bodas, golf, excursiones', 'Autorización VTC nº {vtc}', '24 h, 365 días'],
+    'checks': ['Aeropuerto, puerto, bodas, golf, excursiones', 'Autorización VTC nº {vtc}', '24 h, 365 días', 'Cancelación gratis hasta 24 h antes'],
     'chat_label': 'Ejemplo de reserva por WhatsApp',
     'chat_status': 'en línea',
     'chat': [
@@ -116,7 +116,7 @@ T = {
     'sub': 'No app, no forms, no bots, no prepayment. You message us, a real person replies with a fixed price and tells you who will pick you up.',
     'promise': 'You pay when we drop you off.',
     'cta_hero': 'Book on WhatsApp',
-    'checks': ['Airport, port, weddings, golf, day trips', 'VTC licence no. {vtc}', '24/7, 365 days a year'],
+    'checks': ['Airport, port, weddings, golf, day trips', 'VTC licence no. {vtc}', '24/7, 365 days a year', 'Free cancellation up to 24 h before'],
     'chat_label': 'Example of a WhatsApp booking',
     'chat_status': 'online',
     'chat': [
