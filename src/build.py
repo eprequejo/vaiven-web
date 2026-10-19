@@ -187,6 +187,7 @@ def footer(lang):
 <span class="brand-f">{wordmark(on_dark=True)}</span>
 <span>{t['footer_tag']}</span>
 <span>{fmt(t['footer_vtc'])}</span>
+<span>WhatsApp: {phone_display()}</span>
 <span>{hv('RAZON_SOCIAL')} · {hv('CIF')}</span>
 </div>
 <div class="col"><strong>{t['footer_transfers']}</strong>{tr}</div>
@@ -216,6 +217,28 @@ def build_photos(out):
         os.makedirs(os.path.join(out, 'assets', 'img'), exist_ok=True)
         im = ImageOps.fit(ImageOps.exif_transpose(Image.open(src)).convert('RGB'), (400, 500), Image.LANCZOS)
         im.save(os.path.join(out, 'assets', 'img', m['slug'] + '.webp'), 'WEBP', quality=78, method=6)
+
+
+# --- «¿A dónde vas?» → WhatsApp con el destino ya escrito ----------------------------------
+# Sin JS el formulario va igual a wa.me con el mensaje genérico. El destino solo viaja a WhatsApp.
+# Con JS el enlace se arma con encodeURIComponent (espacios como %20, no «+», que es lo que manda un form GET).
+GO_JS = ("<script>document.querySelectorAll('form.go').forEach(function(f){f.addEventListener('submit',function(e){"
+         "var d=f.querySelector('.go-dest').value.trim(),h=f.querySelector('[name=text]'),s=d?f.dataset.to+d:'';"
+         "if(f.dataset.al)s=s.replace(/^ a el /i,' al ');e.preventDefault();"
+         "location.href=f.action+'?text='+encodeURIComponent(h.dataset.msg+s)})})</script>")
+
+def go_form(lang):
+    t = T[lang]
+    al = ' data-al="1"' if lang == 'es' else ''  # «a el aeropuerto» → «al aeropuerto»
+    return f'''<form class="go" action="https://wa.me/{esc(val('PHONE'))}" method="get" data-to="{esc(t['wa_to'])}"{al}>
+<label class="go-label" for="go-{lang}">{t['go_q']}</label>
+<div class="go-row"><input id="go-{lang}" class="go-dest" type="text" autocomplete="off" enterkeyhint="go" maxlength="80" placeholder="{esc(t['go_ph'])}">
+<input type="hidden" name="text" value="{esc(t['wa_generic'])}" data-msg="{esc(t['wa_generic'])}">
+<button class="btn btn-wa" type="submit">{wa_icon(20)}{t['cta_hero']}</button></div>
+<p class="go-alt">{t['wa_alt']} <strong>{phone_display()}</strong></p>
+</form>
+{GO_JS}
+'''
 
 
 # --- JSON-LD --------------------------------------------------------------------------------
@@ -268,10 +291,7 @@ def home(lang):
 <h1>{t['h1']}</h1>
 <p class="summary">{t['summary']}</p>
 <p class="promise">{t['promise']}</p>
-<div class="hero-cta">
-<a class="btn btn-wa" href="{wa(t['wa_generic'])}">{wa_icon(20)}{t['cta_hero']}</a>
-</div>
-<p class="sub">{t['sub']}</p>
+{go_form(lang)}<p class="sub">{t['sub']}</p>
 <div class="hero-checks">{checks}</div>
 </div>
 <div class="chat-col">

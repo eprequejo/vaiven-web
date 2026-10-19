@@ -58,7 +58,15 @@ p{margin:0}
 .hero .sub{font-size:15px;color:#C8D3DB;max-width:560px}
 @media (max-width:640px){.hero h1{font-size:40px}.hero .summary{font-size:16px}.hero-copy{gap:18px}}
 .hero .promise{font-family:var(--display);font-weight:700;font-size:22px;color:var(--yellow)}
-.hero-cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.go{display:flex;flex-direction:column;gap:8px;max-width:580px}
+.go-label{font-size:15px;font-weight:700;color:#E4EAEE}
+.go-row{display:flex;flex-wrap:wrap;gap:10px}
+.go-dest{flex:1 1 220px;min-height:54px;border-radius:999px;border:1.5px solid rgba(251,248,242,.35);background:rgba(251,248,242,.08);color:var(--cream);padding:0 22px;font:600 16px var(--body)}
+.go-dest::placeholder{color:#9FB2C0;font-weight:400}
+.go-alt{font-size:14px;color:#C8D3DB}
+.go-alt strong{color:var(--cream);white-space:nowrap}
+.go-dest:focus{outline:2px solid var(--yellow);outline-offset:2px}
+button.btn{border:0;cursor:pointer;font-family:inherit}
 .hero-checks{display:grid;grid-template-columns:repeat(2,max-content);gap:10px 28px;font-size:14px;color:#C8D3DB;font-weight:600}
 @media (max-width:640px){.hero-checks{grid-template-columns:1fr}}
 .hero-checks span{display:flex;align-items:center;gap:8px}

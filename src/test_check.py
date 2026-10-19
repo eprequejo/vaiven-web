@@ -142,6 +142,10 @@ class Gate(unittest.TestCase):
         self.edit('index.html', 'text=Hola%2C%20quiero%20reservar%20un%20traslado', 'text=Hola%2C%20de%20%5Borigen%5D%20a%20%5Bdestino%5D')
         self.assertFails('huecos para rellenar')
 
+    def test_form_posting_elsewhere(self):
+        self.edit('index.html', '<form class="go" action="https://wa.me/', '<form class="go" action="https://evil.test/')
+        self.assertFails('solo se permite wa.me')
+
     def test_lang(self):
         self.edit('en/index.html', '<html lang="en">', '<html lang="es">')
         self.assertFails('lang="es", esperado "en"')

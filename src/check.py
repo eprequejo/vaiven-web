@@ -28,7 +28,7 @@ class Page(HTMLParser):
         super().__init__(convert_charrefs=True)
         self.lang = None; self.title = ''; self.desc = None; self.robots = None; self.canonical = None
         self.alternates = {}; self.h1 = 0; self.ids = set(); self.links = []; self.ld = []
-        self.summaries = []; self.answers = []; self.external = []; self.preloads = []
+        self.forms = []; self.summaries = []; self.answers = []; self.external = []; self.preloads = []
         self._details = False
         self._in = None; self._buf = ''
 
@@ -54,6 +54,8 @@ class Page(HTMLParser):
                 self.links.append(a.get('href', ''))
                 if rel == 'preload':
                     self.preloads.append(a.get('href', ''))
+        elif tag == 'form':
+            self.forms.append(a.get('action', ''))
         elif tag == 'a' and a.get('href'):
             self.links.append(a['href'])
         elif tag in ('img', 'source') and a.get('src'):
@@ -217,6 +219,10 @@ def run(root, domain=None, allow_holes=False):
                 tp = pages.get(target)
                 if tp and u.fragment not in tp[1].ids:
                     err(f'{tag}: ancla inexistente {href}')
+        # sin servidor propio: un formulario solo puede llevar a WhatsApp, nunca mandar datos a otro sitio
+        for action in p.forms:
+            if not action.startswith('https://wa.me/'):
+                err(f'{tag}: formulario que envía a {action or "esta página"} (solo se permite wa.me)')
         # 10. nada externo que bloquee el pintado
         for x in p.external:
             err(f'{tag}: {x}')
