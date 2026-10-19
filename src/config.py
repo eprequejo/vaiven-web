@@ -13,9 +13,8 @@ RAZON_SOCIAL = None    # 'Vaivén Transfer S.L.' o nombre y apellidos si es aut�
 CIF = None             # CIF / NIF
 LEGAL_ADDRESS = None   # domicilio social completo (aviso legal y privacidad)
 EMAIL = None           # email de contacto (obligatorio por LSSI y RGPD)
-CHAT_PRICE = None      # precio del ejemplo del chat aeropuerto → La Cala, 3 pax: '45'
 
-REQUIRED = ['DOMAIN', 'PHONE', 'VTC_NO', 'RAZON_SOCIAL', 'CIF', 'LEGAL_ADDRESS', 'EMAIL', 'CHAT_PRICE']
+REQUIRED = ['DOMAIN', 'PHONE', 'VTC_NO', 'RAZON_SOCIAL', 'CIF', 'LEGAL_ADDRESS', 'EMAIL']
 
 # --- opcionales (si faltan, la parte correspondiente no se pinta) ----------
 GOOGLE_REVIEWS_URL = None   # enlace a la ficha de Google Business Profile (reseñas)

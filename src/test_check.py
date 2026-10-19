@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import config
 
 FAKE = dict(DOMAIN='example.test', PHONE='34600000000', VTC_NO='MA-0000', RAZON_SOCIAL='Prueba S.L.',
-            CIF='B00000000', LEGAL_ADDRESS='Calle Prueba 1, Mijas', EMAIL='hola@example.test', CHAT_PRICE='45')
+            CIF='B00000000', LEGAL_ADDRESS='Calle Prueba 1, Mijas', EMAIL='hola@example.test')
 for k, v in FAKE.items():
     setattr(config, k, v)
 import build, check  # build lee config al importarse: después de rellenarlo

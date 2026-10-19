@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Textos de la web en ES y EN. Los campos {vtc} y {price} los rellena build.py desde config.py.
+"""Textos de la web en ES y EN. El campo {vtc} lo rellena build.py desde config.py.
 
 Lo que es igual en los dos idiomas (minutos de trayecto, slugs) va una sola vez fuera del dict de idioma.
 """
@@ -28,10 +28,10 @@ T = {
     'chat_label': 'Ejemplo de reserva por WhatsApp',
     'chat_status': 'en línea',
     'chat': [
-        ('me', 'Hola, quiero un traslado del aeropuerto a La Cala el 24 a las 16:10, somos 3'),
-        ('them', 'Hola 👋 Aeropuerto → La Cala, 3 personas con maletas: {price} € cerrado, sin suplementos. ¿Número de vuelo?'),
-        ('me', 'FR1234 desde Dublín'),
-        ('them', 'Reservado ✅ Te recoge Ibrahim, Toyota gris 1234 ABC, en llegadas con tu nombre. Pagas al llegar: efectivo, tarjeta o Bizum.'),
+        ('me', 'Hola! Somos 4, el sábado a las 21:00 de La Cala a Puerto Banús, vamos a cenar 🙂'),
+        ('them', 'Hola 👋 La Cala → Puerto Banús, 4 personas: 55 € cerrado. ¿Dónde os recojo?'),
+        ('me', 'Urb. Calypso, portal 3'),
+        ('them', 'Reservado ✅ El sábado a las 21:00 os espera Ibrahim en la puerta, Toyota gris 1234 ABC. Pagáis al llegar: efectivo, tarjeta o Bizum.'),
     ],
     'strip_label': 'Garantías',
     'strip_reviews': '★★★★★ {n} reseñas en Google',
@@ -112,10 +112,10 @@ T = {
     'chat_label': 'Example of a WhatsApp booking',
     'chat_status': 'online',
     'chat': [
-        ('me', 'Hi, I need a transfer from the airport to La Cala on the 24th at 16:10, there are 3 of us'),
-        ('them', 'Hi 👋 Airport → La Cala, 3 people with luggage: €{price} fixed, no extras. What is your flight number?'),
-        ('me', 'FR1234 from Dublin'),
-        ('them', 'Booked ✅ Ibrahim will pick you up in a grey Toyota, plate 1234 ABC, at arrivals with your name. Pay when you arrive: cash, card or Bizum.'),
+        ('me', 'Hi! There are 4 of us, Saturday at 9 pm from La Cala to Puerto Banús for dinner 🙂'),
+        ('them', 'Hi 👋 La Cala → Puerto Banús, 4 people: €55 fixed. Where shall we pick you up?'),
+        ('me', 'Urb. Calypso, block 3'),
+        ('them', 'Booked ✅ On Saturday at 9 pm Ibrahim will be waiting at your door, grey Toyota 1234 ABC. Pay when you arrive: cash, card or Bizum.'),
     ],
     'strip_label': 'Guarantees',
     'strip_reviews': '★★★★★ {n} Google reviews',

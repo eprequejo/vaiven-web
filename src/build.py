@@ -44,12 +44,12 @@ def phone_display():
     return '+' + p
 
 def fmt(s):
-    """Texto de content.py con {vtc}/{price} para HTML."""
-    return s.format(vtc=hv('VTC_NO'), price=hv('CHAT_PRICE'))
+    """Texto de content.py con {vtc} para HTML."""
+    return s.format(vtc=hv('VTC_NO'))
 
 def plain(s):
     """El mismo texto sin etiquetas, para JSON-LD (debe coincidir con lo visible)."""
-    return re.sub(r'<[^>]+>', '', s.format(vtc=val('VTC_NO'), price=val('CHAT_PRICE')))
+    return re.sub(r'<[^>]+>', '', s.format(vtc=val('VTC_NO')))
 
 def wa(text):
     return esc(f'https://wa.me/{val("PHONE")}?text={quote(text)}')
