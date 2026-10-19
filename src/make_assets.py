@@ -60,7 +60,7 @@ def wordmark(d, ttf, x, baseline, size):
     x += f.getlength(left) - WM_V['overlap'] * size
     box, _, strokes = read_svg('logo.svg')
     v = WM_V['size'] * size
-    strokes = [(*s[:4], CREAM if s[4] == NAVY else s[4], s[5]) for s in strokes]
+    strokes = [(*s[:4], CREAM if s[4] == NAVY else s[4], WM_V['stroke']) for s in strokes]
     draw_strokes(d, strokes, x, baseline - v + WM_V['drop'] * size, v / box)
     d.text((x + v - WM_V['overlap'] * size, baseline - asc), right, font=f, fill=CREAM)
 

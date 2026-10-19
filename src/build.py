@@ -83,7 +83,8 @@ LOGO = open(os.path.join(BRAND, 'logo.svg'), encoding='utf-8').read().strip().re
 def wordmark(on_dark=False):
     """«ya» + V del logo + «oy», en una pieza (Outfit 800). Sobre azul, el trazo izquierdo va en crema."""
     left, right = C.BRAND.split('v', 1)
-    v = LOGO.replace('#0E2B40', '#FBF8F2') if on_dark else LOGO
+    v = re.sub(r'stroke-width="[\d.]+"', f'stroke-width="{C.WM_V["stroke"]}"', LOGO)
+    v = v.replace('#0E2B40', '#FBF8F2') if on_dark else v
     return f'<span class="wm" role="img" aria-label="{C.BRAND}">{left}{v}{right}</span>'
 DOT = '<svg width="8" height="8" viewBox="0 0 8 8" aria-hidden="true"><circle cx="4" cy="4" r="4" fill="#F0A202"/></svg>'
 
@@ -96,7 +97,7 @@ def minify_css(css):
     return css.replace(';}', '}').strip()
 
 CSS = minify_css(open(os.path.join(SRC, 'site.css'), encoding='utf-8').read())
-for _k, _v in C.WM_V.items():
+for _k, _v in ((k, v) for k, v in C.WM_V.items() if k != 'stroke'):
     CSS = CSS.replace(f'%WM_{_k.upper()}%', f'{_v:g}')
 
 def minify_html(s):

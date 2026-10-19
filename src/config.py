@@ -8,8 +8,9 @@ Los opcionales, si faltan, no se pintan (nunca se inventan).
 # Marca: una palabra, en minúsculas, en todas partes (brief 19-oct-2026). El logotipo es «ya» + V + «oy».
 BRAND = 'yavoy'
 # La V del logotipo, en em del texto: tamaño (altura de mayúscula), solape con las letras y bajada bajo la base.
-# Lo usan la CSS (build.py) y la imagen para redes (make_assets.py).
-WM_V = {'size': .86, 'overlap': .06, 'drop': .09}
+# stroke: grosor del trazo en unidades del SVG (de 64). El palo de Outfit 800 mide 0,174 em (medido 19-oct);
+# 14/64 × 0,86 = 0,188 em, un pelo más, porque la diagonal se ve más fina. Lo usan build.py y make_assets.py.
+WM_V = {'size': .86, 'overlap': .06, 'drop': .09, 'stroke': 14}
 
 # --- obligatorios -----------------------------------------------------------
 DOMAIN = 'yavoymalaga.com'  # sin https:// ni barra final
