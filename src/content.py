@@ -29,7 +29,6 @@ T = {
     'checks': ['Aeropuerto, puerto, bodas, golf, excursiones', 'Autorización VTC nº {vtc}', '24 h, 365 días'],
     'chat_label': 'Ejemplo de reserva por WhatsApp',
     'chat_status': 'en línea',
-    'chat_wink': '«Ya voy» es lo que te escribe tu conductor cuando sale a buscarte.',
     'chat': [
         ('me', 'Hola! Somos 4, el sábado a las 21:00 de La Cala a Puerto Banús, vamos a cenar 🙂'),
         ('them', 'Hola 👋 La Cala → Puerto Banús, 4 personas, precio cerrado y sin suplementos. ¿Dónde os recojo?'),
@@ -121,7 +120,6 @@ T = {
     'checks': ['Airport, port, weddings, golf, day trips', 'VTC licence no. {vtc}', '24/7, 365 days a year'],
     'chat_label': 'Example of a WhatsApp booking',
     'chat_status': 'online',
-    'chat_wink': '“Ya voy” is what your driver texts you: “On my way.”',
     'chat': [
         ('me', 'Hi! There are 4 of us, Saturday at 9 pm from La Cala to Puerto Banús for dinner 🙂'),
         ('them', 'Hi 👋 La Cala → Puerto Banús, 4 people, fixed price with no extras. Where shall we pick you up?'),

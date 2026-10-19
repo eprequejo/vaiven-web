@@ -276,7 +276,6 @@ def home(lang):
 <div class="chat-head"><div class="chat-avatar" aria-hidden="true">J</div><div><span class="chat-name">Juan · {C.BRAND}</span><span class="chat-status">{t['chat_status']}</span></div></div>
 {chat}
 </div>
-<p class="chat-wink">{t['chat_wink']}</p>
 </div>
 </div>
 </section>
