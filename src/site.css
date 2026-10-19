@@ -85,7 +85,7 @@ p{margin:0}
 .dest{text-decoration:none;color:var(--ink);gap:10px}
 .dest:hover{border-color:var(--navy)}
 .dest-note{font-size:14px;color:var(--muted)}
-.dest-cta{font-size:14px;font-weight:700;color:#14753B;margin-top:6px}
+.dest-cta{font-size:14px;font-weight:700;color:#14753B;margin-top:auto;padding-top:6px}
 .prices-box{margin-top:40px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px;display:flex;flex-direction:column;gap:12px;max-width:680px}
 .prices{width:100%;border-collapse:collapse;font-size:15px}
 .prices th{text-align:left;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted-2);padding:0 0 8px}
