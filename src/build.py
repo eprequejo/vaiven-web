@@ -315,9 +315,8 @@ def home(lang):
 <div class="hero-copy">
 <span class="eyebrow on-dark">{DOT}{t['eyebrow']}</span>
 <h1>{t['h1']}</h1>
-<p class="summary">{t['summary']}</p>
-<p class="promise">{t['promise']}</p>
-{go_form(lang)}<p class="sub">{t['sub']}</p>
+{go_form(lang)}<p class="promise">{t['promise']}</p>
+<p class="summary">{t['summary']}</p><p class="sub">{t['sub']}</p>
 <div class="hero-checks">{checks}</div>
 </div>
 <div class="chat-col">
