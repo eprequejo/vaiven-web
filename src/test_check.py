@@ -4,7 +4,7 @@ import os, re, shutil, sys, tempfile, unittest
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import config
-CIF_REAL = config.CIF  # antes de que FAKE lo sustituya
+CIF_REAL, ADDRESS_REAL = config.CIF, config.LEGAL_ADDRESS  # antes de que FAKE los sustituya
 
 FAKE = dict(DOMAIN='example.test', PHONE='34600000000', VTC_NO='MA-0000', RAZON_SOCIAL='Prueba S.L.',
             CIF='B00000000', LEGAL_ADDRESS='Calle Prueba 1, Mijas', EMAIL='hola@example.test',
@@ -161,6 +161,15 @@ class TitularMirror(unittest.TestCase):
         with open(self.NAUTELIA, encoding='utf-8') as f:
             src = f.read()
         self.assertEqual(re.search(r"^CIF = '([^']+)'", src, re.M).group(1), CIF_REAL)
+
+    def test_address_matches_nautelia(self):
+        if os.environ.get('VAIVEN_SKIP_MIRROR') == '1':
+            self.skipTest('VAIVEN_SKIP_MIRROR=1')
+        path = os.path.join(os.path.dirname(self.NAUTELIA), 'build.py')
+        self.assertTrue(os.path.exists(path), f'falta el espejo {path}')
+        with open(path, encoding='utf-8') as f:
+            src = f.read()
+        self.assertEqual(re.search(r"^ADDRESS = '([^']+)'", src, re.M).group(1), ADDRESS_REAL)
 
 
 class NoInventedData(unittest.TestCase):

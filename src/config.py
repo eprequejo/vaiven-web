@@ -11,12 +11,12 @@ BRAND = 'yavoy'
 # --- obligatorios -----------------------------------------------------------
 DOMAIN = 'yavoymalaga.com'  # sin https:// ni barra final
 PHONE = None           # '34600000000' — formato wa.me: prefijo de país, sin + ni espacios
-VTC_NO = None          # nº de autorización VTC de la Junta de Andalucía
-# Mismo titular que Padelia y Nautelia (espejo de nautelia-landing/src/parts.py; test_check.py falla si divergen)
+VTC_NO = '12011555'    # autorización VTC (Registro de Empresas y Actividades de Transporte)
+# Mismo titular que Padelia y Nautelia (espejo de nautelia-landing/src/parts.py y build.py; test_check.py falla si divergen)
 RAZON_SOCIAL = 'SIMPLYLE, S. Coop. And.'
 CIF = 'F93649564'
-LEGAL_ADDRESS = None   # domicilio social completo (aviso legal y privacidad)
-EMAIL = None           # email de contacto (obligatorio por LSSI y RGPD)
+LEGAL_ADDRESS = 'Calle Altabaca de la Torre 31, Urb. La Cala Hills, Fase 3, Apto. 319, 29650 Mijas Costa (Málaga), España'
+EMAIL = 'hola@yavoymalaga.com'  # mismo patrón que hola@nautelia.com (crear el buzón)
 
 REQUIRED = ['DOMAIN', 'PHONE', 'VTC_NO', 'RAZON_SOCIAL', 'CIF', 'LEGAL_ADDRESS', 'EMAIL']
 
