@@ -307,7 +307,7 @@ def home(lang):
 <div class="section-head"><span class="eyebrow">{t['dest_eyebrow']}</span><h2>{t['dest_h2']}</h2><p class="lead">{t['dest_lead']}</p></div>
 <div class="grid-3">
 {cards}</div>
-<div class="chips"><strong>{t['also']}</strong>{chips}</div>
+<div class="chips">{chips}</div>
 </div>
 </section>
 '''

@@ -53,7 +53,6 @@ T = {
     'dest_lead': 'Precio fijo por coche, no por persona, y por escrito antes de confirmar. Te llevamos de puerta a puerta: a cenar, a la playa, al golf, a una boda o al aeropuerto. Estas son las zonas donde más nos movemos; para cualquier otra, pregunta.',
     'dest_cta': 'Pedir precio cerrado →',
     'dest_wa': 'Hola, quiero un traslado de [origen] a {to} el [fecha] a las [hora], somos [n] personas',
-    'also': 'También:',
     'chips': [
         ('Aeropuerto de Málaga', 'Hola, quiero un traslado desde o hasta el aeropuerto de Málaga'),
         ('Puerto y estación María Zambrano', 'Hola, necesito un traslado desde el puerto o la estación de Málaga'),
@@ -146,7 +145,6 @@ T = {
     'dest_lead': 'Fixed price per car, not per person, in writing before you confirm. Door to door: to dinner, the beach, golf, a wedding or the airport. These are the areas where we drive most; for anywhere else, just ask.',
     'dest_cta': 'Get a fixed price →',
     'dest_wa': 'Hi, I would like a transfer from [pickup] to {to} on [date] at [time], we are [n] people',
-    'also': 'Also:',
     'chips': [
         ('Málaga Airport', 'Hi, I would like a transfer to or from Málaga Airport'),
         ('Port and María Zambrano station', 'Hi, I need a transfer from Málaga port or train station'),

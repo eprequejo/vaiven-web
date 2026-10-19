@@ -87,7 +87,6 @@ p{margin:0}
 .dest-note{font-size:14px;color:var(--muted)}
 .dest-cta{font-size:14px;font-weight:700;color:#14753B;margin-top:auto;padding-top:6px}
 .chips{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-top:32px}
-.chips strong{font-size:14px;margin-right:6px}
 .chip{font-size:14px;font-weight:600;color:var(--navy);text-decoration:none;background:#fff;border:1px solid var(--line-2);border-radius:999px;padding:8px 14px;min-height:44px;display:inline-flex;align-items:center}
 .chip:hover{border-color:var(--navy)}
 
