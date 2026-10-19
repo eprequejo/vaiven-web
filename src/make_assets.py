@@ -6,6 +6,9 @@ TTF variables de github.com/google/fonts (ofl/outfit, ofl/manrope). Requiere Pil
 La geometría sale de src/brand/*.svg (la misma que pinta build.py): si cambia el logo, se vuelve a ejecutar.
 """
 import os, re, sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from config import BRAND as BRAND_NAME
 from xml.etree import ElementTree as ET
 from PIL import Image, ImageDraw, ImageFont
 
@@ -48,6 +51,19 @@ def icon(size, rounded=True):
     draw_strokes(d, strokes, 0, 0, big / box)
     return im.resize((size, size), Image.LANCZOS)
 
+def wordmark(d, ttf, x, baseline, size):
+    """«ya» + V + «oy» como en la cabecera (CSS .wm-v: V de .68em, base -.07em). Sobre azul: trazo izquierdo crema."""
+    f = font(os.path.join(ttf, 'Outfit.ttf'), size, 800)
+    left, right = BRAND_NAME.split('v', 1)
+    asc = f.getmetrics()[0]
+    d.text((x, baseline - asc), left, font=f, fill=CREAM)
+    x += f.getlength(left) - 0.04 * size
+    box, _, strokes = read_svg('logo.svg')
+    v = 0.68 * size
+    strokes = [(*s[:4], CREAM if s[4] == NAVY else s[4], s[5]) for s in strokes]
+    draw_strokes(d, strokes, x, baseline - v + 0.07 * size, v / box)
+    d.text((x + v - 0.04 * size, baseline - asc), right, font=f, fill=CREAM)
+
 def font(path, size, wght):
     f = ImageFont.truetype(path, size)
     f.set_variation_by_axes([wght])
@@ -57,10 +73,7 @@ def og(ttf, out, lines):
     W, H = 1200, 630
     im = Image.new('RGB', (W, H), NAVY)
     d = ImageDraw.Draw(im)
-    # Sobre fondo marino, los trazos del favicon (crema + amarillo); el del logo sería marino sobre marino.
-    box, _, strokes = read_svg('favicon.svg')
-    draw_strokes(d, strokes, 72, 70, 96 / box)
-    d.text((190, 86), 'Vaivén', font=font(os.path.join(ttf, 'Outfit.ttf'), 64, 800), fill=CREAM)
+    wordmark(d, ttf, 80, 150, 72)
     big = font(os.path.join(ttf, 'Outfit.ttf'), 92, 800)
     y = 210
     for line in lines[0]:

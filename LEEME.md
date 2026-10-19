@@ -1,4 +1,4 @@
-# Vaivén · web pública
+# yavoy · web pública (yavoymalaga.com)
 
 Transfer privado y chófer en Málaga y Costa del Sol. Web estática: HTML plano, CSS incrustado, 0 JS, fuentes autoalojadas. Se sirve con **GitHub Pages** desde la carpeta `docs/`.
 
@@ -9,7 +9,7 @@ docs/  → la web publicada (generada; NO se edita a mano)
 
 | Fichero | Qué contiene |
 |---|---|
-| `src/config.py` | **Todos los datos del negocio** (dominio, teléfono, nº VTC, CIF, reseñas, equipo…). Cada dato está una sola vez. |
+| `src/config.py` | **Todos los datos del negocio** (marca, dominio, WhatsApp, nº VTC, CIF, precios, reseñas, equipo…). Cada dato está una sola vez: la marca (`BRAND`) también, y el logotipo «ya» + V + «oy» se deriva de ella. |
 | `src/content.py` | Textos ES y EN: portada, destinos, FAQ… |
 | `src/legal.py` | Aviso legal, privacidad, reclamaciones (solo ES, noindex) |
 | `src/site.css` | Estilos (se incrustan minificados en cada página) |
@@ -44,7 +44,7 @@ Faltan datos obligatorios (`REQUIRED` en config.py) · quedan huecos · JSON-LD 
 4. Cuando propague: **Enforce HTTPS**. Recomendado: verificar el dominio en *Settings de la cuenta → Pages → Verified domains*.
 
 ## Alta en buscadores (tras publicar con dominio)
-1. **Google Business Profile** (lo más importante para «transfer Mijas / aeropuerto Málaga»): categoría *Servicio de traslado al aeropuerto* / *Servicio de chófer*, zona de servicio sin dirección pública si no recibís clientes. Su URL → `GOOGLE_REVIEWS_URL` en config.py (va a `sameAs` del JSON-LD y al enlace de reseñas).
+1. **Google Business Profile** (lo más importante para «transfer Mijas / aeropuerto Málaga»): nombre «yavoy · Transfer Málaga», categoría principal *Servicio de transporte al aeropuerto*, secundaria *Servicio de chófer*; **nunca «Taxi»**. Zona de servicio sin dirección pública si no recibís clientes. Foto de perfil: la V sobre azul (`src/brand/favicon.svg`). Sin teléfono de llamadas (solo WhatsApp), o Google mostrará «Llamar». Su URL → `GOOGLE_REVIEWS_URL` en config.py (va a `sameAs` del JSON-LD y al enlace de reseñas).
 2. **Google Search Console**: propiedad de dominio (registro TXT) → enviar `https://DOMINIO/sitemap.xml` → Inspección de URL → «Solicitar indexación» de `/` y `/en/`.
 3. **Bing Webmaster Tools**: *Importar desde Google Search Console* (alimenta también Copilot y ChatGPT Search).
 4. **IndexNow** tras cada cambio de contenido (solo las URLs que cambian): la clave está en `config.INDEXNOW_KEY` y se publica en `/<clave>.txt`:
@@ -56,6 +56,7 @@ Faltan datos obligatorios (`REQUIRED` en config.py) · quedan huecos · JSON-LD 
 - Search Console: `/` y `/en/` «URL is on Google» a los 3-7 días.
 
 ## Notas
+- Instagram: comprobar y registrar **@yavoymalaga** (a mano; Instagram no deja comprobarlo sin sesión).
 - Sin cookies ni analítica → no hace falta banner. Si algún día se añade analítica con cookies, hará falta banner.
 - Los textos legales son un borrador; que los revise la gestoría. Si sois S.L., añadir datos registrales en `src/legal.py`.
 - El chat del hero es un ejemplo (Ibrahim, matrícula 1234 ABC inventada).

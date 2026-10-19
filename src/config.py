@@ -5,8 +5,11 @@ None = hueco. Los de REQUIRED bloquean `build.py prod` (no se publica con huecos
 Los opcionales, si faltan, no se pintan (nunca se inventan).
 """
 
+# Marca: una palabra, en minúsculas, en todas partes (brief 19-oct-2026). El logotipo es «ya» + V + «oy».
+BRAND = 'yavoy'
+
 # --- obligatorios -----------------------------------------------------------
-DOMAIN = None          # 'vaiven.es' — sin https:// ni barra final
+DOMAIN = 'yavoymalaga.com'  # sin https:// ni barra final
 PHONE = None           # '34600000000' — formato wa.me: prefijo de país, sin + ni espacios
 VTC_NO = None          # nº de autorización VTC de la Junta de Andalucía
 # Mismo titular que Padelia y Nautelia (espejo de nautelia-landing/src/parts.py; test_check.py falla si divergen)

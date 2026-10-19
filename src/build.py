@@ -99,7 +99,13 @@ def wa_icon(size):
 CHECK = '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l4 4L19 6" fill="none" stroke="#F0A202" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 BRAND = os.path.join(SRC, 'brand')  # logo.svg y favicon.svg: única fuente del logo (make_assets.py lee los mismos)
 LOGO = open(os.path.join(BRAND, 'logo.svg'), encoding='utf-8').read().strip().replace(
-    'xmlns="http://www.w3.org/2000/svg"', 'width="30" height="30" aria-hidden="true"', 1)
+    'xmlns="http://www.w3.org/2000/svg"', 'class="wm-v" aria-hidden="true"', 1)
+
+def wordmark(on_dark=False):
+    """«ya» + V del logo + «oy», en una pieza (Outfit 800). Sobre azul, el trazo izquierdo va en crema."""
+    left, right = C.BRAND.split('v', 1)
+    v = LOGO.replace('#0E2B40', '#FBF8F2') if on_dark else LOGO
+    return f'<span class="wm" role="img" aria-label="{C.BRAND}">{left}{v}{right}</span>'
 DOT = '<svg width="8" height="8" viewBox="0 0 8 8" aria-hidden="true"><circle cx="4" cy="4" r="4" fill="#F0A202"/></svg>'
 
 
@@ -130,7 +136,7 @@ def head(lang, title, desc, path, robots=INDEX, alternates=(), og=None, ld=None)
         other = 'en_GB' if lang == 'es' else 'es_ES'
         img = f'{SITE}/og{"" if lang == "es" else "-en"}.jpg'
         ogs = f'''<meta property="og:type" content="website">
-<meta property="og:site_name" content="Vaivén">
+<meta property="og:site_name" content="{C.BRAND}">
 <meta property="og:locale" content="{t['locale']}">
 <meta property="og:locale:alternate" content="{other}">
 <meta property="og:url" content="{url}">
@@ -179,7 +185,7 @@ def header(lang):
         sw = '<a class="lang" href="/" hreflang="es" lang="es">ES</a>'
     return f'''<header class="nav">
 <div class="wrap">
-<a class="brand" href="{base}" aria-label="{t['home_label']}">{LOGO}Vaivén</a>
+<a class="brand" href="{base}" aria-label="{t['home_label']}">{wordmark()}</a>
 <nav class="nav-links" aria-label="{t['nav_label']}">{links}</nav>
 <div class="nav-right">
 {sw}
@@ -196,7 +202,7 @@ def footer(lang):
     return f'''<footer>
 <div class="wrap">
 <div class="col">
-<span class="brand-f">Vaivén</span>
+<span class="brand-f">{wordmark(on_dark=True)}</span>
 <span>{t['footer_tag']}</span>
 <span>{fmt(t['footer_vtc'])}</span>
 <span>{hv('RAZON_SOCIAL')} · {hv('CIF')}</span>
@@ -235,7 +241,7 @@ def ld_home(lang):
     t = T[lang]
     url = SITE + t['path']
     biz = {
-        '@type': 'LocalBusiness', '@id': SITE + '/#business', 'name': 'Vaivén',
+        '@type': 'LocalBusiness', '@id': SITE + '/#business', 'name': C.BRAND,
         'description': t['ld_desc'], 'url': SITE + '/', 'email': val('EMAIL'),
         'image': SITE + '/og.jpg', 'logo': SITE + '/apple-touch-icon.png', 'priceRange': '€€',
         'currenciesAccepted': 'EUR', 'paymentAccepted': t['payment'], 'knowsLanguage': ['es', 'en'],
@@ -254,7 +260,7 @@ def ld_home(lang):
     same = list(C.SAME_AS) + ([C.GOOGLE_REVIEWS_URL] if C.GOOGLE_REVIEWS_URL else [])
     if same:
         biz['sameAs'] = list(dict.fromkeys(same))
-    web = {'@type': 'WebSite', '@id': SITE + '/#website', 'url': SITE + '/', 'name': 'Vaivén',
+    web = {'@type': 'WebSite', '@id': SITE + '/#website', 'url': SITE + '/', 'name': C.BRAND,
            'inLanguage': ['es', 'en'], 'publisher': {'@id': SITE + '/#business'}}
     page = {'@type': 'WebPage', '@id': url + '#webpage', 'url': url, 'name': t['title'], 'description': t['desc'],
             'inLanguage': lang, 'isPartOf': {'@id': SITE + '/#website'}, 'about': {'@id': SITE + '/#business'}}
@@ -286,9 +292,12 @@ def home(lang):
 <p class="sub">{t['sub']}</p>
 <div class="hero-checks">{checks}</div>
 </div>
+<div class="chat-col">
 <div class="chat" role="img" aria-label="{t['chat_label']}">
-<div class="chat-head"><div class="chat-avatar" aria-hidden="true">V</div><div><span class="chat-name">Vaivén</span><span class="chat-status">{t['chat_status']}</span></div></div>
+<div class="chat-head"><div class="chat-avatar" aria-hidden="true">J</div><div><span class="chat-name">Juan · {C.BRAND}</span><span class="chat-status">{t['chat_status']}</span></div></div>
 {chat}
+</div>
+<p class="chat-wink">{t['chat_wink']}</p>
 </div>
 </div>
 </section>
@@ -382,11 +391,11 @@ def legal_page(slug):
     p = LEGAL[slug]
     body = p['body'].format(**{k: hv(k) for k in ('RAZON_SOCIAL', 'CIF', 'LEGAL_ADDRESS', 'EMAIL', 'VTC_NO', 'DOMAIN')},
                             PHONE=phone_display(), CONTENT_DATE=C.CONTENT_DATE)
-    out = head('es', f'{p["title"]} · Vaivén', p['desc'], f'/{slug}/', robots=NOINDEX)
+    out = head('es', f'{p["title"]} · {C.BRAND}', p['desc'], f'/{slug}/', robots=NOINDEX)
     return out + '<body>\n' + header('es') + f'<main class="wrap doc">\n<h1>{p["title"]}</h1>\n{body}\n</main>\n' + footer('es')
 
 def page_404():
-    out = head('es', 'Página no encontrada · Vaivén', 'Esta página no existe. Vuelve al inicio de Vaivén, transfer privado en Málaga y Costa del Sol.', '/404.html', robots=NOINDEX)
+    out = head('es', f'Página no encontrada · {C.BRAND}', f'Esta página no existe. Vuelve al inicio de {C.BRAND}, transfer privado en Málaga y Costa del Sol.', '/404.html', robots=NOINDEX)
     return out + '<body>\n' + header('es') + f'''<main class="wrap doc">
 <h1>Esta página no existe</h1>
 <p>Puede que el enlace esté mal escrito o que la página se haya movido.</p>
@@ -398,7 +407,7 @@ def page_404():
 
 # --- ficheros de indexación ------------------------------------------------------------------
 def robots_txt():
-    return f'''# Vaivén · robots.txt
+    return f'''# {C.BRAND} · robots.txt
 # Política: la tienda abierta. Buscadores y asistentes de IA (búsqueda, citas y entrenamiento)
 # pueden leer toda la web; que nos citen es lo que buscamos. No hay zonas privadas que proteger:
 # las páginas legales llevan noindex en su propia etiqueta, no aquí (si se bloquearan, Google

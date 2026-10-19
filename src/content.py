@@ -1,37 +1,41 @@
 # -*- coding: utf-8 -*-
-"""Textos de la web en ES y EN. El campo {vtc} lo rellena build.py desde config.py.
+"""Textos de la web en ES y EN. {brand} = config.BRAND (se resuelve al final de este fichero);
+{vtc} y los de la FAQ los rellena build.py desde config.py.
 
 Lo que es igual en los dos idiomas (minutos de trayecto, slugs) va una sola vez fuera del dict de idioma.
 """
+from config import BRAND
 
 T = {
 'es': {
     'path': '/',
     'locale': 'es_ES',
-    'title': 'Transfer privado y chófer en Málaga y Costa del Sol · Vaivén',
+    'title': 'Transfer privado y chófer en Málaga y Costa del Sol · {brand}',
     'desc': 'Transfer privado y chófer en Málaga y la Costa del Sol: aeropuerto, cenas, golf, bodas y excursiones. Precio cerrado por WhatsApp y pagas al llegar.',
-    'og_title': 'Vaivén · Un mensaje. Una persona. Un precio.',
+    'og_title': '{brand} · Un mensaje. Una persona. Un precio.',
     'og_desc': 'Transfer privado en Málaga y Costa del Sol. Escribes por WhatsApp, te contesta una persona real con el precio cerrado y pagas al llegar.',
     'nav': [('#como', 'Cómo funciona'), ('#destinos', 'Destinos'), ('#equipo', 'Equipo'), ('#faq', 'Preguntas')],
     'nav_label': 'Secciones',
-    'home_label': 'Vaivén, inicio',
+    'home_label': '{brand}, inicio',
     'cta_nav': 'Reservar',
     'wa_generic': 'Hola, quiero reservar un traslado',
     'wa_hero': 'Hola, quiero un traslado de [origen] a [destino] el [fecha] a las [hora], somos [n] personas',
     'eyebrow': 'Transfer privado y chófer · Málaga y Costa del Sol',
     'h1': 'Un mensaje.<br>Una persona.<br>Un precio.',
-    'summary': 'Vaivén es un servicio de transfer privado y chófer con autorización VTC, con base en Mijas (Málaga): te llevamos a cualquier punto de la Costa del Sol (aeropuerto, restaurantes, golf, bodas o excursiones) con precio cerrado por coche, reserva por WhatsApp y pago al llegar.',
+    'summary': '{brand} es un servicio de transfer privado y chófer con autorización VTC, con base en Mijas (Málaga): te llevamos a cualquier punto de la Costa del Sol (aeropuerto, restaurantes, golf, bodas o excursiones) con precio cerrado por coche, reserva por WhatsApp y pago al llegar.',
     'sub': 'Sin app, sin formulario, sin bot, sin pagar por adelantado. Escribes, te contesta una persona real con el precio cerrado y te dice quién te recoge.',
     'promise': 'Pagas cuando te dejamos en tu destino.',
     'cta_hero': 'Reservar por WhatsApp',
     'checks': ['Aeropuerto, puerto, bodas, golf, excursiones', 'Autorización VTC nº {vtc}', '24 h, 365 días'],
     'chat_label': 'Ejemplo de reserva por WhatsApp',
     'chat_status': 'en línea',
+    'chat_wink': '«Ya voy» es lo que te escribe tu conductor cuando sale a buscarte.',
     'chat': [
         ('me', 'Hola! Somos 4, el sábado a las 21:00 de La Cala a Puerto Banús, vamos a cenar 🙂'),
         ('them', 'Hola 👋 La Cala → Puerto Banús, 4 personas: 55 € cerrado. ¿Dónde os recojo?'),
         ('me', 'Urb. Calypso, portal 3'),
         ('them', 'Reservado ✅ El sábado a las 21:00 os espera Ibrahim en la puerta, Toyota gris 1234 ABC. Pagáis al llegar: efectivo, tarjeta o Bizum.'),
+        ('them', 'Ya voy 🚗'),
     ],
     'strip_label': 'Garantías',
     'strip_reviews': '★★★★★ {n} reseñas en Google',
@@ -69,7 +73,7 @@ T = {
     'team_lead': 'El WhatsApp lo contesta alguien que sabe dónde está tu urbanización, tu finca o tu campo de golf.',
     'team_lead_photos': 'Fotos reales, coches reales. ',
     'roles': {'coord': 'Es quien te contesta. Coordina las reservas y te reconfirma el día antes.', 'driver': 'Conductor.'},
-    'role_alt': {'coord': 'coordinador de reservas de Vaivén', 'driver': 'conductor de Vaivén'},
+    'role_alt': {'coord': 'coordinador de reservas de {brand}', 'driver': 'conductor de {brand}'},
     'reviews_h2': 'Lo que dicen quienes ya han viajado',
     'reviews_all': 'Ver todas en Google →',
     'stars_label': '5 estrellas',
@@ -77,15 +81,15 @@ T = {
     # (pregunta, respuesta, datos de config.py que necesita). Sin ese dato, la pregunta no se pinta.
     # GEO: la respuesta va en la primera frase, 25-90 palabras, entidades con nombre (lo vigila check.py).
     'faq': [
-        ('¿Cuánto cuesta un transfer privado en la Costa del Sol?', 'Depende del trayecto, y es un precio cerrado por coche, no por persona. Algunos ejemplos con Vaivén: {prices}. El precio exacto de tu trayecto te lo damos por escrito por WhatsApp antes de confirmar, y es el que pagas al llegar.', ['PRICES']),
-        ('¿Cómo se reserva un chófer? ¿Se puede por WhatsApp?', 'Sí: en Vaivén se reserva solo por WhatsApp. Envíanos origen, destino, día, hora y cuántos sois. Una persona te contesta con el precio cerrado por escrito y, cuando confirmas, te manda el nombre del conductor, el coche y la matrícula. El día antes te lo reconfirmamos.', []),
-        ('¿Hay que pagar el transfer por adelantado?', 'No. Con Vaivén no pagas nada al reservar: pagas al conductor cuando te deja en tu destino, en efectivo, con tarjeta o por Bizum. El precio es el que te dimos por escrito al reservar. Si necesitas factura, te la hacemos.', []),
-        ('¿Qué diferencia hay entre un VTC y un taxi en Málaga?', 'El precio y la reserva. Un taxi cobra por taxímetro según la tarifa oficial, más cara de noche y en festivos, y se puede coger en la parada. Un VTC como Vaivén cobra un precio cerrado que acuerdas antes del viaje y solo puede trabajar con reserva previa: sabes lo que vas a pagar antes de subir.', []),
-        ('¿Sois legales? ¿Tenéis licencia?', 'Sí. Vaivén es una empresa con autorización VTC nº {vtc} de la Junta de Andalucía para el transporte de viajeros con conductor. Trabajamos solo con reserva previa, como exige la ley: tu confirmación por WhatsApp es el contrato. Por eso no recogemos a nadie en la calle ni en paradas sin reserva.', []),
-        ('¿Qué incluye el precio? ¿Hay suplementos?', 'Todo lo del trayecto. El precio cerrado que te da Vaivén por WhatsApp incluye {included}, así que no hay suplementos ni sorpresas: al llegar pagas exactamente la cifra que acordamos, en efectivo, con tarjeta o por Bizum.', ['INCLUDED']),
+        ('¿Cuánto cuesta un transfer privado en la Costa del Sol?', 'Depende del trayecto, y es un precio cerrado por coche, no por persona. Algunos ejemplos con {brand}: {prices}. El precio exacto de tu trayecto te lo damos por escrito por WhatsApp antes de confirmar, y es el que pagas al llegar.', ['PRICES']),
+        ('¿Cómo se reserva un chófer? ¿Se puede por WhatsApp?', 'Sí: en {brand} se reserva solo por WhatsApp. Envíanos origen, destino, día, hora y cuántos sois. Una persona te contesta con el precio cerrado por escrito y, cuando confirmas, te manda el nombre del conductor, el coche y la matrícula. El día antes te lo reconfirmamos.', []),
+        ('¿Hay que pagar el transfer por adelantado?', 'No. Con {brand} no pagas nada al reservar: pagas al conductor cuando te deja en tu destino, en efectivo, con tarjeta o por Bizum. El precio es el que te dimos por escrito al reservar. Si necesitas factura, te la hacemos.', []),
+        ('¿Qué diferencia hay entre un VTC y un taxi en Málaga?', 'El precio y la reserva. Un taxi cobra por taxímetro según la tarifa oficial, más cara de noche y en festivos, y se puede coger en la parada. Un VTC como {brand} cobra un precio cerrado que acuerdas antes del viaje y solo puede trabajar con reserva previa: sabes lo que vas a pagar antes de subir.', []),
+        ('¿Sois legales? ¿Tenéis licencia?', 'Sí. {brand} es una empresa con autorización VTC nº {vtc} de la Junta de Andalucía para el transporte de viajeros con conductor. Trabajamos solo con reserva previa, como exige la ley: tu confirmación por WhatsApp es el contrato. Por eso no recogemos a nadie en la calle ni en paradas sin reserva.', []),
+        ('¿Qué incluye el precio? ¿Hay suplementos?', 'Todo lo del trayecto. El precio cerrado que te da {brand} por WhatsApp incluye {included}, así que no hay suplementos ni sorpresas: al llegar pagas exactamente la cifra que acordamos, en efectivo, con tarjeta o por Bizum.', ['INCLUDED']),
         ('¿Cuántas personas caben en el coche?', 'Hasta {pax} personas por coche, con su equipaje. Si sois más, lleváis bolsas de golf o mucho equipaje, dínoslo al reservar por WhatsApp y te proponemos la mejor opción para tu grupo, siempre con el precio cerrado antes de confirmar.', ['MAX_PAX']),
-        ('¿Qué trayectos hacéis?', 'Cualquiera, dentro o fuera de la provincia de Málaga: aeropuerto, puerto y estación María Zambrano, cenas y salidas de noche, campos de golf, bodas, excursiones a Ronda, Granada, Sevilla o Gibraltar y servicios de chófer por horas. Vaivén trabaja desde Mijas por toda la Costa del Sol, siempre con precio cerrado antes de salir.', []),
-        ('¿Puedo cancelar un transfer?', 'Sí, gratis hasta 24 horas antes del servicio. Basta con un mensaje de WhatsApp. Como con Vaivén no se paga nada por adelantado, no hay nada que devolver ni ningún trámite: solo avísanos cuanto antes para que podamos liberar el coche.', []),
+        ('¿Qué trayectos hacéis?', 'Cualquiera, dentro o fuera de la provincia de Málaga: aeropuerto, puerto y estación María Zambrano, cenas y salidas de noche, campos de golf, bodas, excursiones a Ronda, Granada, Sevilla o Gibraltar y servicios de chófer por horas. {brand} trabaja desde Mijas por toda la Costa del Sol, siempre con precio cerrado antes de salir.', []),
+        ('¿Puedo cancelar un transfer?', 'Sí, gratis hasta 24 horas antes del servicio. Basta con un mensaje de WhatsApp. Como con {brand} no se paga nada por adelantado, no hay nada que devolver ni ningún trámite: solo avísanos cuanto antes para que podamos liberar el coche.', []),
     ],
     'cta_h2': '¿Nos vamos?',
     'cta_final': 'Reservar mi traslado',
@@ -103,30 +107,32 @@ T = {
 'en': {
     'path': '/en/',
     'locale': 'en_GB',
-    'title': 'Private Driver & Transfers on the Costa del Sol · Vaivén',
+    'title': 'Private Driver & Transfers on the Costa del Sol · {brand}',
     'desc': 'Private transfers and driver in Málaga and the Costa del Sol: airport, dinners, golf, weddings and day trips. Fixed price on WhatsApp, pay on arrival.',
-    'og_title': 'Vaivén · One message. One person. One price.',
+    'og_title': '{brand} · One message. One person. One price.',
     'og_desc': 'Private transfers in Málaga and the Costa del Sol. Message us on WhatsApp, a real person replies with a fixed price and you pay when you arrive.',
     'nav': [('#como', 'How it works'), ('#destinos', 'Destinations'), ('#equipo', 'Team'), ('#faq', 'FAQ')],
     'nav_label': 'Sections',
-    'home_label': 'Vaivén, home',
+    'home_label': '{brand}, home',
     'cta_nav': 'Book now',
     'wa_generic': 'Hi, I would like to book a transfer',
     'wa_hero': 'Hi, I would like a transfer from [pickup] to [destination] on [date] at [time], we are [n] people',
     'eyebrow': 'Private transfers & driver · Málaga and Costa del Sol',
     'h1': 'One message.<br>One person.<br>One price.',
-    'summary': 'Vaivén is a licensed (VTC) private transfer and driver service based in Mijas, Málaga: we take you anywhere on the Costa del Sol (airport, restaurants, golf, weddings or day trips) at a fixed price per car, booked on WhatsApp and paid when you arrive.',
+    'summary': '{brand} is a licensed (VTC) private transfer and driver service based in Mijas, Málaga: we take you anywhere on the Costa del Sol (airport, restaurants, golf, weddings or day trips) at a fixed price per car, booked on WhatsApp and paid when you arrive.',
     'sub': 'No app, no forms, no bots, no prepayment. You message us, a real person replies with a fixed price and tells you who will pick you up.',
     'promise': 'You pay when we drop you off.',
     'cta_hero': 'Book on WhatsApp',
     'checks': ['Airport, port, weddings, golf, day trips', 'VTC licence no. {vtc}', '24/7, 365 days a year'],
     'chat_label': 'Example of a WhatsApp booking',
     'chat_status': 'online',
+    'chat_wink': '“Ya voy” is what your driver texts you: “On my way.”',
     'chat': [
         ('me', 'Hi! There are 4 of us, Saturday at 9 pm from La Cala to Puerto Banús for dinner 🙂'),
         ('them', 'Hi 👋 La Cala → Puerto Banús, 4 people: €55 fixed. Where shall we pick you up?'),
         ('me', 'Urb. Calypso, block 3'),
         ('them', 'Booked ✅ On Saturday at 9 pm Ibrahim will be waiting at your door, grey Toyota 1234 ABC. Pay when you arrive: cash, card or Bizum.'),
+        ('them', 'Ya voy 🚗'),
     ],
     'strip_label': 'Guarantees',
     'strip_reviews': '★★★★★ {n} Google reviews',
@@ -164,21 +170,21 @@ T = {
     'team_lead': 'Your WhatsApp is answered by someone who knows where your urbanización, villa or golf course is.',
     'team_lead_photos': 'Real photos, real cars. ',
     'roles': {'coord': 'He is the one who replies. He coordinates bookings and reconfirms the day before.', 'driver': 'Driver.'},
-    'role_alt': {'coord': 'booking coordinator at Vaivén', 'driver': 'driver at Vaivén'},
+    'role_alt': {'coord': 'booking coordinator at {brand}', 'driver': 'driver at {brand}'},
     'reviews_h2': 'What our passengers say',
     'reviews_all': 'See all on Google →',
     'stars_label': '5 stars',
     'faq_h2': 'Frequently asked questions',
     'faq': [
-        ('How much does a private transfer on the Costa del Sol cost?', 'It depends on the route, and it is a fixed price per car, not per person. Some examples with Vaivén: {prices}. We give you the exact price for your ride in writing on WhatsApp before you confirm, and that is what you pay on arrival.', ['PRICES']),
-        ('How do I book a driver? Can I book on WhatsApp?', 'Yes: Vaivén bookings are made on WhatsApp only. Send us your pickup, destination, day, time and number of passengers. A real person replies with a fixed price in writing and, once you confirm, sends you the driver\'s name, the car and the plate. We reconfirm the day before.', []),
-        ('Do I have to pay for the transfer in advance?', 'No. With Vaivén you pay nothing when you book: you pay the driver when you are dropped off, in cash, by card or with Bizum. The price is the one we gave you in writing when you booked. If you need an invoice, we will issue one.', []),
-        ('What is the difference between a VTC and a taxi in Málaga?', 'Price and booking. A taxi charges by the meter at the official rate, which is higher at night and on public holidays, and you can take one at a rank. A VTC like Vaivén charges a fixed price agreed before the ride and can only work with a prior booking, so you know what you will pay before you get in.', []),
-        ('Are you legal? Do you have a licence?', 'Yes. Vaivén is a company with VTC licence no. {vtc} from the Junta de Andalucía for passenger transport with a driver. As the law requires, we only work with prior bookings: your WhatsApp confirmation is the contract. That is why we never pick up passengers on the street or at ranks without a booking.', []),
-        ('What does the price include? Are there any extras?', 'Everything for the ride. The fixed price Vaivén gives you on WhatsApp includes {included}, so there are no extras and no surprises: on arrival you pay exactly the amount we agreed, in cash, by card or with Bizum.', ['INCLUDED']),
+        ('How much does a private transfer on the Costa del Sol cost?', 'It depends on the route, and it is a fixed price per car, not per person. Some examples with {brand}: {prices}. We give you the exact price for your ride in writing on WhatsApp before you confirm, and that is what you pay on arrival.', ['PRICES']),
+        ('How do I book a driver? Can I book on WhatsApp?', 'Yes: {brand} bookings are made on WhatsApp only. Send us your pickup, destination, day, time and number of passengers. A real person replies with a fixed price in writing and, once you confirm, sends you the driver\'s name, the car and the plate. We reconfirm the day before.', []),
+        ('Do I have to pay for the transfer in advance?', 'No. With {brand} you pay nothing when you book: you pay the driver when you are dropped off, in cash, by card or with Bizum. The price is the one we gave you in writing when you booked. If you need an invoice, we will issue one.', []),
+        ('What is the difference between a VTC and a taxi in Málaga?', 'Price and booking. A taxi charges by the meter at the official rate, which is higher at night and on public holidays, and you can take one at a rank. A VTC like {brand} charges a fixed price agreed before the ride and can only work with a prior booking, so you know what you will pay before you get in.', []),
+        ('Are you legal? Do you have a licence?', 'Yes. {brand} is a company with VTC licence no. {vtc} from the Junta de Andalucía for passenger transport with a driver. As the law requires, we only work with prior bookings: your WhatsApp confirmation is the contract. That is why we never pick up passengers on the street or at ranks without a booking.', []),
+        ('What does the price include? Are there any extras?', 'Everything for the ride. The fixed price {brand} gives you on WhatsApp includes {included}, so there are no extras and no surprises: on arrival you pay exactly the amount we agreed, in cash, by card or with Bizum.', ['INCLUDED']),
         ('How many people fit in the car?', 'Up to {pax} passengers per car, with their luggage. If there are more of you, or you are bringing golf bags or a lot of luggage, tell us when you book on WhatsApp and we will suggest the best option for your group, always with a fixed price before you confirm.', ['MAX_PAX']),
-        ('Which rides do you do?', 'Any ride inside or outside the province of Málaga: the airport, the port and María Zambrano station, dinners and nights out, golf courses, weddings, day trips to Ronda, Granada, Seville or Gibraltar, and hourly driver hire. Vaivén is based in Mijas and drives all along the Costa del Sol, always with a fixed price before we set off.', []),
-        ('Can I cancel a transfer?', 'Yes, free of charge up to 24 hours before the ride. A WhatsApp message is enough. Since you pay nothing in advance with Vaivén, there is nothing to refund and no paperwork: just let us know as soon as you can so we can free up the car.', []),
+        ('Which rides do you do?', 'Any ride inside or outside the province of Málaga: the airport, the port and María Zambrano station, dinners and nights out, golf courses, weddings, day trips to Ronda, Granada, Seville or Gibraltar, and hourly driver hire. {brand} is based in Mijas and drives all along the Costa del Sol, always with a fixed price before we set off.', []),
+        ('Can I cancel a transfer?', 'Yes, free of charge up to 24 hours before the ride. A WhatsApp message is enough. Since you pay nothing in advance with {brand}, there is nothing to refund and no paperwork: just let us know as soon as you can so we can free up the car.', []),
     ],
     'cta_h2': 'Ready to go?',
     'cta_final': 'Book my transfer',
@@ -232,3 +238,16 @@ INCLUDED_LABELS = {
     'night': ('el servicio de noche', 'night service'),
     'luggage': ('el equipaje', 'luggage'),
 }
+
+
+def _brand(x):
+    """La marca vive en config.BRAND: aquí se pone en todos los textos, una vez."""
+    if isinstance(x, str):
+        return x.replace('{brand}', BRAND)
+    if isinstance(x, dict):
+        return {k: _brand(v) for k, v in x.items()}
+    if isinstance(x, (list, tuple)):
+        return type(x)(_brand(v) for v in x)
+    return x
+
+T, DEST = _brand(T), _brand(DEST)
