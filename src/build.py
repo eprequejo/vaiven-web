@@ -8,7 +8,7 @@ from urllib.parse import quote
 
 import config as C
 import check
-from content import T, DEST, AREA
+from content import T, DEST, AREA, PLACES, INCLUDED_LABELS
 from legal import LEGAL
 
 MODE = sys.argv[1] if len(sys.argv) > 1 else 'preview'
@@ -43,13 +43,49 @@ def phone_display():
         return f'+34 {p[2:5]} {p[5:8]} {p[8:]}'
     return '+' + p
 
-def fmt(s):
-    """Texto de content.py con {vtc} para HTML."""
-    return s.format(vtc=hv('VTC_NO'))
+def fmt(s, **extra):
+    """Texto de content.py con {vtc} (y los campos de extra) para HTML."""
+    return s.format(vtc=hv('VTC_NO'), **extra)
 
-def plain(s):
+def plain(s, **extra):
     """El mismo texto sin etiquetas, para JSON-LD (debe coincidir con lo visible)."""
-    return re.sub(r'<[^>]+>', '', s.format(vtc=val('VTC_NO')))
+    return re.sub(r'<[^>]+>', '', s.format(vtc=val('VTC_NO'), **extra))
+
+
+# --- precios, lo incluido y la FAQ: una fuente para la tabla, el <details> y el FAQPage ------
+def price(lang, n):
+    return T[lang]['price_fmt'].format(n=n)
+
+def route(lang, a, b):
+    i = 0 if lang == 'es' else 1
+    return PLACES[a][i], PLACES[b][i]
+
+def prices_text(lang):
+    """Los 3 primeros precios de config.PRICES, como ejemplo en la respuesta del precio."""
+    return '; '.join(T[lang]['price_from'].format(a=a, b=b, p=price(lang, n))
+                     for a, b, n in ((*route(lang, x, y), n) for x, y, n in C.PRICES[:3]))
+
+def included_text(lang):
+    i = 0 if lang == 'es' else 1
+    items = [INCLUDED_LABELS[k][i] for k in (C.INCLUDED or [])]
+    if len(items) < 2:
+        return ''.join(items)
+    return ', '.join(items[:-1]) + (' y ' if lang == 'es' else ' and ') + items[-1]
+
+def faq_items(lang):
+    """[(pregunta, respuesta, campos)] que se pintan: fuera las que piden un dato que falta en config."""
+    extra = {'prices': prices_text(lang), 'included': included_text(lang), 'pax': C.MAX_PAX}
+    return [(q, a, extra) for q, a, needs in T[lang]['faq'] if all(getattr(C, n) for n in needs)]
+
+def price_table(lang):
+    if not C.PRICES:
+        return ''
+    t = T[lang]
+    rows = ''.join(f'<tr><td>{a} → {b}</td><td>{price(lang, n)}</td></tr>'
+                   for a, b, n in ((*route(lang, x, y), n) for x, y, n in C.PRICES))
+    return (f'<div class="prices-box"><h3>{t["prices_h3"]}</h3><table class="prices">'
+            f'<thead><tr><th scope="col">{t["prices_th"][0]}</th><th scope="col">{t["prices_th"][1]}</th></tr></thead>'
+            f'<tbody>{rows}</tbody></table><p class="dest-note">{t["prices_note"]}</p></div>\n')
 
 def wa(text):
     return esc(f'https://wa.me/{val("PHONE")}?text={quote(text)}')
@@ -224,7 +260,7 @@ def ld_home(lang):
             'inLanguage': lang, 'isPartOf': {'@id': SITE + '/#website'}, 'about': {'@id': SITE + '/#business'}}
     # Misma lista que las FAQ visibles: no pueden divergir.
     faq = {'@type': 'FAQPage', '@id': url + '#faq', 'mainEntity': [
-        {'@type': 'Question', 'name': plain(q), 'acceptedAnswer': {'@type': 'Answer', 'text': plain(a)}} for q, a in t['faq']]}
+        {'@type': 'Question', 'name': plain(q), 'acceptedAnswer': {'@type': 'Answer', 'text': plain(a, **x)}} for q, a, x in faq_items(lang)]}
     return [biz, web, page, faq]
 
 
@@ -283,7 +319,7 @@ def home(lang):
 <div class="section-head"><span class="eyebrow">{t['dest_eyebrow']}</span><h2>{t['dest_h2']}</h2><p class="lead">{t['dest_lead']}</p></div>
 <div class="grid-3">
 {cards}</div>
-<div class="chips"><strong>{t['also']}</strong>{chips}</div>
+{price_table(lang)}<div class="chips"><strong>{t['also']}</strong>{chips}</div>
 </div>
 </section>
 '''
@@ -320,7 +356,7 @@ def home(lang):
 </div>
 </section>
 '''
-    faq = ''.join(f'<details><summary>{fmt(q)}</summary><p>{fmt(a)}</p></details>\n' for q, a in t['faq'])
+    faq = ''.join(f'<details><summary>{fmt(q)}</summary><p>{fmt(a, **x)}</p></details>\n' for q, a, x in faq_items(lang))
     out += f'''<section id="faq" class="section sand faq">
 <div class="wrap">
 <h2>{t['faq_h2']}</h2>

@@ -50,6 +50,11 @@ T = {
     'dest_cta': 'Pedir precio cerrado →',
     'dest_wa': 'Hola, quiero un traslado de [origen] a {to} el [fecha] a las [hora], somos [n] personas',
     'also': 'También:',
+    'prices_h3': 'Precios orientativos',
+    'prices_th': ('Trayecto', 'Desde'),
+    'prices_note': 'Precio cerrado por coche (hasta 4 personas) con todo incluido. El exacto te lo damos por escrito antes de confirmar.',
+    'price_fmt': '{n} €',
+    'price_from': '{a} → {b}, desde {p}',
     'chips': [
         ('Aeropuerto de Málaga', 'Hola, quiero un traslado desde o hasta el aeropuerto de Málaga'),
         ('Puerto y estación María Zambrano', 'Hola, necesito un traslado desde el puerto o la estación de Málaga'),
@@ -69,11 +74,18 @@ T = {
     'reviews_all': 'Ver todas en Google →',
     'stars_label': '5 estrellas',
     'faq_h2': 'Preguntas frecuentes',
+    # (pregunta, respuesta, datos de config.py que necesita). Sin ese dato, la pregunta no se pinta.
+    # GEO: la respuesta va en la primera frase, 25-90 palabras, entidades con nombre (lo vigila check.py).
     'faq': [
-        ('¿De verdad no pago nada por adelantado?', 'De verdad. Pagas al conductor cuando te deja en tu destino: efectivo, tarjeta o Bizum. Si necesitas factura, te la hacemos.'),
-        ('¿Sois legales? ¿Tenéis licencia?', 'Sí. Somos una empresa con autorización VTC nº {vtc} de la Junta de Andalucía. Trabajamos solo con reserva previa: tu confirmación por WhatsApp es el contrato. No recogemos a nadie sin reserva.'),
-        ('¿Qué trayectos hacéis?', 'Cualquiera: aeropuerto, puerto, estación, cenas y salidas de noche, golf, bodas, excursiones a Ronda o Granada y servicios por horas. Dentro o fuera de la provincia de Málaga, con precio cerrado antes de salir.'),
-        ('¿Puedo cancelar?', 'Gratis hasta 24 h antes. Un mensaje de WhatsApp basta. Como no has pagado nada, no hay nada que devolver.'),
+        ('¿Cuánto cuesta un transfer privado en la Costa del Sol?', 'Depende del trayecto, y es un precio cerrado por coche, no por persona. Algunos ejemplos con Vaivén: {prices}. El precio exacto de tu trayecto te lo damos por escrito por WhatsApp antes de confirmar, y es el que pagas al llegar.', ['PRICES']),
+        ('¿Cómo se reserva un chófer? ¿Se puede por WhatsApp?', 'Sí: en Vaivén se reserva solo por WhatsApp. Envíanos origen, destino, día, hora y cuántos sois. Una persona te contesta con el precio cerrado por escrito y, cuando confirmas, te manda el nombre del conductor, el coche y la matrícula. El día antes te lo reconfirmamos.', []),
+        ('¿Hay que pagar el transfer por adelantado?', 'No. Con Vaivén no pagas nada al reservar: pagas al conductor cuando te deja en tu destino, en efectivo, con tarjeta o por Bizum. El precio es el que te dimos por escrito al reservar. Si necesitas factura, te la hacemos.', []),
+        ('¿Qué diferencia hay entre un VTC y un taxi en Málaga?', 'El precio y la reserva. Un taxi cobra por taxímetro según la tarifa oficial, más cara de noche y en festivos, y se puede coger en la parada. Un VTC como Vaivén cobra un precio cerrado que acuerdas antes del viaje y solo puede trabajar con reserva previa: sabes lo que vas a pagar antes de subir.', []),
+        ('¿Sois legales? ¿Tenéis licencia?', 'Sí. Vaivén es una empresa con autorización VTC nº {vtc} de la Junta de Andalucía para el transporte de viajeros con conductor. Trabajamos solo con reserva previa, como exige la ley: tu confirmación por WhatsApp es el contrato. Por eso no recogemos a nadie en la calle ni en paradas sin reserva.', []),
+        ('¿Qué incluye el precio? ¿Hay suplementos?', 'Todo lo del trayecto. El precio cerrado que te da Vaivén por WhatsApp incluye {included}, así que no hay suplementos ni sorpresas: al llegar pagas exactamente la cifra que acordamos, en efectivo, con tarjeta o por Bizum.', ['INCLUDED']),
+        ('¿Cuántas personas caben en el coche?', 'Hasta {pax} personas por coche, con su equipaje. Si sois más, lleváis bolsas de golf o mucho equipaje, dínoslo al reservar por WhatsApp y te proponemos la mejor opción para tu grupo, siempre con el precio cerrado antes de confirmar.', ['MAX_PAX']),
+        ('¿Qué trayectos hacéis?', 'Cualquiera, dentro o fuera de la provincia de Málaga: aeropuerto, puerto y estación María Zambrano, cenas y salidas de noche, campos de golf, bodas, excursiones a Ronda, Granada, Sevilla o Gibraltar y servicios de chófer por horas. Vaivén trabaja desde Mijas por toda la Costa del Sol, siempre con precio cerrado antes de salir.', []),
+        ('¿Puedo cancelar un transfer?', 'Sí, gratis hasta 24 horas antes del servicio. Basta con un mensaje de WhatsApp. Como con Vaivén no se paga nada por adelantado, no hay nada que devolver ni ningún trámite: solo avísanos cuanto antes para que podamos liberar el coche.', []),
     ],
     'cta_h2': '¿Nos vamos?',
     'cta_final': 'Reservar mi traslado',
@@ -133,6 +145,11 @@ T = {
     'dest_cta': 'Get a fixed price →',
     'dest_wa': 'Hi, I would like a transfer from [pickup] to {to} on [date] at [time], we are [n] people',
     'also': 'Also:',
+    'prices_h3': 'Guide prices',
+    'prices_th': ('Route', 'From'),
+    'prices_note': 'Fixed price per car (up to 4 people), everything included. We give you the exact price in writing before you confirm.',
+    'price_fmt': '€{n}',
+    'price_from': '{a} → {b} from {p}',
     'chips': [
         ('Málaga Airport', 'Hi, I would like a transfer to or from Málaga Airport'),
         ('Port and María Zambrano station', 'Hi, I need a transfer from Málaga port or train station'),
@@ -153,10 +170,15 @@ T = {
     'stars_label': '5 stars',
     'faq_h2': 'Frequently asked questions',
     'faq': [
-        ('Do I really pay nothing in advance?', 'Really. You pay the driver when you are dropped off: cash, card or Bizum. If you need an invoice, we will issue one.'),
-        ('Are you legal? Do you have a licence?', 'Yes. We are a company with VTC licence no. {vtc} from the Junta de Andalucía. We only work with advance bookings: your WhatsApp confirmation is the contract. We never pick up passengers without a booking.'),
-        ('Which rides do you do?', 'Any: airport, port, train station, dinners and nights out, golf, weddings, day trips to Ronda or Granada and hourly hire. Inside or outside the province of Málaga, with a fixed price before we set off.'),
-        ('Can I cancel?', 'Free of charge up to 24 hours before. A WhatsApp message is enough. Since you have not paid anything, there is nothing to refund.'),
+        ('How much does a private transfer on the Costa del Sol cost?', 'It depends on the route, and it is a fixed price per car, not per person. Some examples with Vaivén: {prices}. We give you the exact price for your ride in writing on WhatsApp before you confirm, and that is what you pay on arrival.', ['PRICES']),
+        ('How do I book a driver? Can I book on WhatsApp?', 'Yes: Vaivén bookings are made on WhatsApp only. Send us your pickup, destination, day, time and number of passengers. A real person replies with a fixed price in writing and, once you confirm, sends you the driver\'s name, the car and the plate. We reconfirm the day before.', []),
+        ('Do I have to pay for the transfer in advance?', 'No. With Vaivén you pay nothing when you book: you pay the driver when you are dropped off, in cash, by card or with Bizum. The price is the one we gave you in writing when you booked. If you need an invoice, we will issue one.', []),
+        ('What is the difference between a VTC and a taxi in Málaga?', 'Price and booking. A taxi charges by the meter at the official rate, which is higher at night and on public holidays, and you can take one at a rank. A VTC like Vaivén charges a fixed price agreed before the ride and can only work with a prior booking, so you know what you will pay before you get in.', []),
+        ('Are you legal? Do you have a licence?', 'Yes. Vaivén is a company with VTC licence no. {vtc} from the Junta de Andalucía for passenger transport with a driver. As the law requires, we only work with prior bookings: your WhatsApp confirmation is the contract. That is why we never pick up passengers on the street or at ranks without a booking.', []),
+        ('What does the price include? Are there any extras?', 'Everything for the ride. The fixed price Vaivén gives you on WhatsApp includes {included}, so there are no extras and no surprises: on arrival you pay exactly the amount we agreed, in cash, by card or with Bizum.', ['INCLUDED']),
+        ('How many people fit in the car?', 'Up to {pax} passengers per car, with their luggage. If there are more of you, or you are bringing golf bags or a lot of luggage, tell us when you book on WhatsApp and we will suggest the best option for your group, always with a fixed price before you confirm.', ['MAX_PAX']),
+        ('Which rides do you do?', 'Any ride inside or outside the province of Málaga: the airport, the port and María Zambrano station, dinners and nights out, golf courses, weddings, day trips to Ronda, Granada, Seville or Gibraltar, and hourly driver hire. Vaivén is based in Mijas and drives all along the Costa del Sol, always with a fixed price before we set off.', []),
+        ('Can I cancel a transfer?', 'Yes, free of charge up to 24 hours before the ride. A WhatsApp message is enough. Since you pay nothing in advance with Vaivén, there is nothing to refund and no paperwork: just let us know as soon as you can so we can free up the car.', []),
     ],
     'cta_h2': 'Ready to go?',
     'cta_final': 'Book my transfer',
@@ -191,3 +213,22 @@ DEST = [
 
 # Zonas servidas (JSON-LD areaServed): nombres propios, iguales en los dos idiomas.
 AREA = ['Mijas', 'Fuengirola', 'Benalmádena', 'Torremolinos', 'Marbella', 'Málaga']
+
+# Lugares con precio (config.PRICES los referencia por clave). (ES, EN), una sola vez.
+PLACES = {
+    'airport': ('Aeropuerto de Málaga', 'Málaga Airport'),
+    'mijas': ('Mijas', 'Mijas'),
+    'lacala': ('La Cala de Mijas', 'La Cala de Mijas'),
+    'fuengirola': ('Fuengirola', 'Fuengirola'),
+    'marbella': ('Marbella', 'Marbella'),
+    'banus': ('Puerto Banús', 'Puerto Banús'),
+    'malaga': ('Málaga centro', 'Málaga city centre'),
+    'ronda': ('Ronda', 'Ronda'),
+}
+
+# Qué incluye el precio (config.INCLUDED los referencia por clave). (ES, EN).
+INCLUDED_LABELS = {
+    'toll': ('el peaje de autopista', 'motorway tolls'),
+    'night': ('el servicio de noche', 'night service'),
+    'luggage': ('el equipaje', 'luggage'),
+}

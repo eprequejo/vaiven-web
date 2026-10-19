@@ -26,6 +26,22 @@ REVIEWS = []
 SAME_AS = []                # URLs de perfiles reales: ficha de Google, Instagram, Facebook…
 GEO = None                  # (lat, lng) de la base, si la ficha de Google tiene dirección pública
 
+# Precios orientativos «desde» por coche, todo incluido (claves de content.PLACES). Sale en la tabla de
+# Destinos y en la FAQ del precio (los 3 primeros como ejemplo). Franja baja del mercado (19-oct-2026:
+# Uber AGP→Mijas ~40 €, AGP→Marbella ~71 €; monTransport AGP→Marbella desde 64 €). Sin precios, no sale nada.
+PRICES = [
+    ('airport', 'marbella', 60),
+    ('mijas', 'marbella', 50),
+    ('lacala', 'fuengirola', 25),
+    ('airport', 'mijas', 40),
+    ('airport', 'fuengirola', 38),
+    ('lacala', 'banus', 50),
+    ('mijas', 'malaga', 42),
+    ('mijas', 'ronda', 110),
+]
+MAX_PAX = 4                          # plazas por coche
+INCLUDED = ['toll', 'night', 'luggage']  # qué incluye el precio (claves de content.INCLUDED_LABELS)
+
 # Equipo. Foto: deja src/photos/<slug>.jpg y build.py la convierte a WebP 400×500.
 # bio / langs: frase opcional por idioma.
 TEAM = [

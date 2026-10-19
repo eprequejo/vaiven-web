@@ -15,6 +15,8 @@ HOLE = 'HUECO:'
 TEMPLATE_HOLE = re.compile(r'\[[A-ZÁÉÍÓÚÑ0-9 +]{2,}\]')
 
 MAX_TITLE, MAX_DESC = 60, 160
+FAQ_WORDS = (25, 90)           # GEO: respuesta que se entiende sola, ni frase suelta ni muro
+EUROS = re.compile(r'€\s?(\d+)|(\d+)\s?€')
 MAX_HTML_GZ = 18 * 1024        # cada HTML comprimido
 MAX_FONTS = 80 * 1024          # todas las fuentes
 MAX_HOME = 120 * 1024          # portada sin fotos: HTML + fuentes precargadas + favicon
@@ -27,7 +29,8 @@ class Page(HTMLParser):
         super().__init__(convert_charrefs=True)
         self.lang = None; self.title = ''; self.desc = None; self.robots = None; self.canonical = None
         self.alternates = {}; self.h1 = 0; self.ids = set(); self.links = []; self.ld = []
-        self.summaries = []; self.external = []; self.preloads = []
+        self.summaries = []; self.answers = []; self.price_cells = []; self.external = []; self.preloads = []
+        self._details = self._prices = False
         self._in = None; self._buf = ''
 
     def handle_starttag(self, tag, attrs):
@@ -67,9 +70,25 @@ class Page(HTMLParser):
             self._in, self._buf = 'title', ''
         elif tag == 'summary':
             self._in, self._buf = 'summary', ''
+        elif tag == 'details':
+            self._details = True
+        elif tag == 'p' and self._details:
+            self._in, self._buf = 'answer', ''
+        elif tag == 'table' and 'prices' in a.get('class', ''):
+            self._prices = True
+        elif tag == 'td' and self._prices:
+            self._in, self._buf = 'td', ''
 
     def handle_endtag(self, tag):
-        if self._in == 'ld' and tag == 'script':
+        if tag == 'details':
+            self._details = False
+        elif tag == 'table':
+            self._prices = False
+        if self._in == 'answer' and tag == 'p':
+            self.answers.append(self._buf.strip())
+        elif self._in == 'td' and tag == 'td':
+            self.price_cells.append(self._buf.strip())
+        elif self._in == 'ld' and tag == 'script':
             self.ld.append(self._buf)
         elif self._in == 'title' and tag == 'title':
             self.title = self._buf.strip()
@@ -153,8 +172,19 @@ def run(root, domain=None, allow_holes=False):
                     err(f'{tag}: telephone en JSON-LD (solo WhatsApp: Google mostraría «Llamar»)')
                 if node.get('@type') == 'FAQPage':
                     qs = [q['name'] for q in node['mainEntity']]
+                    ans = [q['acceptedAnswer']['text'] for q in node['mainEntity']]
                     if qs != p.summaries:
                         err(f'{tag}: las preguntas del FAQPage no coinciden con las FAQ visibles')
+                    if ans != p.answers:
+                        err(f'{tag}: la respuesta visible de la FAQ no coincide con la del JSON-LD')
+                    table = {m for c in p.price_cells for m in EUROS.findall(c)}
+                    for q, a in zip(qs, ans):
+                        n = len(a.split())
+                        if not FAQ_WORDS[0] <= n <= FAQ_WORDS[1]:
+                            err(f'{tag}: FAQ «{q}» tiene {n} palabras ({FAQ_WORDS[0]}-{FAQ_WORDS[1]})')
+                        for m in EUROS.findall(a):
+                            if m not in table:
+                                err(f'{tag}: el precio {"".join(m)} € de la FAQ «{q}» no está en la tabla de precios')
         # 3. h1 y lang
         if p.h1 != 1:
             err(f'{tag}: {p.h1} <h1> (debe haber 1)')

@@ -81,6 +81,11 @@ p{margin:0}
 .dest:hover{border-color:var(--navy)}
 .dest-note{font-size:14px;color:var(--muted)}
 .dest-cta{font-size:14px;font-weight:700;color:#14753B;margin-top:6px}
+.prices-box{margin-top:40px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px;display:flex;flex-direction:column;gap:12px;max-width:680px}
+.prices{width:100%;border-collapse:collapse;font-size:15px}
+.prices th{text-align:left;font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted-2);padding:0 0 8px}
+.prices td{padding:10px 0;border-top:1px solid var(--line)}
+.prices td+td,.prices th+th{text-align:right;font-weight:700;white-space:nowrap}
 .chips{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-top:32px}
 .chips strong{font-size:14px;margin-right:6px}
 .chip{font-size:14px;font-weight:600;color:var(--navy);text-decoration:none;background:#fff;border:1px solid var(--line-2);border-radius:999px;padding:8px 14px;min-height:44px;display:inline-flex;align-items:center}
