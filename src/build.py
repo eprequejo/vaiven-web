@@ -247,15 +247,17 @@ def go_form(lang):
 SHARE_ICON = ('<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3m0 0L7.5 7.5M12 3l4.5 4.5'
               'M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7" fill="none" stroke="currentColor" stroke-width="2" '
               'stroke-linecap="round" stroke-linejoin="round"/></svg>')
+# Solo «text», con el enlace dentro: si se pasa «url» aparte, WhatsApp se queda solo con el enlace (19-oct).
 SHARE_JS = ("<script>document.querySelectorAll('a.share').forEach(function(a){a.addEventListener('click',function(e){"
             "if(!navigator.share)return;e.preventDefault();"
-            "navigator.share({text:a.dataset.text,url:a.dataset.url}).catch(function(){})})})</script>")
+            "navigator.share({text:a.dataset.text}).catch(function(){})})})</script>")
 
 def share_link(lang):
     t = T[lang]
     url = SITE + t['path']
-    href = 'https://wa.me/?text=' + quote(f"{t['share_text']} → {url}")
-    return (f'<a class="share" href="{esc(href)}" data-text="{esc(t["share_text"])}" data-url="{esc(url)}">'
+    text = f"{t['share_text']} {url}"
+    href = 'https://wa.me/?text=' + quote(text)
+    return (f'<a class="share" href="{esc(href)}" data-text="{esc(text)}">'
             f'{SHARE_ICON}{t["share_btn"]}</a>\n{SHARE_JS}')
 
 
