@@ -113,6 +113,16 @@ def minify_html(s):
 
 
 # --- <head> ---------------------------------------------------------------------------------
+def _icon_version():
+    """Huella de los iconos: si cambia el logo, cambia la URL y el navegador deja su caché (son muy pegajosos)."""
+    import hashlib
+    h = hashlib.sha1()
+    for p in (os.path.join(BRAND, 'favicon.svg'), os.path.join(SRC, 'static', 'favicon.ico'), os.path.join(SRC, 'static', 'apple-touch-icon.png')):
+        with open(p, 'rb') as f:
+            h.update(f.read())
+    return h.hexdigest()[:8]
+
+ICON_V = _icon_version()
 INDEX = 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1'
 NOINDEX = 'noindex,follow'
 
@@ -156,9 +166,9 @@ def head(lang, title, desc, path, robots=INDEX, alternates=(), og=None, ld=None)
 <!-- Verificación (si no se usa la del DNS): -->
 <!-- <meta name="google-site-verification" content="CODIGO_GSC"> -->
 <!-- <meta name="msvalidate.01" content="CODIGO_BING"> -->
-{ogs}{pre}<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="icon" href="/favicon.ico" sizes="32x32">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+{ogs}{pre}<link rel="icon" href="/favicon.svg?v={ICON_V}" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico?v={ICON_V}" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v={ICON_V}">
 <style>{CSS}</style>
 {lds}</head>
 '''
