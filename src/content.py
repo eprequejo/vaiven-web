@@ -41,8 +41,8 @@ T = {
     'how_lead': 'Nos escribes como escribirías a un amigo que te viene a buscar. Lo demás lo hacemos nosotros.',
     'steps': [
         ('Un mensaje', 'De dónde a dónde, día, hora y cuántos sois. Un WhatsApp y listo. Sin formularios ni cuentas.'),
-        ('Una persona', 'Te contesta una persona real, no un bot. Te da el precio cerrado por escrito y, al confirmar, el nombre de tu conductor, el coche y la matrícula. El día antes te lo reconfirma.'),
-        ('Un precio', 'El que te dijimos, sin suplementos ni sorpresas. Llegamos a la hora y te esperamos. Pagas al llegar a tu destino.'),
+        ('Una persona', 'Te contesta una persona real, no un bot. Al confirmar te dice quién es tu conductor, el coche y la matrícula, y el día antes te lo reconfirma.'),
+        ('Un precio', 'El que te dimos por escrito, sin suplementos ni sorpresas. Llegamos a la hora y te esperamos. Pagas al llegar a tu destino.'),
     ],
     'dest_eyebrow': 'Destinos',
     'dest_h2': 'Transfer privado por toda la Costa del Sol',
@@ -125,8 +125,8 @@ T = {
     'how_lead': 'Message us the way you would message a friend who is picking you up. We take care of the rest.',
     'steps': [
         ('One message', 'From where to where, day, time and how many of you. One WhatsApp and that\'s it. No forms, no accounts.'),
-        ('One person', 'A real person replies, not a bot. You get a fixed price in writing and, once you confirm, your driver\'s name, the car and the plate. We reconfirm the day before.'),
-        ('One price', 'The one we quoted, with no extras and no surprises. We arrive on time and wait for you. You pay when you reach your destination.'),
+        ('One person', 'A real person replies, not a bot. Once you confirm, we tell you who your driver is, the car and the plate, and we reconfirm the day before.'),
+        ('One price', 'The one we gave you in writing, with no extras and no surprises. We arrive on time and wait for you. You pay when you reach your destination.'),
     ],
     'dest_eyebrow': 'Destinations',
     'dest_h2': 'Private transfers all along the Costa del Sol',
