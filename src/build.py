@@ -275,7 +275,7 @@ def home(lang):
     for d in DEST:
         name, note, to = d[lang]
         cards += (f'<a class="card dest" href="{wa(t["dest_wa"].format(to=to))}">'
-                  f'<div class="dest-top"><h3>{name}</h3><span class="dest-time">{d["min"]} min</span></div>'
+                  f'<h3>{name}</h3>'
                   f'<p class="dest-note">{note}</p><span class="dest-cta">{t["dest_cta"]}</span></a>\n')
     chips = ''.join(f'<a class="chip" href="{wa(m)}">{n}</a>' for n, m in t['chips'])
     out += f'''<section id="destinos" class="section sand">
