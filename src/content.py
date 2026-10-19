@@ -32,7 +32,7 @@ T = {
     'chat_wink': '«Ya voy» es lo que te escribe tu conductor cuando sale a buscarte.',
     'chat': [
         ('me', 'Hola! Somos 4, el sábado a las 21:00 de La Cala a Puerto Banús, vamos a cenar 🙂'),
-        ('them', 'Hola 👋 La Cala → Puerto Banús, 4 personas: 55 € cerrado. ¿Dónde os recojo?'),
+        ('them', 'Hola 👋 La Cala → Puerto Banús, 4 personas, precio cerrado y sin suplementos. ¿Dónde os recojo?'),
         ('me', 'Urb. Calypso, portal 3'),
         ('them', 'Reservado ✅ El sábado a las 21:00 os espera Ibrahim en la puerta, Toyota gris 1234 ABC. Pagáis al llegar: efectivo, tarjeta o Bizum.'),
         ('them', 'Ya voy 🚗'),
@@ -125,7 +125,7 @@ T = {
     'chat_wink': '“Ya voy” is what your driver texts you: “On my way.”',
     'chat': [
         ('me', 'Hi! There are 4 of us, Saturday at 9 pm from La Cala to Puerto Banús for dinner 🙂'),
-        ('them', 'Hi 👋 La Cala → Puerto Banús, 4 people: €55 fixed. Where shall we pick you up?'),
+        ('them', 'Hi 👋 La Cala → Puerto Banús, 4 people, fixed price with no extras. Where shall we pick you up?'),
         ('me', 'Urb. Calypso, block 3'),
         ('them', 'Booked ✅ On Saturday at 9 pm Ibrahim will be waiting at your door, grey Toyota 1234 ABC. Pay when you arrive: cash, card or Bizum.'),
         ('them', 'Ya voy 🚗'),
