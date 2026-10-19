@@ -7,6 +7,9 @@ Los opcionales, si faltan, no se pintan (nunca se inventan).
 
 # Marca: una palabra, en minúsculas, en todas partes (brief 19-oct-2026). El logotipo es «ya» + V + «oy».
 BRAND = 'yavoy'
+# La V del logotipo, en em del texto: tamaño (altura de mayúscula), solape con las letras y bajada bajo la base.
+# Lo usan la CSS (build.py) y la imagen para redes (make_assets.py).
+WM_V = {'size': .86, 'overlap': .06, 'drop': .09}
 
 # --- obligatorios -----------------------------------------------------------
 DOMAIN = 'yavoymalaga.com'  # sin https:// ni barra final

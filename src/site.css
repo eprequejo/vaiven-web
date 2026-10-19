@@ -41,7 +41,7 @@ p{margin:0}
 .brand{font-family:var(--display);font-weight:800;font-size:28px;letter-spacing:-.02em;color:var(--navy);text-decoration:none;display:flex;align-items:center}
 /* logotipo «ya» + V + «oy»: la V a la altura de las minúsculas, apoyada en la línea base */
 .wm{display:inline-flex;align-items:baseline;white-space:nowrap}
-.wm-v{width:.68em;height:.68em;margin:0 -.04em;align-self:baseline;transform:translateY(.07em)}
+.wm-v{width:%WM_SIZE%em;height:%WM_SIZE%em;margin:0 -%WM_OVERLAP%em;align-self:baseline;transform:translateY(%WM_DROP%em)}
 .nav-links{display:flex;flex-wrap:wrap;gap:6px 22px;font-weight:600;font-size:15px;flex:1 1 320px}
 .nav-links a{text-decoration:none;padding:8px 0}
 .nav-right{display:flex;gap:10px;align-items:center;margin-left:auto}

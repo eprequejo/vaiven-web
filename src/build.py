@@ -96,6 +96,8 @@ def minify_css(css):
     return css.replace(';}', '}').strip()
 
 CSS = minify_css(open(os.path.join(SRC, 'site.css'), encoding='utf-8').read())
+for _k, _v in C.WM_V.items():
+    CSS = CSS.replace(f'%WM_{_k.upper()}%', f'{_v:g}')
 
 def minify_html(s):
     return re.sub(r'\n\s*', '\n', s).strip() + '\n'

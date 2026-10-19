@@ -8,7 +8,7 @@ La geometría sale de src/brand/*.svg (la misma que pinta build.py): si cambia e
 import os, re, sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from config import BRAND as BRAND_NAME
+from config import BRAND as BRAND_NAME, WM_V
 from xml.etree import ElementTree as ET
 from PIL import Image, ImageDraw, ImageFont
 
@@ -52,17 +52,17 @@ def icon(size, rounded=True):
     return im.resize((size, size), Image.LANCZOS)
 
 def wordmark(d, ttf, x, baseline, size):
-    """«ya» + V + «oy» como en la cabecera (CSS .wm-v: V de .68em, base -.07em). Sobre azul: trazo izquierdo crema."""
+    """«ya» + V + «oy» como en la cabecera (mismas proporciones: config.WM_V). Sobre azul: trazo izquierdo crema."""
     f = font(os.path.join(ttf, 'Outfit.ttf'), size, 800)
     left, right = BRAND_NAME.split('v', 1)
     asc = f.getmetrics()[0]
     d.text((x, baseline - asc), left, font=f, fill=CREAM)
-    x += f.getlength(left) - 0.04 * size
+    x += f.getlength(left) - WM_V['overlap'] * size
     box, _, strokes = read_svg('logo.svg')
-    v = 0.68 * size
+    v = WM_V['size'] * size
     strokes = [(*s[:4], CREAM if s[4] == NAVY else s[4], s[5]) for s in strokes]
-    draw_strokes(d, strokes, x, baseline - v + 0.07 * size, v / box)
-    d.text((x + v - 0.04 * size, baseline - asc), right, font=f, fill=CREAM)
+    draw_strokes(d, strokes, x, baseline - v + WM_V['drop'] * size, v / box)
+    d.text((x + v - WM_V['overlap'] * size, baseline - asc), right, font=f, fill=CREAM)
 
 def font(path, size, wght):
     f = ImageFont.truetype(path, size)
