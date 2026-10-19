@@ -71,7 +71,7 @@ T = {
     'faq_h2': 'Preguntas frecuentes',
     'faq': [
         ('¿De verdad no pago nada por adelantado?', 'De verdad. Pagas al conductor cuando te deja en tu destino: efectivo, tarjeta o Bizum. Si necesitas factura, te la hacemos.'),
-        ('¿Es legal que me recojáis en el aeropuerto?', 'Sí. Somos una empresa con autorización VTC nº {vtc} de la Junta de Andalucía. Trabajamos solo con reserva previa: tu confirmación por WhatsApp es el contrato. No recogemos a nadie sin reserva.'),
+        ('¿Sois legales? ¿Tenéis licencia?', 'Sí. Somos una empresa con autorización VTC nº {vtc} de la Junta de Andalucía. Trabajamos solo con reserva previa: tu confirmación por WhatsApp es el contrato. No recogemos a nadie sin reserva.'),
         ('¿Qué trayectos hacéis?', 'Cualquiera: aeropuerto, puerto, estación, cenas y salidas de noche, golf, bodas, excursiones a Ronda o Granada y servicios por horas. Dentro o fuera de la provincia de Málaga, con precio cerrado antes de salir.'),
         ('¿Puedo cancelar?', 'Gratis hasta 24 h antes. Un mensaje de WhatsApp basta. Como no has pagado nada, no hay nada que devolver.'),
     ],
@@ -154,7 +154,7 @@ T = {
     'faq_h2': 'Frequently asked questions',
     'faq': [
         ('Do I really pay nothing in advance?', 'Really. You pay the driver when you are dropped off: cash, card or Bizum. If you need an invoice, we will issue one.'),
-        ('Is it legal for you to pick me up at the airport?', 'Yes. We are a company with VTC licence no. {vtc} from the Junta de Andalucía. We only work with advance bookings: your WhatsApp confirmation is the contract. We never pick up passengers without a booking.'),
+        ('Are you legal? Do you have a licence?', 'Yes. We are a company with VTC licence no. {vtc} from the Junta de Andalucía. We only work with advance bookings: your WhatsApp confirmation is the contract. We never pick up passengers without a booking.'),
         ('Which rides do you do?', 'Any: airport, port, train station, dinners and nights out, golf, weddings, day trips to Ronda or Granada and hourly hire. Inside or outside the province of Málaga, with a fixed price before we set off.'),
         ('Can I cancel?', 'Free of charge up to 24 hours before. A WhatsApp message is enough. Since you have not paid anything, there is nothing to refund.'),
     ],
