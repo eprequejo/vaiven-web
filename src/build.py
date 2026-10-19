@@ -269,7 +269,7 @@ def home(lang):
 <p class="summary">{t['summary']}</p>
 <p class="promise">{t['promise']}</p>
 <div class="hero-cta">
-<a class="btn btn-wa" href="{wa(t['wa_hero'])}">{wa_icon(20)}{t['cta_hero']}</a>
+<a class="btn btn-wa" href="{wa(t['wa_generic'])}">{wa_icon(20)}{t['cta_hero']}</a>
 </div>
 <p class="sub">{t['sub']}</p>
 <div class="hero-checks">{checks}</div>

@@ -7,7 +7,7 @@ sobre la SALIDA generada, no sobre el código.
 import gzip, json, os, re, sys
 from pathlib import Path
 from html.parser import HTMLParser
-from urllib.parse import urlparse
+from urllib.parse import parse_qs, urlparse
 from xml.etree import ElementTree as ET
 
 HOLE = 'HUECO:'
@@ -193,6 +193,8 @@ def run(root, domain=None, allow_holes=False):
         # 7. enlaces internos y assets
         for href in p.links:
             u = urlparse(href)
+            if u.netloc == 'wa.me' and '[' in ''.join(parse_qs(u.query).get('text', [])):
+                err(f'{tag}: mensaje de WhatsApp con huecos para rellenar: {href}')
             if u.scheme in ('https', 'http'):
                 if u.netloc in ('', origin.split('//')[-1]):
                     err(f'{tag}: enlace interno absoluto {href}')

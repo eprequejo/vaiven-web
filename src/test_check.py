@@ -138,6 +138,10 @@ class Gate(unittest.TestCase):
         self.edit('index.html', self.first_answer('index.html'), 'Otra respuesta distinta a la del JSON-LD, ' * 4)
         self.assertFails('respuesta visible')
 
+    def test_whatsapp_message_with_blanks(self):
+        self.edit('index.html', 'text=Hola%2C%20quiero%20reservar%20un%20traslado', 'text=Hola%2C%20de%20%5Borigen%5D%20a%20%5Bdestino%5D')
+        self.assertFails('huecos para rellenar')
+
     def test_lang(self):
         self.edit('en/index.html', '<html lang="en">', '<html lang="es">')
         self.assertFails('lang="es", esperado "en"')
