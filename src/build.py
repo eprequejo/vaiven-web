@@ -312,9 +312,11 @@ def home(lang):
     chat = ''.join(f'<div class="msg {who}">{fmt(m)}</div>' for who, m in t['chat'])
     out += f'''<section id="top" class="hero">
 <div class="wrap">
-<div class="hero-copy">
+<div class="hero-top">
 <span class="eyebrow on-dark">{DOT}{t['eyebrow']}</span>
 <h1>{t['h1']}</h1>
+</div>
+<div class="hero-copy">
 {go_form(lang)}<p class="promise">{t['promise']}</p>
 <p class="summary">{t['summary']}</p><p class="sub">{t['sub']}</p>
 <div class="hero-checks">{checks}</div>
