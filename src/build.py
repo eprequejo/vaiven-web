@@ -251,7 +251,7 @@ def home(lang):
 <div class="hero-checks">{checks}</div>
 </div>
 <div class="chat" role="img" aria-label="{t['chat_label']}">
-<div class="chat-head"><div class="chat-avatar" aria-hidden="true">J</div><div><span class="chat-name">Juan · Vaivén</span><span class="chat-status">{t['chat_status']}</span></div></div>
+<div class="chat-head"><div class="chat-avatar" aria-hidden="true">V</div><div><span class="chat-name">Vaivén</span><span class="chat-status">{t['chat_status']}</span></div></div>
 {chat}
 </div>
 </div>
