@@ -102,6 +102,12 @@ CSS = minify_css(open(os.path.join(SRC, 'site.css'), encoding='utf-8').read())
 for _k, _v in ((k, v) for k, v in C.WM_V.items() if k != 'stroke'):
     CSS = CSS.replace(f'%WM_{_k.upper()}%', f'{_v:g}')
 
+WA_LINK = re.compile(r'<a ([^>]*href="https://wa\.me/[^"]*")')
+
+def wa_new_tab(s):
+    """Todo enlace a WhatsApp abre en pestaña nueva (Estela, 19-oct): un solo sitio, no en cada <a>."""
+    return WA_LINK.sub(r'<a target="_blank" rel="noopener" \1', s)
+
 def minify_html(s):
     return re.sub(r'\n\s*', '\n', s).strip() + '\n'
 
@@ -227,12 +233,12 @@ def build_photos(out):
 GO_JS = ("<script>document.querySelectorAll('form.go').forEach(function(f){f.addEventListener('submit',function(e){"
          "var d=f.querySelector('.go-dest').value.trim(),h=f.querySelector('[name=text]'),s=d?f.dataset.to+d:'';"
          "if(f.dataset.al)s=s.replace(/^ a el /i,' al ');e.preventDefault();"
-         "location.href=f.action+'?text='+encodeURIComponent(h.dataset.msg+s)})})</script>")
+         "window.open(f.action+'?text='+encodeURIComponent(h.dataset.msg+s),'_blank','noopener')})})</script>")
 
 def go_form(lang):
     t = T[lang]
     al = ' data-al="1"' if lang == 'es' else ''  # «a el aeropuerto» → «al aeropuerto»
-    return f'''<form class="go" action="https://wa.me/{esc(val('PHONE'))}" method="get" data-to="{esc(t['wa_to'])}"{al}>
+    return f'''<form class="go" action="https://wa.me/{esc(val('PHONE'))}" method="get" target="_blank" data-to="{esc(t['wa_to'])}"{al}>
 <label class="go-label" for="go-{lang}">{t['go_q']}</label>
 <div class="go-row"><input id="go-{lang}" class="go-dest" type="text" autocomplete="off" enterkeyhint="go" maxlength="80" placeholder="{esc(t['go_ph'])}">
 <input type="hidden" name="text" value="{esc(t['wa_generic'])}" data-msg="{esc(t['wa_generic'])}">
@@ -457,7 +463,7 @@ def write(out, rel, content):
     path = os.path.join(out, rel)
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, 'w', encoding='utf-8') as f:
-        f.write(minify_html(content) if rel.endswith('.html') else content)
+        f.write(minify_html(wa_new_tab(content)) if rel.endswith('.html') else content)
 
 def build(out):
     write(out, 'index.html', home('es'))

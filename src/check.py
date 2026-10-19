@@ -28,7 +28,7 @@ class Page(HTMLParser):
         super().__init__(convert_charrefs=True)
         self.lang = None; self.title = ''; self.desc = None; self.robots = None; self.canonical = None
         self.alternates = {}; self.h1 = 0; self.ids = set(); self.links = []; self.ld = []
-        self.forms = []; self.summaries = []; self.answers = []; self.external = []; self.preloads = []
+        self.wa_same_tab = []; self.forms = []; self.summaries = []; self.answers = []; self.external = []; self.preloads = []
         self._details = False
         self._in = None; self._buf = ''
 
@@ -58,6 +58,8 @@ class Page(HTMLParser):
             self.forms.append(a.get('action', ''))
         elif tag == 'a' and a.get('href'):
             self.links.append(a['href'])
+            if a['href'].startswith('https://wa.me/') and a.get('target') != '_blank':
+                self.wa_same_tab.append(a['href'])
         elif tag in ('img', 'source') and a.get('src'):
             self.links.append(a['src'])
         elif tag == 'script':
@@ -219,6 +221,8 @@ def run(root, domain=None, allow_holes=False):
                 tp = pages.get(target)
                 if tp and u.fragment not in tp[1].ids:
                     err(f'{tag}: ancla inexistente {href}')
+        for href in p.wa_same_tab:
+            err(f'{tag}: enlace de WhatsApp que no abre en pestaña nueva: {href[:60]}')
         # sin servidor propio: un formulario solo puede llevar a WhatsApp, nunca mandar datos a otro sitio
         for action in p.forms:
             if not action.startswith('https://wa.me/'):

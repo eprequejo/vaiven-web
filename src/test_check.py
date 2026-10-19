@@ -146,6 +146,10 @@ class Gate(unittest.TestCase):
         self.edit('index.html', '<form class="go" action="https://wa.me/', '<form class="go" action="https://evil.test/')
         self.assertFails('solo se permite wa.me')
 
+    def test_whatsapp_link_same_tab(self):
+        self.edit('index.html', '<a target="_blank" rel="noopener" class="wa-float"', '<a class="wa-float"')
+        self.assertFails('pestaña nueva')
+
     def test_lang(self):
         self.edit('en/index.html', '<html lang="en">', '<html lang="es">')
         self.assertFails('lang="es", esperado "en"')
