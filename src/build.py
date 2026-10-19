@@ -76,8 +76,12 @@ def wa_icon(size):
             '<path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8c-1-.5-1.8-1.3-2.3-2.3l.8-1-1-2z" fill="currentColor"/></svg>')
 
 CHECK = '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l4 4L19 6" fill="none" stroke="#F0A202" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+def read(path):
+    with open(path, encoding='utf-8') as f:
+        return f.read()
+
 BRAND = os.path.join(SRC, 'brand')  # logo.svg y favicon.svg: única fuente del logo (make_assets.py lee los mismos)
-LOGO = open(os.path.join(BRAND, 'logo.svg'), encoding='utf-8').read().strip().replace(
+LOGO = read(os.path.join(BRAND, 'logo.svg')).strip().replace(
     'xmlns="http://www.w3.org/2000/svg"', 'class="wm-v" aria-hidden="true"', 1)
 
 def wordmark(on_dark=False):
@@ -98,7 +102,7 @@ def minify_css(css):
     css = re.sub(r'\s*([{}:;,>])\s*', r'\1', css)
     return css.replace(';}', '}').strip()
 
-CSS = minify_css(open(os.path.join(SRC, 'site.css'), encoding='utf-8').read())
+CSS = minify_css(read(os.path.join(SRC, 'site.css')))
 for _k, _v in ((k, v) for k, v in C.WM_V.items() if k != 'stroke'):
     CSS = CSS.replace(f'%WM_{_k.upper()}%', f'{_v:g}')
 
