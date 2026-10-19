@@ -4,6 +4,7 @@ import os, re, shutil, sys, tempfile, unittest
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import config
+CIF_REAL = config.CIF  # antes de que FAKE lo sustituya
 
 FAKE = dict(DOMAIN='example.test', PHONE='34600000000', VTC_NO='MA-0000', RAZON_SOCIAL='Prueba S.L.',
             CIF='B00000000', LEGAL_ADDRESS='Calle Prueba 1, Mijas', EMAIL='hola@example.test')
@@ -115,6 +116,17 @@ class Gate(unittest.TestCase):
     def test_lang(self):
         self.edit('en/index.html', '<html lang="en">', '<html lang="es">')
         self.assertFails('lang="es", esperado "en"')
+
+
+class TitularMirror(unittest.TestCase):
+    """El titular es el mismo que el de Nautelia: si allí cambia el CIF, aquí debe cambiar también."""
+    NAUTELIA = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'nautelia-landing', 'src', 'parts.py')
+
+    @unittest.skipUnless(os.path.exists(NAUTELIA), 'nautelia-landing no está al lado de este repo')
+    def test_cif_matches_nautelia(self):
+        with open(self.NAUTELIA, encoding='utf-8') as f:
+            src = f.read()
+        self.assertEqual(re.search(r"^CIF = '([^']+)'", src, re.M).group(1), CIF_REAL)
 
 
 if __name__ == '__main__':

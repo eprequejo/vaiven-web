@@ -9,8 +9,9 @@ Los opcionales, si faltan, no se pintan (nunca se inventan).
 DOMAIN = None          # 'vaiven.es' — sin https:// ni barra final
 PHONE = None           # '34600000000' — formato wa.me: prefijo de país, sin + ni espacios
 VTC_NO = None          # nº de autorización VTC de la Junta de Andalucía
-RAZON_SOCIAL = None    # 'Vaivén Transfer S.L.' o nombre y apellidos si es autónomo
-CIF = None             # CIF / NIF
+# Mismo titular que Padelia y Nautelia (espejo de nautelia-landing/src/parts.py; test_check.py falla si divergen)
+RAZON_SOCIAL = 'SIMPLYLE, S. Coop. And.'
+CIF = 'F93649564'
 LEGAL_ADDRESS = None   # domicilio social completo (aviso legal y privacidad)
 EMAIL = None           # email de contacto (obligatorio por LSSI y RGPD)
 
