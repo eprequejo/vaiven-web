@@ -222,7 +222,7 @@ def ld_home(lang):
     biz = {
         '@type': 'LocalBusiness', '@id': SITE + '/#business', 'name': C.BRAND,
         'description': t['ld_desc'], 'url': SITE + '/', 'email': val('EMAIL'),
-        'image': SITE + '/og.jpg', 'logo': SITE + '/apple-touch-icon.png', 'priceRange': '€€',
+        'image': SITE + '/og.jpg', 'logo': SITE + '/apple-touch-icon.png',
         'currenciesAccepted': 'EUR', 'paymentAccepted': t['payment'], 'knowsLanguage': ['es', 'en'],
         'address': {'@type': 'PostalAddress', 'addressLocality': 'Mijas', 'addressRegion': 'Málaga', 'addressCountry': 'ES'},
         'areaServed': [{'@type': 'City', 'name': a} for a in AREA],
