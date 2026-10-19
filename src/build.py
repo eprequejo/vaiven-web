@@ -85,7 +85,9 @@ def wordmark(on_dark=False):
     left, right = C.BRAND.split('v', 1)
     v = re.sub(r'stroke-width="[\d.]+"', f'stroke-width="{C.WM_V["stroke"]}"', LOGO)
     v = v.replace('#0E2B40', '#FBF8F2') if on_dark else v
-    return f'<span class="wm" role="img" aria-label="{C.BRAND}">{left}{v}{right}</span>'
+    # El dibujo se oculta al lector y el nombre va como texto oculto a la vista: así el nombre accesible
+    # coincide con el texto (WCAG 2.5.3) y la V no se lee como «ya oy».
+    return f'<span class="wm" aria-hidden="true">{left}{v}{right}</span><span class="vh">{C.BRAND}</span>'
 DOT = '<svg width="8" height="8" viewBox="0 0 8 8" aria-hidden="true"><circle cx="4" cy="4" r="4" fill="#F0A202"/></svg>'
 
 
@@ -167,7 +169,7 @@ def header(lang):
         sw = '<a class="lang" href="/" hreflang="es" lang="es">ES</a>'
     return f'''<header class="nav">
 <div class="wrap">
-<a class="brand" href="{base}" aria-label="{t['home_label']}">{wordmark()}</a>
+<a class="brand" href="{base}">{wordmark()}</a>
 <nav class="nav-links" aria-label="{t['nav_label']}">{links}</nav>
 <div class="nav-right">
 {sw}
@@ -239,6 +241,22 @@ def go_form(lang):
 </form>
 {GO_JS}
 '''
+
+
+# --- «Pásaselo a quien venga»: menú nativo de compartir en el móvil; si no hay, WhatsApp sin destinatario ---
+SHARE_ICON = ('<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3m0 0L7.5 7.5M12 3l4.5 4.5'
+              'M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7" fill="none" stroke="currentColor" stroke-width="2" '
+              'stroke-linecap="round" stroke-linejoin="round"/></svg>')
+SHARE_JS = ("<script>document.querySelectorAll('a.share').forEach(function(a){a.addEventListener('click',function(e){"
+            "if(!navigator.share)return;e.preventDefault();"
+            "navigator.share({text:a.dataset.text,url:a.dataset.url}).catch(function(){})})})</script>")
+
+def share_link(lang):
+    t = T[lang]
+    url = SITE + t['path']
+    href = 'https://wa.me/?text=' + quote(f"{t['share_text']} → {url}")
+    return (f'<a class="share" href="{esc(href)}" data-text="{esc(t["share_text"])}" data-url="{esc(url)}">'
+            f'{SHARE_ICON}{t["share_btn"]}</a>\n{SHARE_JS}')
 
 
 # --- JSON-LD --------------------------------------------------------------------------------
@@ -378,7 +396,10 @@ def home(lang):
 <div class="wrap">
 <div class="cta-box">
 <div><h2>{t['cta_h2']}</h2><p>{t['cta_p']}</p></div>
+<div class="cta-actions">
 <a class="btn btn-navy" href="{wa(t['wa_generic'])}">{wa_icon(20)}{t['cta_final']}</a>
+{share_link(lang)}
+</div>
 </div>
 </div>
 </section>
