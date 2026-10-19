@@ -8,8 +8,7 @@ CIF_REAL, ADDRESS_REAL = config.CIF, config.LEGAL_ADDRESS  # antes de que FAKE l
 
 FAKE = dict(DOMAIN='example.test', PHONE='34600000000', VTC_NO='MA-0000', RAZON_SOCIAL='Prueba S.L.',
             CIF='B00000000', LEGAL_ADDRESS='Calle Prueba 1, Mijas', EMAIL='hola@example.test',
-            PRICES=[('airport', 'mijas', 45), ('mijas', 'marbella', 55), ('lacala', 'fuengirola', 30), ('airport', 'marbella', 75)],
-            MAX_PAX=4, MAX_BAGS=4, INCLUDED=['toll', 'night', 'luggage'])
+            MAX_PAX=4, INCLUDED=['toll', 'night', 'luggage'])
 for k, v in FAKE.items():
     setattr(config, k, v)
 import build, check  # build lee config al importarse: después de rellenarlo
@@ -139,10 +138,6 @@ class Gate(unittest.TestCase):
         self.edit('index.html', self.first_answer('index.html'), 'Otra respuesta distinta a la del JSON-LD, ' * 4)
         self.assertFails('respuesta visible')
 
-    def test_faq_price_not_in_table(self):
-        self.edit('index.html', '<td>55 €</td>', '<td>99 €</td>')
-        self.assertFails('precio')
-
     def test_lang(self):
         self.edit('en/index.html', '<html lang="en">', '<html lang="es">')
         self.assertFails('lang="es", esperado "en"')
@@ -173,22 +168,25 @@ class TitularMirror(unittest.TestCase):
 
 
 class NoInventedData(unittest.TestCase):
-    def test_without_prices_no_price_question_nor_table(self):
-        saved = config.PRICES
-        config.PRICES = []
+    def test_without_data_its_questions_disappear(self):
+        """Una pregunta que necesita un dato de config (plazas, qué incluye) no sale si falta: nunca se inventa."""
+        saved = {n: getattr(config, n) for n in ('MAX_PAX', 'INCLUDED')}
+        for n in saved:
+            setattr(config, n, None)
         out = tempfile.mkdtemp()
         try:
             build.build(out)
             for rel in ('index.html', 'en/index.html'):
                 txt = open(os.path.join(out, rel), encoding='utf-8').read()
-                self.assertNotIn('class="prices"', txt)
                 lang = 'en' if rel.startswith('en/') else 'es'
-                price_q = next(q for q, a, needs in build.T[lang]['faq'] if 'PRICES' in needs)
-                self.assertNotIn(price_q, txt)
-                self.assertNotIn('€', re.sub(r'<script.*?</script>', '', txt, flags=re.S).split('id="faq"')[1])
+                gated = [q for q, a, needs in build.T[lang]['faq'] if needs]
+                self.assertEqual(len(gated), 2)
+                for q in gated:
+                    self.assertNotIn(q, txt)
             self.assertEqual(check.run(out, domain='example.test'), [])
         finally:
-            config.PRICES = saved
+            for n, v in saved.items():
+                setattr(config, n, v)
             shutil.rmtree(out)
 
 
