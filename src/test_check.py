@@ -150,6 +150,14 @@ class Gate(unittest.TestCase):
         self.edit('index.html', '<a target="_blank" rel="noopener" class="wa-float"', '<a class="wa-float"')
         self.assertFails('pestaña nueva')
 
+    def test_lang_new_language(self):
+        self.edit('de/index.html', '<html lang="de">', '<html lang="es">')
+        self.assertFails('lang="es", esperado "de"')
+
+    def test_one_way_hreflang_new_language(self):
+        self.edit('fr/index.html', '<link rel="alternate" hreflang="nl" href="https://example.test/nl/">\n', '')
+        self.assertFails('hreflang no recíproco')
+
     def test_lang(self):
         self.edit('en/index.html', '<html lang="en">', '<html lang="es">')
         self.assertFails('lang="es", esperado "en"')
@@ -188,9 +196,9 @@ class NoInventedData(unittest.TestCase):
         out = tempfile.mkdtemp()
         try:
             build.build(out)
-            for rel in ('index.html', 'en/index.html'):
-                txt = open(os.path.join(out, rel), encoding='utf-8').read()
-                lang = 'en' if rel.startswith('en/') else 'es'
+            for lang in build.LANGS:
+                with open(os.path.join(out, build.T[lang]['path'].lstrip('/'), 'index.html'), encoding='utf-8') as f:
+                    txt = f.read()
                 gated = [q for q, a, needs in build.T[lang]['faq'] if needs]
                 self.assertEqual(len(gated), 3)
                 for q in gated:

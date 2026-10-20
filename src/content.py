@@ -63,7 +63,7 @@ T = {
     'groups_h2': '¿Sois un grupo?',
     'groups_lead': 'Mandamos varios coches coordinados a la misma hora. Un solo WhatsApp, un solo trato y un precio cerrado para todo el grupo.',
     'groups_example': '<strong>{n} personas</strong> → <strong>{cars} coches</strong>, a la misma hora',
-    'groups_and': 'y',
+    'and_word': 'y',
     'group_types': [
         ('Bodas e invitados', 'bodas e invitados', 'Del hotel al banquete y de vuelta, con los invitados repartidos en varios coches.', 'Hola, quiero presupuesto para traslados de invitados de una boda'),
         ('Golf', 'grupos de golf', 'Jugadores y bolsas al campo y de vuelta al hotel, todos a la vez.', 'Hola, somos un grupo de golf y queremos un traslado'),
@@ -178,7 +178,7 @@ T = {
     'groups_h2': 'Travelling as a group?',
     'groups_lead': 'We send several cars together at the same time. One WhatsApp chat, one point of contact and one fixed price for the whole group.',
     'groups_example': '<strong>{n} people</strong> → <strong>{cars} cars</strong>, at the same time',
-    'groups_and': 'and',
+    'and_word': 'and',
     'group_types': [
         ('Weddings and guests', 'weddings and guests', 'From the hotel to the venue and back, with guests spread across several cars.', 'Hi, I would like a quote for wedding guest transfers'),
         ('Golf', 'golf groups', 'Players and bags to the course and back to the hotel, all together.', 'Hi, we are a golf group and would like a transfer'),
@@ -258,12 +258,33 @@ DEST = [
 AREA = ['Mijas', 'Fuengirola', 'Benalmádena', 'Torremolinos', 'Marbella', 'Málaga']
 
 
-# Qué incluye el precio (config.INCLUDED los referencia por clave). (ES, EN).
+# Qué incluye el precio (config.INCLUDED los referencia por clave), por idioma.
 INCLUDED_LABELS = {
-    'toll': ('el peaje de autopista', 'motorway tolls'),
-    'night': ('el servicio de noche', 'night service'),
-    'luggage': ('el equipaje', 'luggage'),
+    'toll': {'es': 'el peaje de autopista', 'en': 'motorway tolls'},
+    'night': {'es': 'el servicio de noche', 'en': 'night service'},
+    'luggage': {'es': 'el equipaje', 'en': 'luggage'},
 }
+
+# --- alemán, neerlandés, francés (content_i18n.py) ---------------------------------------------
+# Atendemos en español e inglés: lo que viaja por WhatsApp (mensajes, destinos, chips, grupos) y el chat de
+# ejemplo se toman de la versión inglesa. Así el equipo lee siempre inglés y no hay textos repetidos.
+from content_i18n import TEXT as _I18N
+_EN = T['en']
+for _lang, _t in _I18N.items():
+    _t = dict(_t)
+    for _k in ('wa_generic', 'wa_to', 'dest_wa', 'chat'):
+        _t[_k] = _EN[_k]
+    _t['chips'] = [(label, msg) for label, (_, msg) in zip(_t['chips'], _EN['chips'], strict=True)]
+    _t['group_types'] = [g + (en[3],) for g, en in zip(_t['group_types'], _EN['group_types'], strict=True)]
+    for _d, (_name, _note) in zip(DEST, _t.pop('dest'), strict=True):
+        _d[_lang] = (_name, _note, _d['en'][2])
+    for _key, _label in _t.pop('included').items():
+        INCLUDED_LABELS[_key][_lang] = _label
+    T[_lang] = _t
+
+# Orden de los idiomas (selector, hreflang, sitemap). El primero es el de la raíz.
+LANGS = list(T)
+LANG_NAMES = {'es': 'Español', 'en': 'English', 'de': 'Deutsch', 'nl': 'Nederlands', 'fr': 'Français'}
 
 
 def _brand(x):

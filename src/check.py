@@ -10,6 +10,11 @@ from html.parser import HTMLParser
 from urllib.parse import parse_qs, urlparse
 from xml.etree import ElementTree as ET
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from content import T, LANGS
+# Portada de cada idioma (ruta → idioma): la lista vive en content.py
+HOMES = {T[l]['path']: l for l in LANGS}
+
 HOLE = 'HUECO:'
 # Restos de la plantilla original tipo [NÚMERO], [CIF], [UNA FRASE SOBRE JUAN]
 TEMPLATE_HOLE = re.compile(r'\[[A-ZÁÉÍÓÚÑ0-9 +]{2,}\]')
@@ -71,10 +76,11 @@ class Page(HTMLParser):
             self.h1 += 1
         elif tag == 'title':
             self._in, self._buf = 'title', ''
-        elif tag == 'summary':
+        elif tag == 'summary' and self._details:
             self._in, self._buf = 'summary', ''
         elif tag == 'details':
-            self._details = True
+            # Las FAQ son <details> sin clase; el selector de idioma (<details class="langs">) no es una pregunta
+            self._details = not dict(attrs).get('class')
         elif tag == 'p' and self._details:
             self._in, self._buf = 'answer', ''
 
@@ -133,8 +139,9 @@ def run(root, domain=None, allow_holes=False):
     for f in html_files(root):
         p = Page(); p.feed(Path(f).read_text(encoding='utf-8'))
         pages[url_path(root, f)] = (f, p)
-    if '/' not in pages or '/en/' not in pages:
-        err('faltan / o /en/')
+    missing = [h for h in HOMES if h not in pages]
+    if missing:
+        err(f'faltan portadas: {missing}')
         return errors
 
     # 1. huecos
@@ -179,7 +186,7 @@ def run(root, domain=None, allow_holes=False):
         # 3. h1 y lang
         if p.h1 != 1:
             err(f'{tag}: {p.h1} <h1> (debe haber 1)')
-        want_lang = 'en' if path.startswith('/en/') else 'es'
+        want_lang = next((l for h, l in HOMES.items() if h != '/' and path.startswith(h)), LANGS[0])
         if p.lang != want_lang:
             err(f'{tag}: lang="{p.lang}", esperado "{want_lang}"')
         # 4. title y description
@@ -280,7 +287,7 @@ def run(root, domain=None, allow_holes=False):
     fonts = sum(os.path.getsize(os.path.join(fonts_dir, x)) for x in os.listdir(fonts_dir)) if os.path.isdir(fonts_dir) else 0
     if fonts > MAX_FONTS:
         err(f'fuentes: {fonts} bytes (máx {MAX_FONTS})')
-    for path in ('/', '/en/'):
+    for path in HOMES:
         f, p = pages[path]
         total = len(gzip.compress(Path(f).read_bytes()))
         total += sum(os.path.getsize(resolve(root, h) or os.devnull) for h in p.preloads)

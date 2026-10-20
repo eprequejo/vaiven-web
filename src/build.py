@@ -8,7 +8,7 @@ from urllib.parse import quote
 
 import config as C
 import check
-from content import T, DEST, AREA, INCLUDED_LABELS
+from content import T, DEST, AREA, INCLUDED_LABELS, LANGS, LANG_NAMES
 from legal import LEGAL
 
 MODE = sys.argv[1] if len(sys.argv) > 1 else 'preview'
@@ -52,16 +52,18 @@ def plain(s, **extra):
 
 
 # --- lo incluido y la FAQ: una fuente para el <details> y el FAQPage -------------------------
-def included_text(lang):
-    i = 0 if lang == 'es' else 1
-    items = [INCLUDED_LABELS[k][i] for k in (C.INCLUDED or [])]
+def and_list(items, lang, serial=False):
+    """«a, b y c» en el idioma de la página. serial: coma también antes de la «y» (cuando los elementos ya llevan «y»)."""
     if len(items) < 2:
         return ''.join(items)
-    return ', '.join(items[:-1]) + (' y ' if lang == 'es' else ' and ') + items[-1]
+    return ', '.join(items[:-1]) + (',' if serial else '') + f" {T[lang]['and_word']} " + items[-1]
+
+def included_text(lang):
+    return and_list([INCLUDED_LABELS[k][lang] for k in (C.INCLUDED or [])], lang)
 
 # hreflang de las portadas (HTML y sitemap). x-default → inglés: en la Costa del Sol el visitante que no habla
 # español (alemán, neerlandés, escandinavo…) entiende antes el inglés.
-ALTERNATES = [('es', '/'), ('en', '/en/'), ('x-default', '/en/')]
+ALTERNATES = [(l, T[l]['path']) for l in LANGS] + [('x-default', T['en']['path'])]
 
 GROUP_N = 10  # el grupo del ejemplo (sección Grupos y FAQ)
 
@@ -71,9 +73,7 @@ def group_example():
 
 def group_types_text(lang):
     """«bodas e invitados, grupos de golf, … y empresas o eventos»: la misma lista que las tarjetas de Grupos."""
-    t = T[lang]
-    names = [g[1] for g in t['group_types']]
-    return ', '.join(names[:-1]) + f", {t['groups_and']} " + names[-1]
+    return and_list([g[1] for g in T[lang]['group_types']], lang, serial=True)
 
 def faq_items(lang):
     """[(pregunta, respuesta, campos)] que se pintan: fuera las que piden un dato que falta en config."""
@@ -144,6 +144,10 @@ def _icon_version():
     return h.hexdigest()[:8]
 
 ICON_V = _icon_version()
+
+def og_image(lang):
+    """Imagen para redes de cada idioma (la generan make_assets.py): og.jpg la raíz, og-<lang>.jpg el resto."""
+    return 'og.jpg' if lang == LANGS[0] else f'og-{lang}.jpg'
 INDEX = 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1'
 NOINDEX = 'noindex,follow'
 
@@ -154,13 +158,12 @@ def head(lang, title, desc, path, robots=INDEX, alternates=(), og=None, ld=None)
     ogs = ''
     if og:
         t = T[lang]
-        other = 'en_GB' if lang == 'es' else 'es_ES'
-        img = f'{SITE}/og{"" if lang == "es" else "-en"}.jpg'
+        others = ''.join(f'<meta property="og:locale:alternate" content="{T[l]["locale"]}">\n' for l in LANGS if l != lang)
+        img = f'{SITE}/{og_image(lang)}'
         ogs = f'''<meta property="og:type" content="website">
 <meta property="og:site_name" content="{C.BRAND}">
 <meta property="og:locale" content="{t['locale']}">
-<meta property="og:locale:alternate" content="{other}">
-<meta property="og:url" content="{url}">
+{others}<meta property="og:url" content="{url}">
 <meta property="og:title" content="{esc(t['og_title'])}">
 <meta property="og:description" content="{esc(t['og_desc'])}">
 <meta property="og:image" content="{img}">
@@ -201,10 +204,10 @@ def header(lang):
     base = t['path']
     # #grupos solo existe si hay MAX_PAX (los coches del ejemplo salen de ahí)
     links = ''.join(f'<a href="{base}{h}">{n}</a>' for h, n in t['nav'] if h != '#grupos' or C.MAX_PAX)
-    if lang == 'es':
-        sw = '<a class="lang" href="/en/" hreflang="en" lang="en">EN</a>'
-    else:
-        sw = '<a class="lang" href="/" hreflang="es" lang="es">ES</a>'
+    # Selector de idioma sin JS: <details> con un enlace por idioma (hreflang/lang en cada uno)
+    opts = ''.join(f'<a href="{T[l]["path"]}" hreflang="{l}" lang="{l}"' + (' aria-current="page"' if l == lang else '') + f'>{LANG_NAMES[l]}</a>'
+                   for l in LANGS)
+    sw = f'<details class="langs"><summary class="lang">{lang.upper()}<span class="vh"> {LANG_NAMES[lang]}</span></summary><div class="langs-menu">{opts}</div></details>'
     return f'''<header class="nav">
 <div class="wrap">
 <a class="brand" href="{base}">{wordmark()}</a>
@@ -257,12 +260,14 @@ GO_JS = ("<script>document.querySelectorAll('form.go').forEach(function(f){f.add
 def go_form(lang):
     t = T[lang]
     al = ' data-al="1"' if lang == 'es' else ''  # «a el aeropuerto» → «al aeropuerto»
+    # DE/NL/FR: atendemos en español e inglés y el mensaje sale en inglés: se dice junto al botón
+    note = f'<p class="go-note">{t["lang_note"]}</p>' if t.get('lang_note') else ''
     return f'''<form class="go" action="https://wa.me/{esc(val('PHONE'))}" method="get" target="_blank" data-to="{esc(t['wa_to'])}"{al}>
 <label class="go-label" for="go-{lang}">{t['go_q']}</label>
 <div class="go-row"><input id="go-{lang}" class="go-dest" type="text" autocomplete="off" enterkeyhint="go" maxlength="80" placeholder="{esc(t['go_ph'])}">
 <input type="hidden" name="text" value="{esc(t['wa_generic'])}" data-msg="{esc(t['wa_generic'])}">
 <button class="btn btn-wa" type="submit">{wa_icon(20)}{t['cta_hero']}</button></div>
-<p class="go-alt">{t['wa_alt']} <strong>{phone_display()}</strong></p>
+<p class="go-alt">{t['wa_alt']} <strong>{phone_display()}</strong></p>{note}
 </form>
 {GO_JS}
 '''
@@ -327,7 +332,7 @@ def ld_home(lang):
     if same:
         biz['sameAs'] = list(dict.fromkeys(same))
     web = {'@type': 'WebSite', '@id': SITE + '/#website', 'url': SITE + '/', 'name': C.BRAND,
-           'inLanguage': ['es', 'en'], 'publisher': {'@id': SITE + '/#business'}}
+           'inLanguage': LANGS, 'publisher': {'@id': SITE + '/#business'}}
     page = {'@type': 'WebPage', '@id': url + '#webpage', 'url': url, 'name': t['title'], 'description': t['desc'],
             'inLanguage': lang, 'dateModified': C.CONTENT_DATE, 'isPartOf': {'@id': SITE + '/#website'}, 'about': {'@id': SITE + '/#business'}}
     # Misma lista que las FAQ visibles: no pueden divergir.
@@ -488,7 +493,7 @@ Sitemap: {SITE}/sitemap.xml
 
 def sitemap_xml():
     urls = ''
-    for lang in ('es', 'en'):
+    for lang in LANGS:
         alts = ''.join(f'<xhtml:link rel="alternate" hreflang="{h}" href="{SITE}{p}"/>' for h, p in ALTERNATES)
         urls += f'<url><loc>{SITE}{T[lang]["path"]}</loc><lastmod>{C.CONTENT_DATE}</lastmod>{alts}</url>\n'
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'
@@ -504,8 +509,8 @@ def write(out, rel, content):
         f.write(minify_html(wa_new_tab(content)) if rel.endswith('.html') else content)
 
 def build(out):
-    write(out, 'index.html', home('es'))
-    write(out, 'en/index.html', home('en'))
+    for lang in LANGS:
+        write(out, T[lang]['path'].lstrip('/') + 'index.html', home(lang))
     for slug in LEGAL:
         write(out, f'{slug}/index.html', legal_page(slug))
     write(out, '404.html', page_404())

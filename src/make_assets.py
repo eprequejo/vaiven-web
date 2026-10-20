@@ -79,7 +79,7 @@ def og(ttf, out, lines):
     for line in lines[0]:
         d.text((80, y), line, font=big, fill=CREAM)
         y += 96
-    d.text((80, y + 28), lines[1], font=font(os.path.join(ttf, 'Manrope.ttf'), 34, 600), fill=YELLOW)
+    d.text((80, y + 28), lines[1], font=font(os.path.join(ttf, 'Manrope.ttf'), 30, 600), fill=YELLOW)
     im.save(os.path.join(STATIC, out), 'JPEG', quality=86, optimize=True, progressive=True)
 
 def main():
@@ -89,8 +89,11 @@ def main():
     os.makedirs(STATIC, exist_ok=True)
     icon(32).save(os.path.join(STATIC, 'favicon.ico'), sizes=[(32, 32)])
     icon(180, rounded=False).convert('RGB').save(os.path.join(STATIC, 'apple-touch-icon.png'), optimize=True)
-    og(ttf, 'og.jpg', (['Un mensaje.', 'Una persona.', 'Un precio.'], 'Transfer privado · Málaga y Costa del Sol'))
-    og(ttf, 'og-en.jpg', (['One message.', 'One person.', 'One price.'], 'Private transfers · Málaga & Costa del Sol'))
+    # Una por idioma: el lema (h1) en tres líneas y la etiqueta debajo, de los mismos textos que la web
+    from build import T, LANGS, og_image
+    for lang in LANGS:
+        t = T[lang]
+        og(ttf, og_image(lang), ([x.strip() for x in re.findall(r'[^.]+\.', t['h1'])], t['eyebrow'] + t['eyebrow_more']))
     for f in sorted(os.listdir(STATIC)):
         print(f, os.path.getsize(os.path.join(STATIC, f)), 'bytes')
 
