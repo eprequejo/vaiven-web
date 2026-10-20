@@ -59,6 +59,10 @@ def included_text(lang):
         return ''.join(items)
     return ', '.join(items[:-1]) + (' y ' if lang == 'es' else ' and ') + items[-1]
 
+# hreflang de las portadas (HTML y sitemap). x-default → inglés: en la Costa del Sol el visitante que no habla
+# español (alemán, neerlandés, escandinavo…) entiende antes el inglés.
+ALTERNATES = [('es', '/'), ('en', '/en/'), ('x-default', '/en/')]
+
 GROUP_N = 10  # el grupo del ejemplo (sección Grupos y FAQ)
 
 def group_example():
@@ -222,7 +226,6 @@ FLOAT_JS = ("<script>(function(){var f=document.querySelector('.wa-float'),g=doc
 
 def footer(lang):
     t = T[lang]
-    tr = ''.join(f'<a href="{t["path"]}#destinos">{n}</a>' for n in t['footer_links'])
     lg = ''.join(f'<a href="/{slug}/">{p["title"]}</a>' for slug, p in LEGAL.items())
     return f'''<footer>
 <div class="wrap">
@@ -233,7 +236,6 @@ def footer(lang):
 <span>WhatsApp: {phone_display()}</span>
 <span>{hv('RAZON_SOCIAL')} · {hv('CIF')}</span>
 </div>
-<div class="col"><strong>{t['footer_transfers']}</strong>{tr}</div>
 <div class="col"><strong>{t['footer_legal']}</strong>{lg}</div>
 </div>
 </footer>
@@ -327,7 +329,7 @@ def ld_home(lang):
     web = {'@type': 'WebSite', '@id': SITE + '/#website', 'url': SITE + '/', 'name': C.BRAND,
            'inLanguage': ['es', 'en'], 'publisher': {'@id': SITE + '/#business'}}
     page = {'@type': 'WebPage', '@id': url + '#webpage', 'url': url, 'name': t['title'], 'description': t['desc'],
-            'inLanguage': lang, 'isPartOf': {'@id': SITE + '/#website'}, 'about': {'@id': SITE + '/#business'}}
+            'inLanguage': lang, 'dateModified': C.CONTENT_DATE, 'isPartOf': {'@id': SITE + '/#website'}, 'about': {'@id': SITE + '/#business'}}
     # Misma lista que las FAQ visibles: no pueden divergir.
     faq = {'@type': 'FAQPage', '@id': url + '#faq', 'mainEntity': [
         {'@type': 'Question', 'name': plain(q), 'acceptedAnswer': {'@type': 'Answer', 'text': plain(a, **x)}} for q, a, x in faq_items(lang)]}
@@ -337,7 +339,7 @@ def ld_home(lang):
 # --- portada (ES y EN) ----------------------------------------------------------------------
 def home(lang):
     t = T[lang]
-    alternates = [('es', '/'), ('en', '/en/'), ('x-default', '/')]
+    alternates = ALTERNATES
     out = head(lang, t['title'], t['desc'], t['path'], alternates=alternates, og=True, ld=ld_home(lang))
     out += '<body>\n' + header(lang) + '<main>\n'
 
@@ -346,8 +348,7 @@ def home(lang):
     out += f'''<section id="top" class="hero">
 <div class="wrap">
 <div class="hero-top">
-<span class="eyebrow on-dark">{DOT}<span class="eb-long">{t['eyebrow']}</span><span class="eb-short">{t['eyebrow_short']}</span></span>
-<h1>{t['h1']}</h1>
+<h1><span class="eyebrow on-dark">{DOT}<span>{t['eyebrow']}<span class="eb-more">{t['eyebrow_more']}</span></span></span> <span class="h1-main">{t['h1']}</span></h1>
 </div>
 <div class="hero-copy">
 {go_form(lang)}<p class="promise">{t['promise']}</p>
@@ -359,6 +360,7 @@ def home(lang):
 <div class="chat-head"><div class="chat-avatar" aria-hidden="true">{C.BRAND[0]}</div><div><span class="chat-name">{C.BRAND}</span><span class="chat-status">{t['chat_status']}</span></div></div>
 {chat}
 </div>
+<p class="chat-note" aria-hidden="true">{t['chat_label']}</p>
 </div>
 </div>
 </section>
@@ -456,7 +458,7 @@ def home(lang):
 def legal_page(slug):
     p = LEGAL[slug]
     body = p['body'].format(**{k: hv(k) for k in ('RAZON_SOCIAL', 'CIF', 'LEGAL_ADDRESS', 'EMAIL', 'VTC_NO', 'DOMAIN')},
-                            PHONE=phone_display(), CONTENT_DATE=C.CONTENT_DATE)
+                            PHONE=phone_display(), LEGAL_DATE=C.LEGAL_DATE)
     out = head('es', f'{p["title"]} · {C.BRAND}', p['desc'], f'/{slug}/', robots=NOINDEX)
     return out + '<body>\n' + header('es') + f'<main class="wrap doc">\n<h1>{p["title"]}</h1>\n{body}\n</main>\n' + footer('es')
 
@@ -487,7 +489,7 @@ Sitemap: {SITE}/sitemap.xml
 def sitemap_xml():
     urls = ''
     for lang in ('es', 'en'):
-        alts = ''.join(f'<xhtml:link rel="alternate" hreflang="{h}" href="{SITE}{p}"/>' for h, p in (('es', '/'), ('en', '/en/'), ('x-default', '/')))
+        alts = ''.join(f'<xhtml:link rel="alternate" hreflang="{h}" href="{SITE}{p}"/>' for h, p in ALTERNATES)
         urls += f'<url><loc>{SITE}{T[lang]["path"]}</loc><lastmod>{C.CONTENT_DATE}</lastmod>{alts}</url>\n'
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'

@@ -55,7 +55,7 @@ LEGAL = {
 <p>La Administración, cuando la ley lo exige. WhatsApp (Meta Platforms) actúa como plataforma de mensajería; puede implicar transferencias internacionales amparadas en el Marco de Privacidad de Datos UE-EE. UU. o en cláusulas contractuales tipo.</p>
 <h2>Tus derechos</h2>
 <p>Puedes pedir acceso, rectificación, supresión, oposición, limitación y portabilidad escribiendo a {EMAIL}. Si crees que no lo hemos hecho bien, puedes reclamar ante la Agencia Española de Protección de Datos (aepd.es).</p>
-<p>Última actualización: {CONTENT_DATE}.</p>
+<p>Última actualización: {LEGAL_DATE}.</p>
 ''',
 },
 }
