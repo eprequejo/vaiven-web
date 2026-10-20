@@ -135,6 +135,8 @@ details p{margin-top:12px;font-size:15px;color:var(--muted)}
 .cta-box p a{color:inherit;white-space:nowrap}
 .cta-actions{display:flex;flex-direction:column;align-items:center;gap:10px}
 .share{display:inline-flex;align-items:center;gap:8px;min-height:44px;font-size:15px;font-weight:700;color:var(--ink)}
+.share-nav{color:var(--navy);text-decoration:none;padding:0 6px}
+@media (max-width:640px){.share-nav span{display:none}.share-nav{min-width:44px;justify-content:center}}
 @media (max-width:640px){.cta-actions{align-items:flex-start}}
 @media (max-width:640px){.cta-box{padding:36px 24px}}
 

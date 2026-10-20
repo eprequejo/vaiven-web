@@ -193,10 +193,12 @@ def header(lang):
 <nav class="nav-links" aria-label="{t['nav_label']}">{links}</nav>
 <div class="nav-right">
 {sw}
+{share_link(lang, 'share_nav', 'share share-nav')}
 <a class="btn btn-wa btn-sm" href="{wa(t['wa_generic'])}">{wa_icon(18)}{t['cta_nav']}</a>
 </div>
 </div>
 </header>
+{SHARE_JS}
 '''
 
 def footer(lang):
@@ -268,17 +270,19 @@ SHARE_ICON = ('<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true
               'M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7" fill="none" stroke="currentColor" stroke-width="2" '
               'stroke-linecap="round" stroke-linejoin="round"/></svg>')
 # Solo «text», con el enlace dentro: si se pasa «url» aparte, WhatsApp se queda solo con el enlace (19-oct).
-SHARE_JS = ("<script>document.querySelectorAll('a.share').forEach(function(a){a.addEventListener('click',function(e){"
-            "if(!navigator.share)return;e.preventDefault();"
-            "navigator.share({text:a.dataset.text}).catch(function(){})})})</script>")
+# Delegado en document: va una vez por página (en la cabecera) y sirve a todos los botones, también a los de abajo.
+SHARE_JS = ("<script>document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a.share');"
+            "if(!a||!navigator.share)return;e.preventDefault();"
+            "navigator.share({text:a.dataset.text}).catch(function(){})})</script>")
 
-def share_link(lang):
+def share_link(lang, label_key='share_btn', cls='share'):
+    """Botón de compartir. Mismo texto y destino en la cabecera y en el bloque final: solo cambia la etiqueta."""
     t = T[lang]
     url = SITE + t['path']
     text = f"{t['share_text']} {url}"
     href = 'https://wa.me/?text=' + quote(text)
-    return (f'<a class="share" href="{esc(href)}" data-text="{esc(text)}">'
-            f'{SHARE_ICON}{t["share_btn"]}</a>\n{SHARE_JS}')
+    return (f'<a class="{cls}" href="{esc(href)}" data-text="{esc(text)}" aria-label="{t[label_key]}">'
+            f'{SHARE_ICON}<span>{t[label_key]}</span></a>')
 
 
 # --- JSON-LD --------------------------------------------------------------------------------
