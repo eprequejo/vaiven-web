@@ -59,12 +59,23 @@ def included_text(lang):
         return ''.join(items)
     return ', '.join(items[:-1]) + (' y ' if lang == 'es' else ' and ') + items[-1]
 
+GROUP_N = 10  # el grupo del ejemplo (sección Grupos y FAQ)
+
+def group_example():
+    """(personas, coches) del ejemplo: los coches salen de MAX_PAX, no se escriben a mano (10 → 3 coches de 4)."""
+    return GROUP_N, (-(-GROUP_N // C.MAX_PAX) if C.MAX_PAX else None)
+
+def group_types_text(lang):
+    """«bodas e invitados, grupos de golf, … y empresas o eventos»: la misma lista que las tarjetas de Grupos."""
+    t = T[lang]
+    names = [g[1] for g in t['group_types']]
+    return ', '.join(names[:-1]) + f", {t['groups_and']} " + names[-1]
+
 def faq_items(lang):
     """[(pregunta, respuesta, campos)] que se pintan: fuera las que piden un dato que falta en config."""
-    # Ejemplo de grupo: los coches salen de MAX_PAX, no se escriben a mano (10 personas → 3 coches de 4)
-    group_n = 10
-    extra = {'included': included_text(lang), 'pax': C.MAX_PAX, 'group_n': group_n,
-             'group_cars': -(-group_n // C.MAX_PAX) if C.MAX_PAX else None}
+    n, cars = group_example()
+    extra = {'included': included_text(lang), 'pax': C.MAX_PAX, 'group_n': n, 'group_cars': cars,
+             'group_types': group_types_text(lang)}
     return [(q, a, extra) for q, a, needs in T[lang]['faq'] if all(getattr(C, n) for n in needs)]
 
 
@@ -184,7 +195,8 @@ def head(lang, title, desc, path, robots=INDEX, alternates=(), og=None, ld=None)
 def header(lang):
     t = T[lang]
     base = t['path']
-    links = ''.join(f'<a href="{base}{h}">{n}</a>' for h, n in t['nav'])
+    # #grupos solo existe si hay MAX_PAX (los coches del ejemplo salen de ahí)
+    links = ''.join(f'<a href="{base}{h}">{n}</a>' for h, n in t['nav'] if h != '#grupos' or C.MAX_PAX)
     if lang == 'es':
         sw = '<a class="lang" href="/en/" hreflang="en" lang="en">EN</a>'
     else:
@@ -378,6 +390,19 @@ def home(lang):
 <div class="grid-3">
 {cards}</div>
 <div class="chips">{chips}</div>
+</div>
+</section>
+'''
+    if C.MAX_PAX:
+        n, cars = group_example()
+        gcards = ''.join(f'<a class="card dest" href="{wa(m)}"><h3>{h}</h3><p class="dest-note">{d}</p>'
+                         f'<span class="dest-cta">{t["dest_cta"]}</span></a>\n' for h, _, d, m in t['group_types'])
+        out += f'''<section id="grupos" class="section">
+<div class="wrap">
+<div class="section-head"><span class="eyebrow">{t['groups_eyebrow']}</span><h2>{t['groups_h2']}</h2><p class="lead">{t['groups_lead']}</p></div>
+<p class="group-example">{t['groups_example'].format(n=n, cars=cars)}</p>
+<div class="grid-4">
+{gcards}</div>
 </div>
 </section>
 '''
