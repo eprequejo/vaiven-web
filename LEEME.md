@@ -11,7 +11,7 @@ docs/  → la web publicada (generada; NO se edita a mano)
 |---|---|
 | `src/config.py` | **Todos los datos del negocio** (marca, dominio, WhatsApp, nº VTC, CIF, reseñas…). Cada dato está una sola vez: la marca (`BRAND`) también, y el logotipo «ya» + V + «oy» se deriva de ella. |
 | `src/content.py` | Textos ES y EN: portada, destinos, FAQ… Y la lista de idiomas (`LANGS`). |
-| `src/content_i18n.py` | Textos DE, NL y FR. Atendemos en español e inglés: en estas páginas lo que va por WhatsApp (mensajes, chat de ejemplo) sale de la versión inglesa y se avisa junto al botón. |
+| `src/content_i18n.py` | Textos DE, NL, FR y FI. Atendemos en español e inglés: en estas páginas lo que va por WhatsApp (mensajes, chat de ejemplo) sale de la versión inglesa y se avisa junto al botón. |
 | `src/legal.py` | Aviso legal y privacidad (solo ES, noindex) |
 | `src/site.css` | Estilos (se incrustan minificados en cada página) |
 | `src/build.py` | Generador |
@@ -29,7 +29,7 @@ git add -A && git commit -m "…" && git push       # GitHub Pages publica en ~1
 ```
 - Datos (teléfono, VTC, reseñas…): `src/config.py`. Textos: `src/content.py`.
 - Reseñas: solo **reales** de Google, copiadas literalmente en `REVIEWS`. Sin reseñas, la sección no sale.
-- Idiomas: `/` (es), `/en/`, `/de/`, `/nl/`, `/fr/`; x-default → `/en/`. Para añadir uno: su bloque en `content_i18n.py`, su nombre en `LANG_NAMES` y `python3 src/make_assets.py <ttf>` para su imagen de redes. Las legales siguen solo en español.
+- Idiomas: `/` (es), `/en/`, `/de/`, `/nl/`, `/fr/`, `/fi/` (finés: Fuengirola tiene una gran comunidad finlandesa); x-default → `/en/`. Para añadir uno: su bloque en `content_i18n.py`, su nombre en `LANG_NAMES` y `python3 src/make_assets.py <ttf>` para su imagen de redes. Las legales siguen solo en español.
 - Si cambia el contenido de verdad, actualiza `CONTENT_DATE` (va al `lastmod` del sitemap). No en cada build.
 
 ## Qué bloquea la publicación (`build.py prod`)

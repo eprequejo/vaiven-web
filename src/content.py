@@ -290,7 +290,7 @@ for _lang, _t in _I18N.items():
 
 # Orden de los idiomas (selector, hreflang, sitemap). El primero es el de la raíz.
 LANGS = list(T)
-LANG_NAMES = {'es': 'Español', 'en': 'English', 'de': 'Deutsch', 'nl': 'Nederlands', 'fr': 'Français'}
+LANG_NAMES = {'es': 'Español', 'en': 'English', 'de': 'Deutsch', 'nl': 'Nederlands', 'fr': 'Français', 'fi': 'Suomi'}
 
 
 def _brand(x):
