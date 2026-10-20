@@ -192,7 +192,7 @@ class NoInventedData(unittest.TestCase):
                 txt = open(os.path.join(out, rel), encoding='utf-8').read()
                 lang = 'en' if rel.startswith('en/') else 'es'
                 gated = [q for q, a, needs in build.T[lang]['faq'] if needs]
-                self.assertEqual(len(gated), 2)
+                self.assertEqual(len(gated), 3)
                 for q in gated:
                     self.assertNotIn(q, txt)
             self.assertEqual(check.run(out, domain='example.test'), [])

@@ -43,7 +43,7 @@ INCLUDED = ['toll', 'night', 'luggage']  # qué incluye el precio (claves de con
 
 # Fecha del último cambio REAL de contenido (va al <lastmod> del sitemap).
 # Cámbiala solo cuando cambie el texto, no en cada build.
-CONTENT_DATE = '2026-10-19'
+CONTENT_DATE = '2026-10-20'
 
 # Clave pública de IndexNow (no es secreta: se publica en /<clave>.txt)
 INDEXNOW_KEY = 'b7e41c9a0f5d4e2a8c63d1f09a7b5e24'

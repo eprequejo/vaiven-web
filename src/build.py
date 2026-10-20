@@ -61,7 +61,10 @@ def included_text(lang):
 
 def faq_items(lang):
     """[(pregunta, respuesta, campos)] que se pintan: fuera las que piden un dato que falta en config."""
-    extra = {'included': included_text(lang), 'pax': C.MAX_PAX}
+    # Ejemplo de grupo: los coches salen de MAX_PAX, no se escriben a mano (10 personas → 3 coches de 4)
+    group_n = 10
+    extra = {'included': included_text(lang), 'pax': C.MAX_PAX, 'group_n': group_n,
+             'group_cars': -(-group_n // C.MAX_PAX) if C.MAX_PAX else None}
     return [(q, a, extra) for q, a, needs in T[lang]['faq'] if all(getattr(C, n) for n in needs)]
 
 
@@ -279,6 +282,7 @@ def facts(lang):
             ('langs', t['langs'][0].upper() + t['langs'][1:])]
     if C.MAX_PAX:
         rows.append(('pax', t['pax_value'].format(n=C.MAX_PAX)))
+        rows.append(('groups', t['groups_value']))
     rows += [('book', t['book_value']), ('pay', f"{t['payment']} · {t['pay_when']}")]
     dl = ''.join(f'<div><dt>{t["facts"][k]}</dt><dd>{v}</dd></div>' for k, v in rows)
     return f'<div class="facts"><h3>{t["facts_h"]}</h3><dl>{dl}</dl></div>'
