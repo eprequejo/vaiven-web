@@ -17,7 +17,6 @@ REPO = os.path.dirname(SRC)
 OUT = os.path.join(REPO, 'docs' if MODE == 'prod' else 'preview')
 HOLE = check.HOLE
 FONTS = ['outfit-latin-wght.woff2', 'manrope-latin-wght.woff2']
-PHOTO_EXT = ('.jpg', '.jpeg', '.png', '.webp')
 
 
 # --- datos de config: un hueco se pinta visible en preview y nunca llega a prod ------------
@@ -224,25 +223,6 @@ def footer(lang):
 '''
 
 
-# --- equipo: fotos de src/photos/<slug>.jpg -> assets/img/<slug>.webp ---------------------
-def photo_src(slug):
-    for ext in PHOTO_EXT:
-        p = os.path.join(SRC, 'photos', slug + ext)
-        if os.path.exists(p):
-            return p
-    return None
-
-def build_photos(out):
-    for m in C.TEAM:
-        src = photo_src(m['slug'])
-        if not src:
-            continue
-        from PIL import Image, ImageOps  # solo hace falta en la máquina que genera, no en la web
-        os.makedirs(os.path.join(out, 'assets', 'img'), exist_ok=True)
-        im = ImageOps.fit(ImageOps.exif_transpose(Image.open(src)).convert('RGB'), (400, 500), Image.LANCZOS)
-        im.save(os.path.join(out, 'assets', 'img', m['slug'] + '.webp'), 'WEBP', quality=78, method=6)
-
-
 # --- «¿A dónde vas?» → WhatsApp con el destino ya escrito ----------------------------------
 # Sin JS el formulario va igual a wa.me con el mensaje genérico. El destino solo viaja a WhatsApp.
 # Con JS el enlace se arma con encodeURIComponent (espacios como %20, no «+», que es lo que manda un form GET).
@@ -341,7 +321,7 @@ def home(lang):
 </div>
 <div class="chat-col">
 <div class="chat" role="img" aria-label="{t['chat_label']}">
-<div class="chat-head"><div class="chat-avatar" aria-hidden="true">J</div><div><span class="chat-name">Juan · {C.BRAND}</span><span class="chat-status">{t['chat_status']}</span></div></div>
+<div class="chat-head"><div class="chat-avatar" aria-hidden="true">{C.BRAND[0]}</div><div><span class="chat-name">{C.BRAND}</span><span class="chat-status">{t['chat_status']}</span></div></div>
 {chat}
 </div>
 </div>
@@ -378,21 +358,9 @@ def home(lang):
 </div>
 </section>
 '''
-    people = ''
-    all_photos = all(photo_src(m['slug']) for m in C.TEAM)
-    for m in C.TEAM:
-        img = ''
-        if photo_src(m['slug']):
-            img = (f'<img class="photo" src="/assets/img/{m["slug"]}.webp" alt="{m["name"]}, {t["role_alt"][m["role"]]}" '
-                   f'width="400" height="500" loading="lazy" decoding="async">')
-        bits = [t['roles'][m['role']]] + [x[lang] for x in (m['langs'], m['bio']) if x and x.get(lang)]
-        people += f'<div class="person">{img}<h3>{m["name"]}</h3><p>{esc(" ".join(bits))}</p></div>\n'
-    lead = (t['team_lead_photos'] if all_photos else '') + t['team_lead']
     out += f'''<section id="equipo" class="section team">
 <div class="wrap">
-<div class="section-head"><span class="eyebrow on-dark">{t['team_eyebrow']}</span><h2>{t['team_h2']}</h2><p class="lead">{lead}</p></div>
-<div class="grid-3">
-{people}</div>
+<div class="section-head"><span class="eyebrow on-dark">{t['team_eyebrow']}</span><h2>{t['team_h2']}</h2><p class="lead">{t['team_lead']}</p></div>
 </div>
 </section>
 '''
@@ -500,7 +468,6 @@ def build(out):
     for f in os.listdir(os.path.join(SRC, 'static')):
         shutil.copy(os.path.join(SRC, 'static', f), os.path.join(out, f))
     shutil.copy(os.path.join(BRAND, 'favicon.svg'), os.path.join(out, 'favicon.svg'))
-    build_photos(out)
 
 def main():
     if MODE not in ('prod', 'preview'):

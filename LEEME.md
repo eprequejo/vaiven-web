@@ -9,7 +9,7 @@ docs/  → la web publicada (generada; NO se edita a mano)
 
 | Fichero | Qué contiene |
 |---|---|
-| `src/config.py` | **Todos los datos del negocio** (marca, dominio, WhatsApp, nº VTC, CIF, precios, reseñas, equipo…). Cada dato está una sola vez: la marca (`BRAND`) también, y el logotipo «ya» + V + «oy» se deriva de ella. |
+| `src/config.py` | **Todos los datos del negocio** (marca, dominio, WhatsApp, nº VTC, CIF, reseñas…). Cada dato está una sola vez: la marca (`BRAND`) también, y el logotipo «ya» + V + «oy» se deriva de ella. |
 | `src/content.py` | Textos ES y EN: portada, destinos, FAQ… |
 | `src/legal.py` | Aviso legal, privacidad, reclamaciones (solo ES, noindex) |
 | `src/site.css` | Estilos (se incrustan minificados en cada página) |
@@ -27,7 +27,6 @@ python3 -m unittest src/test_check.py             # tests del gate
 git add -A && git commit -m "…" && git push       # GitHub Pages publica en ~1 min
 ```
 - Datos (teléfono, VTC, reseñas…): `src/config.py`. Textos: `src/content.py`.
-- Fotos del equipo: `src/photos/juan.jpg`, `ibrahim.jpg`, `nasuri.jpg`. El build las recorta a 400×500 y las pasa a WebP (necesita Pillow en tu máquina). Cuando están las tres, la web añade «Fotos reales, coches reales».
 - Reseñas: solo **reales** de Google, copiadas literalmente en `REVIEWS`. Sin reseñas, la sección no sale.
 - Si cambia el contenido de verdad, actualiza `CONTENT_DATE` (va al `lastmod` del sitemap). No en cada build.
 
@@ -59,4 +58,4 @@ Faltan datos obligatorios (`REQUIRED` en config.py) · quedan huecos · JSON-LD 
 - Instagram: comprobar y registrar **@yavoymalaga** (a mano; Instagram no deja comprobarlo sin sesión).
 - Sin cookies ni analítica → no hace falta banner. Si algún día se añade analítica con cookies, hará falta banner.
 - Los textos legales son un borrador; que los revise la gestoría. Si sois S.L., añadir datos registrales en `src/legal.py`.
-- El chat del hero es un ejemplo (Ibrahim, matrícula 1234 ABC inventada).
+- El chat del hero es un ejemplo (matrícula 1234 ABC inventada). Sin nombres de personas en la web, por privacidad.

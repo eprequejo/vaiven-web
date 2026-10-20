@@ -110,9 +110,6 @@ button.btn{border:0;cursor:pointer;font-family:inherit}
 /* equipo */
 .team{background:var(--navy);color:var(--cream)}
 .team .lead{color:#C8D3DB}
-.person{display:flex;flex-direction:column;gap:14px}
-.photo{aspect-ratio:4/5;border-radius:20px;background:var(--navy-2);object-fit:cover;width:100%;height:auto}
-.person p{font-size:15px;color:#C8D3DB}
 
 /* reseñas */
 .reviews-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:32px}

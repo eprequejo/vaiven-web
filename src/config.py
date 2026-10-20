@@ -37,13 +37,6 @@ GEO = None                  # (lat, lng) de la base, si la ficha de Google tiene
 MAX_PAX = 4                          # plazas por coche
 INCLUDED = ['toll', 'night', 'luggage']  # qué incluye el precio (claves de content.INCLUDED_LABELS)
 
-# Equipo. Foto: deja src/photos/<slug>.jpg y build.py la convierte a WebP 400×500.
-# bio / langs: frase opcional por idioma.
-TEAM = [
-    {'slug': 'juan', 'name': 'Juan', 'role': 'coord', 'langs': None, 'bio': {'es': None, 'en': None}},
-    {'slug': 'ibrahim', 'name': 'Ibrahim', 'role': 'driver', 'langs': {'es': 'Español e inglés.', 'en': 'Spanish and English.'}, 'bio': {'es': None, 'en': None}},
-    {'slug': 'nasuri', 'name': 'Nasuri', 'role': 'driver', 'langs': None, 'bio': {'es': None, 'en': None}},
-]
 
 # Fecha del último cambio REAL de contenido (va al <lastmod> del sitemap).
 # Cámbiala solo cuando cambie el texto, no en cada build.
