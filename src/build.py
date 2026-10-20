@@ -193,12 +193,17 @@ def header(lang):
 <div class="nav-right">
 {sw}
 {share_link(lang, 'share_nav', 'share btn btn-sm btn-line share-nav')}
-<a class="btn btn-wa btn-sm" href="{wa(t['wa_generic'])}">{wa_icon(18)}{t['cta_nav']}</a>
+<a class="btn btn-wa btn-sm nav-cta" href="{wa(t['wa_generic'])}">{wa_icon(18)}{t['cta_nav']}</a>
 </div>
 </div>
 </header>
 {SHARE_JS}
 '''
+
+# Botón flotante: escondido mientras se ve el buscador «¿A dónde vas?» (ya es el CTA). Sin JS o sin buscador, siempre visible.
+FLOAT_JS = ("<script>(function(){var f=document.querySelector('.wa-float'),g=document.querySelector('form.go');"
+            "if(f&&g&&'IntersectionObserver'in window)new IntersectionObserver(function(e){"
+            "f.classList.toggle('off',e[0].isIntersecting)}).observe(g)})()</script>")
 
 def footer(lang):
     t = T[lang]
@@ -218,6 +223,7 @@ def footer(lang):
 </div>
 </footer>
 <a class="wa-float" href="{wa(t['wa_generic'])}" aria-label="{t['wa_float']}">{wa_icon(28)}</a>
+{FLOAT_JS}
 </body>
 </html>
 '''
@@ -324,7 +330,7 @@ def home(lang):
     out += f'''<section id="top" class="hero">
 <div class="wrap">
 <div class="hero-top">
-<span class="eyebrow on-dark">{DOT}{t['eyebrow']}</span>
+<span class="eyebrow on-dark">{DOT}<span class="eb-long">{t['eyebrow']}</span><span class="eb-short">{t['eyebrow_short']}</span></span>
 <h1>{t['h1']}</h1>
 </div>
 <div class="hero-copy">
