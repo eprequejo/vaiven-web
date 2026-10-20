@@ -348,7 +348,9 @@ def home(lang):
     out = head(lang, t['title'], t['desc'], t['path'], alternates=alternates, og=True, ld=ld_home(lang))
     out += '<body>\n' + header(lang) + '<main>\n'
 
-    checks = ''.join(f'<span>{CHECK}{fmt(c, hours=t["hours"], langs=t["langs"])}</span>' for c in t['checks'])
+    # «Grupos: varios coches a la vez»: la misma etiqueta y valor que la ficha
+    groups = f"{t['facts']['groups']}{t.get('colon', ':')} {t['groups_value'][0].lower()}{t['groups_value'][1:]}"
+    checks = ''.join(f'<span>{CHECK}{fmt(c, hours=t["hours"], langs=t["langs"], groups=groups)}</span>' for c in t['checks'])
     chat = ''.join(f'<div class="msg {who}">{fmt(m)}</div>' for who, m in t['chat'])
     out += f'''<section id="top" class="hero">
 <div class="wrap">
