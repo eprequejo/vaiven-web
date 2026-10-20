@@ -90,7 +90,7 @@ p{margin:0}
 .langs-menu a[aria-current]{color:var(--yellow-ink)}
 .go-alt strong{color:var(--cream);white-space:nowrap}
 /* móvil: sin el bloque blanco; campo y botón sueltos y más bajos (16 px en el campo: iOS no hace zoom) */
-@media (max-width:640px){.go{gap:10px}.go-label{font-size:20px}.go-row{flex-direction:column;align-items:stretch;gap:10px;background:none;box-shadow:none;padding:0;border-radius:0}.go-row:focus-within{outline:none}.go-dest{flex:none;min-height:50px;padding:0 16px;font-size:16px;background:#fff;border-radius:14px}.go-dest:focus{outline:3px solid var(--yellow);outline-offset:2px}.go .btn{min-height:50px;font-size:16px;justify-content:center}}
+@media (max-width:640px){.go{gap:10px}.go-label{font-size:20px}.go-row{flex-direction:column;align-items:stretch;gap:10px;background:none;box-shadow:none;padding:0;border-radius:0}.go-row:focus-within{outline:none}.go-dest{flex:none;min-height:50px;padding:0 22px;font-size:16px;background:#fff;border-radius:999px}.go-dest:focus{outline:3px solid var(--yellow);outline-offset:2px}.go .btn{min-height:50px;font-size:16px;justify-content:center}}
 button.btn{border:0;cursor:pointer;font-family:inherit}
 .hero-checks{display:grid;grid-template-columns:repeat(2,max-content);gap:10px 28px;font-size:14px;color:#C8D3DB;font-weight:600}
 @media (max-width:640px){.hero-checks{grid-template-columns:1fr}}
