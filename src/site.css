@@ -110,6 +110,16 @@ button.btn{border:0;cursor:pointer;font-family:inherit}
 /* equipo */
 .team{background:var(--navy);color:var(--cream)}
 .team .lead{color:#C8D3DB}
+.team .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px 64px;align-items:start}
+.team .section-head{margin-bottom:0}
+.facts{border:1px solid rgba(251,248,242,.18);border-radius:20px;padding:26px 28px}
+.facts h3{font-size:20px;margin-bottom:10px;color:var(--yellow)}
+.facts dl div{display:grid;grid-template-columns:9.5em 1fr;gap:12px;padding:11px 0;border-top:1px solid rgba(251,248,242,.12);font-size:15px}
+.facts dl div:first-child{border-top:0}
+.facts dt{color:#C8D3DB;font-weight:600}
+.facts dd{margin:0;color:var(--cream);font-weight:600}
+@media (max-width:900px){.team .wrap{grid-template-columns:1fr}}
+@media (max-width:640px){.facts{padding:20px}.facts dl div{grid-template-columns:1fr;gap:2px}}
 
 /* reseñas */
 .reviews-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:32px}

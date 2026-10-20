@@ -265,6 +265,19 @@ def share_link(lang, label_key='share_btn', cls='share'):
             f'{SHARE_ICON}<span>{t[label_key]}</span></a>')
 
 
+# --- «yavoy en pocas palabras»: cada valor sale de config/content, nada escrito dos veces ------
+def facts(lang):
+    t = T[lang]
+    rows = [('base', f'{C.BASE_TOWN} ({C.BASE_REGION})'), ('vtc', hv('VTC_NO')),
+            ('area', f"{', '.join(AREA)} {t['area_more']}"), ('hours', t['hours']),
+            ('langs', t['langs'][0].upper() + t['langs'][1:])]
+    if C.MAX_PAX:
+        rows.append(('pax', t['pax_value'].format(n=C.MAX_PAX)))
+    rows += [('book', t['book_value']), ('pay', f"{t['payment']} · {t['pay_when']}")]
+    dl = ''.join(f'<div><dt>{t["facts"][k]}</dt><dd>{v}</dd></div>' for k, v in rows)
+    return f'<div class="facts"><h3>{t["facts_h"]}</h3><dl>{dl}</dl></div>'
+
+
 # --- JSON-LD --------------------------------------------------------------------------------
 def ld_home(lang):
     t = T[lang]
@@ -274,7 +287,7 @@ def ld_home(lang):
         'description': t['ld_desc'], 'url': SITE + '/', 'email': val('EMAIL'),
         'image': SITE + '/og.jpg', 'logo': SITE + '/apple-touch-icon.png',
         'currenciesAccepted': 'EUR', 'paymentAccepted': t['payment'], 'knowsLanguage': ['es', 'en'],
-        'address': {'@type': 'PostalAddress', 'addressLocality': 'Mijas', 'addressRegion': 'Málaga', 'addressCountry': 'ES'},
+        'address': {'@type': 'PostalAddress', 'addressLocality': C.BASE_TOWN, 'addressRegion': C.BASE_REGION, 'addressCountry': 'ES'},
         'areaServed': [{'@type': 'City', 'name': a} for a in AREA],
         'openingHoursSpecification': {'@type': 'OpeningHoursSpecification',
             'dayOfWeek': ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
@@ -306,7 +319,7 @@ def home(lang):
     out = head(lang, t['title'], t['desc'], t['path'], alternates=alternates, og=True, ld=ld_home(lang))
     out += '<body>\n' + header(lang) + '<main>\n'
 
-    checks = ''.join(f'<span>{CHECK}{fmt(c)}</span>' for c in t['checks'])
+    checks = ''.join(f'<span>{CHECK}{fmt(c, hours=t["hours"], langs=t["langs"])}</span>' for c in t['checks'])
     chat = ''.join(f'<div class="msg {who}">{fmt(m)}</div>' for who, m in t['chat'])
     out += f'''<section id="top" class="hero">
 <div class="wrap">
@@ -361,6 +374,7 @@ def home(lang):
     out += f'''<section id="equipo" class="section team">
 <div class="wrap">
 <div class="section-head"><span class="eyebrow on-dark">{t['team_eyebrow']}</span><h2>{t['team_h2']}</h2><p class="lead">{t['team_lead']}</p></div>
+{facts(lang)}
 </div>
 </section>
 '''

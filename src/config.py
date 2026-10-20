@@ -34,6 +34,9 @@ REVIEWS = []
 SAME_AS = []                # URLs de perfiles reales: ficha de Google, Instagram, Facebook…
 GEO = None                  # (lat, lng) de la base, si la ficha de Google tiene dirección pública
 
+# Base del negocio (JSON-LD address y ficha «en pocas palabras»)
+BASE_TOWN, BASE_REGION = 'Mijas', 'Málaga'
+
 MAX_PAX = 4                          # plazas por coche
 INCLUDED = ['toll', 'night', 'luggage']  # qué incluye el precio (claves de content.INCLUDED_LABELS)
 
