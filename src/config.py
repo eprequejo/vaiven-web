@@ -15,7 +15,7 @@ WM_V = {'size': .86, 'overlap': .06, 'drop': .09, 'stroke': 15.5}
 
 # --- obligatorios -----------------------------------------------------------
 DOMAIN = 'yavoymalaga.com'  # sin https:// ni barra final
-PHONE = '34658428681'  # WhatsApp (formato wa.me: 34 delante, sin + ni espacios). Provisional: el de Estela
+PHONE = '34633366570'  # WhatsApp (formato wa.me: 34 delante, sin + ni espacios). El de Juteber Gestión (20-oct-2026)
 VTC_NO = '12011555'    # autorización VTC (Registro de Empresas y Actividades de Transporte)
 # Mismo titular que Padelia y Nautelia (espejo de nautelia-landing/src/parts.py y build.py; test_check.py falla si divergen)
 RAZON_SOCIAL = 'SIMPLYLE, S. Coop. And.'
