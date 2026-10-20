@@ -54,9 +54,12 @@ def plain(s, **extra):
 # --- lo incluido y la FAQ: una fuente para el <details> y el FAQPage -------------------------
 def and_list(items, lang, serial=False):
     """«a, b y c» en el idioma de la página. serial: coma también antes de la «y» (cuando los elementos ya llevan «y»)."""
+    t = T[lang]
     if len(items) < 2:
         return ''.join(items)
-    return ', '.join(items[:-1]) + (',' if serial else '') + f" {T[lang]['and_word']} " + items[-1]
+    # serial: coma antes de la última «y» solo donde se usa (es, en); en alemán, «sowie» en vez de otro «und»
+    last = t.get('and_last', t['and_word']) if serial else t['and_word']
+    return ', '.join(items[:-1]) + (',' if serial and t.get('serial_comma') else '') + f' {last} ' + items[-1]
 
 def included_text(lang):
     return and_list([INCLUDED_LABELS[k][lang] for k in (C.INCLUDED or [])], lang)
@@ -209,7 +212,7 @@ def header(lang):
     # Selector de idioma sin JS: <details> con un enlace por idioma (hreflang/lang en cada uno)
     opts = ''.join(f'<a href="{T[l]["path"]}" hreflang="{l}" lang="{l}"' + (' aria-current="page"' if l == lang else '') + f'>{LANG_NAMES[l]}</a>'
                    for l in LANGS)
-    sw = f'<details class="langs"><summary class="lang">{lang.upper()}<span class="vh"> {LANG_NAMES[lang]}</span></summary><div class="langs-menu">{opts}</div></details>'
+    sw = f'<details class="langs"><summary class="lang">{lang.upper()}<span class="vh"> · {t['lang_label']}: {LANG_NAMES[lang]}</span></summary><div class="langs-menu">{opts}</div></details>'
     return f'''<header class="nav">
 <div class="wrap">
 <a class="brand" href="{base}">{wordmark()}</a>
@@ -319,7 +322,8 @@ def ld_home(lang):
         'image': SITE + '/og.jpg', 'logo': SITE + '/apple-touch-icon.png',
         'currenciesAccepted': 'EUR', 'paymentAccepted': t['payment'], 'knowsLanguage': ['es', 'en'],
         'address': {'@type': 'PostalAddress', 'addressLocality': C.BASE_TOWN, 'addressRegion': C.BASE_REGION, 'addressCountry': 'ES'},
-        'areaServed': [{'@type': 'City', 'name': a} for a in AREA],
+        'areaServed': [{'@type': 'Airport', 'name': 'Aeropuerto de Málaga-Costa del Sol', 'iataCode': 'AGP'},
+                       {'@type': 'AdministrativeArea', 'name': 'Costa del Sol'}] + [{'@type': 'City', 'name': a} for a in AREA],
         'openingHoursSpecification': {'@type': 'OpeningHoursSpecification',
             'dayOfWeek': ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
             'opens': '00:00', 'closes': '23:59'},
@@ -338,7 +342,7 @@ def ld_home(lang):
     page = {'@type': 'WebPage', '@id': url + '#webpage', 'url': url, 'name': t['title'], 'description': t['desc'],
             'inLanguage': lang, 'dateModified': C.CONTENT_DATE, 'isPartOf': {'@id': SITE + '/#website'}, 'about': {'@id': SITE + '/#business'}}
     # Misma lista que las FAQ visibles: no pueden divergir.
-    faq = {'@type': 'FAQPage', '@id': url + '#faq', 'mainEntity': [
+    faq = {'@type': 'FAQPage', '@id': url + '#faq', 'inLanguage': lang, 'isPartOf': {'@id': url + '#webpage'}, 'mainEntity': [
         {'@type': 'Question', 'name': plain(q), 'acceptedAnswer': {'@type': 'Answer', 'text': plain(a, **x)}} for q, a, x in faq_items(lang)]}
     return [biz, web, page, faq]
 
@@ -354,6 +358,8 @@ def home(lang):
     groups = f"{t['facts']['groups']}{t.get('colon', ':')} {t['groups_value'][0].lower()}{t['groups_value'][1:]}"
     checks = ''.join(f'<span>{CHECK}{fmt(c, hours=t["hours"], langs=t["langs"], groups=groups)}</span>' for c in t['checks'])
     chat = ''.join(f'<div class="msg {who}">{fmt(m)}</div>' for who, m in t['chat'])
+    # DE/NL/FR enseñan el chat en inglés (así será la conversación): se marca para lectores de pantalla y buscadores
+    chat_lang = ' lang="en"' if lang != 'en' and t['chat'] == T['en']['chat'] else ''
     out += f'''<section id="top" class="hero">
 <div class="wrap">
 <div class="hero-top">
@@ -365,7 +371,7 @@ def home(lang):
 <div class="hero-checks">{checks}</div>
 </div>
 <div class="chat-col">
-<div class="chat" role="img" aria-label="{t['chat_label']}">
+<div class="chat" role="img" aria-label="{t['chat_label']}"{chat_lang}>
 <div class="chat-head"><div class="chat-avatar" aria-hidden="true">{FAVICON}</div><div><span class="chat-name">{C.BRAND}</span><span class="chat-status">{t['chat_status']}</span></div></div>
 {chat}
 </div>
@@ -472,11 +478,12 @@ def legal_page(slug):
     return out + '<body>\n' + header('es') + f'<main class="wrap doc">\n<h1>{p["title"]}</h1>\n{body}\n</main>\n' + footer('es')
 
 def page_404():
+    other_langs = ' · '.join(f'<a href="{T[l]["path"]}" lang="{l}" hreflang="{l}">{LANG_NAMES[l]}</a>' for l in LANGS[1:])
     out = head('es', f'Página no encontrada · {C.BRAND}', f'Esta página no existe. Vuelve al inicio de {C.BRAND}, transfer privado en Málaga y Costa del Sol.', '/404.html', robots=NOINDEX)
     return out + '<body>\n' + header('es') + f'''<main class="wrap doc">
 <h1>Esta página no existe</h1>
 <p>Puede que el enlace esté mal escrito o que la página se haya movido.</p>
-<p><a href="/">Ir al inicio</a> · <a href="/en/" lang="en" hreflang="en">Go to the English version</a></p>
+<p><a href="/">Ir al inicio</a> · {other_langs}</p>
 <a class="btn btn-wa" href="{wa(T['es']['wa_generic'])}">{wa_icon(20)}{T['es']['cta_nav']}</a>
 </main>
 ''' + footer('es')

@@ -9,6 +9,8 @@ from config import BRAND
 T = {
 'es': {
     'path': '/',
+    'lang_label': 'Idioma',
+    'serial_comma': True,
     'locale': 'es_ES',
     'title': 'Transfer aeropuerto Málaga y chófer privado · {brand}',
     'desc': 'Transfer privado y chófer en Málaga y la Costa del Sol: aeropuerto, cenas, golf, bodas y excursiones. Precio cerrado por WhatsApp y pagas al llegar.',
@@ -101,6 +103,7 @@ T = {
     'faq': [
         ('¿Cuánto cuesta un transfer privado?', 'Depende del trayecto y de la hora, y siempre es un precio cerrado por coche, no por persona. Escríbenos por WhatsApp con origen, destino, día y hora, y te damos el precio exacto por escrito antes de confirmar. Es el que pagas al llegar a tu destino, sin suplementos ni sorpresas.', []),
         ('¿Cómo se reserva un chófer? ¿Se puede por WhatsApp?', 'Sí: en {brand} se reserva solo por WhatsApp. Envíanos origen, destino, día, hora y cuántos sois. Una persona te contesta con el precio cerrado por escrito y, cuando confirmas, te manda el nombre del conductor, el coche y la matrícula. El día antes te lo reconfirmamos.', []),
+        ('¿Cómo funciona un transfer desde el aeropuerto de Málaga?', 'Muy fácil. Escríbenos por WhatsApp el día, la hora a la que aterriza tu vuelo, cuántos sois y a dónde vais: Marbella, Mijas, Fuengirola o cualquier otro sitio. Te damos un precio cerrado y, al confirmar, te decimos quién es tu conductor, el coche y la matrícula para encontraros en llegadas. Si tu vuelo cambia de hora, avísanos por WhatsApp. Pagas al llegar.', []),
         ('¿Hay que pagar el transfer por adelantado?', 'No. Con {brand} no pagas nada al reservar: pagas al conductor cuando te deja en tu destino, en efectivo, con tarjeta o por Bizum. El precio es el que te dimos por escrito al reservar. Si necesitas factura, te la hacemos.', []),
         ('¿Qué diferencia hay entre un VTC y un taxi en Málaga?', 'El precio y la reserva. Un taxi cobra por taxímetro según la tarifa oficial, más cara de noche y en festivos, y se puede coger en la parada. Un VTC como {brand} cobra un precio cerrado que acuerdas antes del viaje y solo puede trabajar con reserva previa: sabes lo que vas a pagar antes de subir.', []),
         ('¿Sois legales? ¿Tenéis licencia?', 'Sí. {brand} es una empresa con autorización VTC nº {vtc} de la Junta de Andalucía para el transporte de viajeros con conductor. Trabajamos solo con reserva previa, como exige la ley: tu confirmación por WhatsApp es el contrato. Por eso no recogemos a nadie en la calle ni en paradas sin reserva.', []),
@@ -115,7 +118,7 @@ T = {
     'cta_final': 'Reservar mi traslado',
     'share_btn': 'Pásaselo a quien venga a Málaga',
     'share_text': 'Si vienes a Málaga o a la Costa del Sol, mira esto: con {brand} reservas el traslado por WhatsApp, te contesta una persona, precio cerrado y pagas al llegar 👉',
-    'cta_p': 'Un mensaje por WhatsApp y tienes precio cerrado en un minuto.',
+    'cta_p': 'Un mensaje por WhatsApp y tienes precio cerrado en unos minutos.',
     'footer_tag': 'Transfer privado y chófer · Mijas, Málaga',
     'footer_vtc': 'Autorización VTC nº {vtc} · Servicio con reserva previa; no realizamos recogidas sin contratación previa.',
     'footer_legal': 'Legal',
@@ -126,6 +129,8 @@ T = {
 },
 'en': {
     'path': '/en/',
+    'lang_label': 'Language',
+    'serial_comma': True,
     'locale': 'en_GB',
     'title': 'Málaga Airport Transfers & Private Driver · {brand}',
     'desc': 'Private transfers and driver in Málaga and the Costa del Sol: airport, dinners, golf, weddings and day trips. Fixed price on WhatsApp, pay on arrival.',
@@ -213,6 +218,7 @@ T = {
     'faq': [
         ('How much does a private transfer cost?', 'It depends on the route and the time of day, and it is always a fixed price per car, not per person. Message us on WhatsApp with your pickup, destination, day and time, and we will give you the exact price in writing before you confirm. That is what you pay on arrival, with no extras and no surprises.', []),
         ('How do I book a driver? Can I book on WhatsApp?', 'Yes: {brand} bookings are made on WhatsApp only. Send us your pickup, destination, day, time and number of passengers. A real person replies with a fixed price in writing and, once you confirm, sends you the driver\'s name, the car and the plate. We reconfirm the day before.', []),
+        ('How does a Málaga Airport transfer work?', 'It is simple. Message us on WhatsApp with the day, the time your flight lands, how many of you there are and where you are going: Marbella, Mijas, Fuengirola or anywhere else. We give you a fixed price and, once you confirm, tell you who your driver is, the car and the plate so you can meet at arrivals. If your flight time changes, let us know on WhatsApp. You pay on arrival.', []),
         ('Do I have to pay for the transfer in advance?', 'No. With {brand} you pay nothing when you book: you pay the driver when you are dropped off, in cash, by card or with Bizum. The price is the one we gave you in writing when you booked. If you need an invoice, we will issue one.', []),
         ('What is the difference between a VTC and a taxi in Málaga?', 'Price and booking. A taxi charges by the meter at the official rate, which is higher at night and on public holidays, and you can take one at a rank. A VTC like {brand} charges a fixed price agreed before the ride and can only work with a prior booking, so you know what you will pay before you get in.', []),
         ('Are you legal? Do you have a licence?', 'Yes. {brand} is a company with VTC licence no. {vtc} from the Junta de Andalucía for passenger transport with a driver. As the law requires, we only work with prior bookings: your WhatsApp confirmation is the contract. That is why we never pick up passengers on the street or at ranks without a booking.', []),
@@ -227,7 +233,7 @@ T = {
     'cta_final': 'Book my transfer',
     'share_btn': 'Send it to a friend coming to Málaga',
     'share_text': 'Coming to Málaga or the Costa del Sol? Check this out: with {brand} you book your ride on WhatsApp, a real person replies, fixed price and you pay on arrival 👉',
-    'cta_p': 'One WhatsApp message and you have a fixed price in a minute.',
+    'cta_p': 'One WhatsApp message and you have a fixed price in a few minutes.',
     'footer_tag': 'Private transfers & driver · Mijas, Málaga',
     'footer_vtc': 'VTC licence no. {vtc} · Pre-booked service only; we do not pick up passengers without a prior booking.',
     'footer_legal': 'Legal (in Spanish)',

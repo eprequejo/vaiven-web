@@ -158,6 +158,10 @@ class Gate(unittest.TestCase):
         self.edit('fr/index.html', '<link rel="alternate" hreflang="nl" href="https://example.test/nl/">\n', '')
         self.assertFails('hreflang no recíproco')
 
+    def test_sitemap_hreflang_differs_from_page(self):
+        self.edit('sitemap.xml', 'hreflang="x-default" href="https://example.test/en/"', 'hreflang="x-default" href="https://example.test/"')
+        self.assertFails('sitemap: hreflang de')
+
     def test_lang(self):
         self.edit('en/index.html', '<html lang="en">', '<html lang="es">')
         self.assertFails('lang="es", esperado "en"')

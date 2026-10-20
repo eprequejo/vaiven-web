@@ -270,6 +270,13 @@ def run(root, domain=None, allow_holes=False):
                 err('sitemap con URLs de otro dominio')
             if in_sm != indexable:
                 err(f'sitemap {sorted(in_sm)} != indexables {sorted(indexable)}')
+            # el hreflang del sitemap debe ser el mismo que el de la página (dos sitios que dicen lo mismo)
+            xh = '{http://www.w3.org/1999/xhtml}link'
+            for u in ET.parse(sm).getroot().findall('s:url', ns):
+                path = urlparse(u.find('s:loc', ns).text).path
+                alts = {l.get('hreflang'): l.get('href') for l in u.findall(xh)}
+                if path in pages and alts != pages[path][1].alternates:
+                    err(f'sitemap: hreflang de {path} distinto del de la página')
         except ET.ParseError as e:
             err(f'sitemap.xml no parsea ({e})')
     rb = os.path.join(root, 'robots.txt')
