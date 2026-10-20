@@ -27,7 +27,7 @@ LEGAL = {
 <h2>Precio, pago y cancelación</h2>
 <p>El precio se comunica por escrito antes de confirmar y es cerrado por vehículo. Se paga al terminar el trayecto, en efectivo, tarjeta o Bizum. Se puede cancelar en cualquier momento con un mensaje de WhatsApp; como no se paga nada por adelantado, no hay nada que devolver.</p>
 <h2>Quejas</h2>
-<p>Si algo no ha ido bien, escríbenos por WhatsApp ({PHONE}) o a {EMAIL} y te contestamos.</p>
+<p>Si algo no ha ido bien, escríbenos por WhatsApp ({PHONE}) o a {EMAIL} y te contestamos. Si quieres la hoja oficial de quejas y reclamaciones de la Junta de Andalucía, pídenosla por WhatsApp.</p>
 <h2>Uso de la web</h2>
 <p>Esta web es informativa: no vende nada ni recoge datos. Los textos, el logotipo y el diseño son nuestros; no los copies sin permiso. No respondemos del contenido de webs de terceros a las que enlacemos.</p>
 <h2>Ley aplicable</h2>

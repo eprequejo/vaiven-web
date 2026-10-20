@@ -57,6 +57,6 @@ Faltan datos obligatorios (`REQUIRED` en config.py) · quedan huecos · JSON-LD 
 ## Notas
 - Instagram: comprobar y registrar **@yavoymalaga** (a mano; Instagram no deja comprobarlo sin sesión).
 - Sin cookies ni analítica → no hace falta banner. Si algún día se añade analítica con cookies, hará falta banner.
-- **Hojas de quejas y reclamaciones:** la web no las menciona porque hoy no las tenéis (20-oct-2026). Si la gestoría confirma que las necesitáis y las conseguís, se vuelve a añadir la página en `src/legal.py`.
+- **Hojas de quejas y reclamaciones:** el aviso legal (apartado «Quejas») dice que se piden por WhatsApp (decisión de Estela, 20-oct-2026). Hay que tenerlas a mano para mandarlas cuando alguien las pida.
 - Los textos legales son un borrador; que los revise la gestoría. Si sois S.L., añadir datos registrales en `src/legal.py`.
 - El chat del hero es un ejemplo (matrícula 1234 ABC inventada). Sin nombres de personas en la web, por privacidad.
