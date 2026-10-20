@@ -31,6 +31,9 @@ p{margin:0}
 .btn-wa:hover{background:#0F6B34}
 .btn-navy{background:var(--navy);color:#fff}
 .btn-sm{font-size:15px;padding:12px 18px}
+/* secundario: el mismo contorno que el selector de idioma (.lang) */
+.btn-line,.lang{border:1px solid var(--line-2);background:transparent}
+.btn-line:hover,.lang:hover{border-color:var(--navy)}
 .card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px;display:flex;flex-direction:column;gap:12px}
 .grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
 @media (max-width:900px){.grid-3{grid-template-columns:1fr}}
@@ -45,7 +48,7 @@ p{margin:0}
 .nav-links{display:flex;flex-wrap:wrap;gap:6px 22px;font-weight:600;font-size:15px;flex:1 1 320px}
 .nav-links a{text-decoration:none;padding:8px 0}
 .nav-right{display:flex;gap:10px;align-items:center;margin-left:auto}
-.lang{font-size:14px;font-weight:600;color:var(--muted-2);border:1px solid var(--line-2);border-radius:999px;padding:0 14px;min-height:44px;display:inline-flex;align-items:center;text-decoration:none}
+.lang{font-size:14px;font-weight:600;color:var(--muted-2);border-radius:999px;padding:0 14px;min-height:44px;display:inline-flex;align-items:center;text-decoration:none}
 @media (max-width:640px){.nav-links{display:none}}
 
 /* hero */
@@ -135,8 +138,8 @@ details p{margin-top:12px;font-size:15px;color:var(--muted)}
 .cta-box p a{color:inherit;white-space:nowrap}
 .cta-actions{display:flex;flex-direction:column;align-items:center;gap:10px}
 .share{display:inline-flex;align-items:center;gap:8px;min-height:44px;font-size:15px;font-weight:700;color:var(--ink)}
-.share-nav{color:var(--navy);text-decoration:none;padding:0 6px}
-@media (max-width:640px){.share-nav span{display:none}.share-nav{min-width:44px;justify-content:center}}
+.share-nav{color:var(--navy);padding:11px 18px}
+@media (max-width:640px){.share-nav span{display:none}.share-nav{width:44px;padding:0;justify-content:center}}
 @media (max-width:640px){.cta-actions{align-items:flex-start}}
 @media (max-width:640px){.cta-box{padding:36px 24px}}
 

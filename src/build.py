@@ -193,7 +193,7 @@ def header(lang):
 <nav class="nav-links" aria-label="{t['nav_label']}">{links}</nav>
 <div class="nav-right">
 {sw}
-{share_link(lang, 'share_nav', 'share share-nav')}
+{share_link(lang, 'share_nav', 'share btn btn-sm btn-line share-nav')}
 <a class="btn btn-wa btn-sm" href="{wa(t['wa_generic'])}">{wa_icon(18)}{t['cta_nav']}</a>
 </div>
 </div>
