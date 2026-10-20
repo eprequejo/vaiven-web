@@ -100,6 +100,8 @@ def read(path):
 BRAND = os.path.join(SRC, 'brand')  # logo.svg y favicon.svg: única fuente del logo (make_assets.py lee los mismos)
 LOGO = read(os.path.join(BRAND, 'logo.svg')).strip().replace(
     'xmlns="http://www.w3.org/2000/svg"', 'class="wm-v" aria-hidden="true"', 1)
+# El favicon tal cual (la V sobre azul): avatar del chat de ejemplo
+FAVICON = read(os.path.join(BRAND, 'favicon.svg')).strip()
 
 def wordmark(on_dark=False):
     """«ya» + V del logo + «oy», en una pieza (Outfit 800). Sobre azul, el trazo izquierdo va en crema."""
@@ -364,7 +366,7 @@ def home(lang):
 </div>
 <div class="chat-col">
 <div class="chat" role="img" aria-label="{t['chat_label']}">
-<div class="chat-head"><div class="chat-avatar" aria-hidden="true">{C.BRAND[0]}</div><div><span class="chat-name">{C.BRAND}</span><span class="chat-status">{t['chat_status']}</span></div></div>
+<div class="chat-head"><div class="chat-avatar" aria-hidden="true">{FAVICON}</div><div><span class="chat-name">{C.BRAND}</span><span class="chat-status">{t['chat_status']}</span></div></div>
 {chat}
 </div>
 <p class="chat-note" aria-hidden="true">{t['chat_label']}</p>
