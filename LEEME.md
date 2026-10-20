@@ -11,7 +11,7 @@ docs/  → la web publicada (generada; NO se edita a mano)
 |---|---|
 | `src/config.py` | **Todos los datos del negocio** (marca, dominio, WhatsApp, nº VTC, CIF, reseñas…). Cada dato está una sola vez: la marca (`BRAND`) también, y el logotipo «ya» + V + «oy» se deriva de ella. |
 | `src/content.py` | Textos ES y EN: portada, destinos, FAQ… |
-| `src/legal.py` | Aviso legal, privacidad, reclamaciones (solo ES, noindex) |
+| `src/legal.py` | Aviso legal y privacidad (solo ES, noindex) |
 | `src/site.css` | Estilos (se incrustan minificados en cada página) |
 | `src/build.py` | Generador |
 | `src/check.py` | Gate de publicación: SEO, enlaces, huecos y peso |
@@ -57,5 +57,6 @@ Faltan datos obligatorios (`REQUIRED` en config.py) · quedan huecos · JSON-LD 
 ## Notas
 - Instagram: comprobar y registrar **@yavoymalaga** (a mano; Instagram no deja comprobarlo sin sesión).
 - Sin cookies ni analítica → no hace falta banner. Si algún día se añade analítica con cookies, hará falta banner.
+- **Hojas de quejas y reclamaciones:** la web no las menciona porque hoy no las tenéis (20-oct-2026). Si la gestoría confirma que las necesitáis y las conseguís, se vuelve a añadir la página en `src/legal.py`.
 - Los textos legales son un borrador; que los revise la gestoría. Si sois S.L., añadir datos registrales en `src/legal.py`.
 - El chat del hero es un ejemplo (matrícula 1234 ABC inventada). Sin nombres de personas en la web, por privacidad.

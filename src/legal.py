@@ -25,7 +25,9 @@ LEGAL = {
 <h2>Actividad</h2>
 <p>Transporte de viajeros en vehículo de turismo con conductor (VTC), con autorización nº {VTC_NO} de la Junta de Andalucía. Prestamos el servicio solo con contratación previa: la confirmación por escrito (WhatsApp) de origen, destino, fecha, hora y precio es el contrato. No recogemos pasajeros sin reserva.</p>
 <h2>Precio, pago y cancelación</h2>
-<p>El precio se comunica por escrito antes de confirmar y es cerrado por vehículo. Se paga al terminar el trayecto, en efectivo, tarjeta o Bizum. La cancelación es gratuita hasta 24 horas antes del servicio.</p>
+<p>El precio se comunica por escrito antes de confirmar y es cerrado por vehículo. Se paga al terminar el trayecto, en efectivo, tarjeta o Bizum. Se puede cancelar en cualquier momento con un mensaje de WhatsApp; como no se paga nada por adelantado, no hay nada que devolver.</p>
+<h2>Quejas</h2>
+<p>Si algo no ha ido bien, escríbenos por WhatsApp ({PHONE}) o a {EMAIL} y te contestamos.</p>
 <h2>Uso de la web</h2>
 <p>Esta web es informativa: no vende nada ni recoge datos. Los textos, el logotipo y el diseño son nuestros; no los copies sin permiso. No respondemos del contenido de webs de terceros a las que enlacemos.</p>
 <h2>Ley aplicable</h2>
@@ -55,15 +57,6 @@ LEGAL = {
 <p>Puedes pedir acceso, rectificación, supresión, oposición, limitación y portabilidad escribiendo a {EMAIL}. Si crees que no lo hemos hecho bien, puedes reclamar ante la Agencia Española de Protección de Datos (aepd.es).</p>
 <p>Última actualización: {CONTENT_DATE}.</p>
 ''',
-},
-'reclamaciones': {
-    'title': 'Hojas de reclamaciones',
-    'desc': 'Cómo presentar una queja o reclamación a {brand}: hojas oficiales de la Junta de Andalucía.',
-    'body': '''<p>Si algo no ha ido bien, escríbenos primero por WhatsApp o a {EMAIL}: casi todo se arregla con un mensaje.</p>
-<h2>Hojas oficiales de quejas y reclamaciones</h2>
-<p>Tenemos a tu disposición las hojas oficiales de quejas y reclamaciones de la Junta de Andalucía. Pídeselas al conductor durante el servicio o pídenoslas por WhatsApp ({PHONE}) y te las hacemos llegar.</p>
-<p>También puedes presentar tu reclamación por vía electrónica en Consumo Responde, el servicio de consumo de la Junta de Andalucía (consumoresponde.es), o acudir a la Junta Arbitral del Transporte de Andalucía.</p>
-''' + TITULAR,
 },
 }
 
