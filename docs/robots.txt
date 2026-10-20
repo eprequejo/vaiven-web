@@ -1,0 +1,9 @@
+# yavoy · robots.txt
+# Política: la tienda abierta. Buscadores y asistentes de IA (búsqueda, citas y entrenamiento)
+# pueden leer toda la web; que nos citen es lo que buscamos. No hay zonas privadas que proteger:
+# las páginas legales llevan noindex en su propia etiqueta, no aquí (si se bloquearan, Google
+# no podría ver ese noindex).
+User-agent: *
+Allow: /
+
+Sitemap: https://yavoymalaga.com/sitemap.xml
